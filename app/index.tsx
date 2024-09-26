@@ -1,16 +1,21 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-import { Refine, Authenticated } from "@refinedev/core";
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { Stack, Link } from 'expo-router';
+
+import { Button } from '~/components/Button';
+import { Container } from '~/components/Container';
+import { ScreenContent } from '~/components/ScreenContent';
 import { Login } from "./pages/login.tsx";
 import { ListProducts } from "./pages/products/list.tsx";
 import { dataProvider } from "./providers/data-provider";
 import { authProvider } from "./providers/auth-provider";
-export default function HomeScreen() {
+import { Refine, Authenticated } from "@refinedev/core";
+import { Header } from "./pages/components/header.tsx";
+
+export default function Home() {
   return (
-    <Refine
+    <>
+      <Stack.Screen options={{ title: 'Home' }} />
+      <Container>
+      <Refine
         dataProvider={dataProvider}
         authProvider={authProvider}
     >
@@ -18,12 +23,14 @@ export default function HomeScreen() {
         key="protected"
         fallback={<Login />}
       >
+        <Header/>
         {/* <ShowProduct /> */}
         {/* <EditProduct /> */}
         <ListProducts />
         {/* <CreateProduct /> */}
       </Authenticated>
     </Refine>
+      </Container>
+    </>
   );
 }
-
