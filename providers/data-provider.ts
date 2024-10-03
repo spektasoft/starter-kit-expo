@@ -1,7 +1,8 @@
 import type { DataProvider } from "@refinedev/core";
-
-const API_URL = "http://localhost:5000"; // Update this to your Flask API URL
-
+process.env.REACT_APP_DEV_MODE
+const host=process.env.EXPO_PUBLIC_HOSTS
+const port=process.env.EXPO_PUBLIC_PORT
+const API_URL = "http://${host}:${port}";
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
     const response = await fetch(`${API_URL}/${resource}/${id}`, {

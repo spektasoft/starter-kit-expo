@@ -1,8 +1,11 @@
 import { AuthProvider } from "@refinedev/core";
 import config from "../../appconfig";
+const host=process.env.EXPO_PUBLIC_HOSTS
+const port=process.env.EXPO_PUBLIC_PORT
 const BASE_URL = "http://${host}:${port}";
 const TOKEN_KEY = "access_token";
-const { host, port } = config.server;
+
+
 
 export const authProvider: AuthProvider = {
     logout: async () => {
