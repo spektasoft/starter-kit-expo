@@ -1,71 +1,70 @@
-import type { DataProvider } from "@refinedev/core";
-process.env.REACT_APP_DEV_MODE
-const host=process.env.EXPO_PUBLIC_HOSTS
-const port=process.env.EXPO_PUBLIC_PORT
-const API_URL = "http://${host}:${port}";
+import type { DataProvider } from '@refinedev/core';
+process.env.REACT_APP_DEV_MODE;
+const host = process.env.EXPO_PUBLIC_HOSTS;
+const port = process.env.EXPO_PUBLIC_PORT;
+const API_URL = 'http://${host}:${port}';
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
     const response = await fetch(`${API_URL}/${resource}/${id}`, {
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-      }
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
     });
     if (!response.ok) {
-      throw new Error("Error fetching data");
+      throw new Error('Error fetching data');
     }
     return response.json();
   },
   update: async ({ resource, id, variables }) => {
     const response = await fetch(`${API_URL}/${resource}/${id}`, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       },
       body: JSON.stringify(variables),
     });
     if (!response.ok) {
-      throw new Error("Error updating data");
+      throw new Error('Error updating data');
     }
     return response.json();
   },
   getList: async ({ resource }) => {
-    
     const response = await fetch(`${API_URL}/${resource}`, {
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-      }
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
     });
     if (!response.ok) {
-      throw new Error("Error fetching data");
+      throw new Error('Error fetching data');
     }
-    const data =await response.json();
-    const total = Number(response.headers.get("x-total-count"));
-    return {data, total};
+    const data = await response.json();
+    const total = Number(response.headers.get('x-total-count'));
+    return { data, total };
   },
   create: async ({ resource, variables }) => {
     const response = await fetch(`${API_URL}/${resource}`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       },
       body: JSON.stringify(variables),
     });
     if (!response.ok) {
-      throw new Error("Error creating data");
+      throw new Error('Error creating data');
     }
     return response.json();
   },
   deleteOne: async ({ resource, id }) => {
     const response = await fetch(`${API_URL}/${resource}/${id}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-      }
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
     });
     if (!response.ok) {
-      throw new Error("Error deleting data");
+      throw new Error('Error deleting data');
     }
     return response.json();
   },
