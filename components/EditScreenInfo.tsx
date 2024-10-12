@@ -10,7 +10,7 @@ export const EditScreenInfo = ({ path }: { path: string }) => {
       <View className="mx-12 items-center">
         <Text className="text-center text-lg leading-6 text-foreground">{title}</Text>
         <View className="my-2 rounded-md px-1">
-          <Text>{path}</Text>
+          <Text className="text-foreground">{path}</Text>
         </View>
         <Text className="text-center text-lg leading-6 text-foreground">{description}</Text>
       </View>
