@@ -9,7 +9,8 @@ import { Button } from '~/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
+  DropdownMenuGroup,
+  DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
@@ -30,25 +31,25 @@ export function GuestMenu() {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost">
+          <Button variant="ghost" className="aspect-square rounded-full">
             <EllipsisVertical className="text-foreground" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent insets={contentInsets} className="mt-1">
-          <DropdownMenuLabel className="flex flex-row items-center gap-2 px-4 py-2">
+          <DropdownMenuGroup className="flex flex-row items-center gap-2 p-2.5">
             <UserCircle className="h-5 w-5 text-foreground" />
             <Text className="text-foreground">Guest</Text>
-          </DropdownMenuLabel>
+          </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <View className="justify-center">
             <ThemeSwitcher />
           </View>
           <DropdownMenuSeparator />
           <Link href="/admin" asChild>
-            <Button variant="ghost" className="flex flex-row items-center gap-2">
+            <DropdownMenuItem>
               <ArrowRightEndOnRectangle className="h-5 w-5 text-foreground" />
               <Text className="text-foreground">Login/Register</Text>
-            </Button>
+            </DropdownMenuItem>
           </Link>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -11,7 +11,7 @@ export default function AppLayout() {
       <Stack
         screenOptions={{
           headerRight: () => (
-            <View className="mx-3 flex flex-row items-center space-x-1.5">
+            <View className="flex flex-row items-center space-x-1.5 web:mx-3">
               <GuestMenu />
             </View>
           ),
