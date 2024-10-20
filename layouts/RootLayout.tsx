@@ -5,6 +5,7 @@ import { Theme, ThemeProvider } from '@react-navigation/native';
 import { PortalHost } from '@rn-primitives/portal';
 import { SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import * as SystemUI from 'expo-system-ui';
 import * as React from 'react';
 import { Platform } from 'react-native';
 
@@ -56,6 +57,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       SplashScreen.hideAsync();
     });
   }, []);
+
+  React.useEffect(() => {
+    const theme = colorScheme === 'dark' ? NAV_THEME.dark : NAV_THEME.light;
+    SystemUI.setBackgroundColorAsync(theme.background);
+  }, [colorScheme]);
 
   if (!isColorSchemeLoaded) {
     return null;
