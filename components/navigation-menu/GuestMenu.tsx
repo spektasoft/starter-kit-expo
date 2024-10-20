@@ -45,7 +45,7 @@ export function GuestMenu() {
             <ThemeSwitcher />
           </View>
           <DropdownMenuSeparator />
-          <Link href="/admin" asChild>
+          <Link href="/login" asChild>
             <DropdownMenuItem>
               <ArrowRightEndOnRectangle className="h-5 w-5 text-foreground" />
               <Text className="text-foreground">Login/Register</Text>

@@ -2,6 +2,7 @@ import '~/global.css';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Theme, ThemeProvider } from '@react-navigation/native';
+import { Refine } from '@refinedev/core';
 import { PortalHost } from '@rn-primitives/portal';
 import { SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -73,7 +74,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         style="auto"
         backgroundColor={isDarkColorScheme ? NAV_THEME.dark.background : NAV_THEME.light.background}
       />
-      {children}
+      <Refine options={{ disableTelemetry: true }}>{children}</Refine>
       <PortalHost />
     </ThemeProvider>
   );
