@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View } from 'react-native';
+import { ViewRef } from '@rn-primitives/types';
+import { createContext, forwardRef, useContext } from 'react';
+import { View, ViewProps } from 'react-native';
 
 import { Button } from './ui/button';
 
@@ -7,15 +9,22 @@ import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
 import { Moon } from '~/lib/icons/Moon';
 import { Sun } from '~/lib/icons/Sun';
 import { useColorScheme } from '~/lib/useColorScheme';
+import { cn } from '~/lib/utils';
 
-export function ThemeSwitcher() {
+const ThemeSwitcherClassContext = createContext<string | undefined>(undefined);
+
+const ThemeSwitcher = forwardRef<ViewRef, ViewProps>(({ className, ...props }, ref) => {
+  const themeSwitcherClass = useContext(ThemeSwitcherClassContext);
   return (
-    <View className="flex flex-row space-x-1">
+    <View
+      className={cn('flex flex-row space-x-1', themeSwitcherClass, className)}
+      ref={ref}
+      {...props}>
       <LightToggle />
       <DarkToggle />
     </View>
   );
-}
+});
 
 function DarkToggle() {
   const { isDarkColorScheme, setColorScheme } = useColorScheme();
@@ -50,3 +59,5 @@ function LightToggle() {
     </Button>
   );
 }
+
+export { ThemeSwitcher, ThemeSwitcherClassContext };

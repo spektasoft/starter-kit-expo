@@ -19,7 +19,7 @@
     "@react-navigation/drawer": "^6.7.2",
     "@react-navigation/native": "^6.1.18",
     "@refinedev/core": "^4.55.0",
-    "@rn-primitives/popover": "^1.0.5",
+    "@rn-primitives/dropdown-menu": "^1.0.5",
     "@rn-primitives/slot": "^1.0.5",
     "@rn-primitives/types": "^1.0.5",
     "class-variance-authority": "^0.7.0",
