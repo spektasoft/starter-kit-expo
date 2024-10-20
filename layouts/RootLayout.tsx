@@ -63,7 +63,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+      <StatusBar
+        style="auto"
+        backgroundColor={isDarkColorScheme ? NAV_THEME.dark.background : NAV_THEME.light.background}
+      />
       {children}
       <PortalHost />
     </ThemeProvider>
