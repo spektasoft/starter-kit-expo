@@ -2,8 +2,10 @@ import '~/global.css';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Theme, ThemeProvider } from '@react-navigation/native';
+import { PortalHost } from '@rn-primitives/portal';
 import { SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import * as SystemUI from 'expo-system-ui';
 import * as React from 'react';
 import { Platform } from 'react-native';
 
@@ -56,14 +58,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     });
   }, []);
 
+  React.useEffect(() => {
+    const theme = colorScheme === 'dark' ? NAV_THEME.dark : NAV_THEME.light;
+    SystemUI.setBackgroundColorAsync(theme.background);
+  }, [colorScheme]);
+
   if (!isColorSchemeLoaded) {
     return null;
   }
 
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+      <StatusBar
+        style="auto"
+        backgroundColor={isDarkColorScheme ? NAV_THEME.dark.background : NAV_THEME.light.background}
+      />
       {children}
+      <PortalHost />
     </ThemeProvider>
   );
 }

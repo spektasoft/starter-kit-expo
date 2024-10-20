@@ -1,8 +1,8 @@
 import { Drawer } from 'expo-router/drawer';
-import { Pressable } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import { ThemeToggle } from '~/components/ThemeToggle';
+import { UserMenu } from '~/components/navigation-menu/UserMenu';
 import RootLayout from '~/layouts/RootLayout';
 import { Bars3 } from '~/lib/icons/Bars3';
 
@@ -13,7 +13,11 @@ export default function Layout() {
         <Drawer
           screenOptions={(props) => {
             return {
-              headerRight: () => <ThemeToggle />,
+              headerRight: () => (
+                <View className="mx-3 flex flex-row items-center space-x-1.5">
+                  <UserMenu />
+                </View>
+              ),
               headerLeft: () => (
                 <Pressable className="mx-3" onPress={() => props.navigation.toggleDrawer()}>
                   <Bars3 className="text-foreground" />
