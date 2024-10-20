@@ -16,10 +16,7 @@ const ThemeSwitcherClassContext = createContext<string | undefined>(undefined);
 const ThemeSwitcher = forwardRef<ViewRef, ViewProps>(({ className, ...props }, ref) => {
   const themeSwitcherClass = useContext(ThemeSwitcherClassContext);
   return (
-    <View
-      className={cn('flex flex-row space-x-1', themeSwitcherClass, className)}
-      ref={ref}
-      {...props}>
+    <View className={cn('flex flex-row gap-1', themeSwitcherClass, className)} ref={ref} {...props}>
       <LightToggle />
       <DarkToggle />
     </View>
@@ -35,10 +32,9 @@ function DarkToggle() {
         setAndroidNavigationBar('dark');
         AsyncStorage.setItem('theme', 'dark');
       }}
-      variant={isDarkColorScheme ? 'secondary' : 'ghost'}>
-      <View>
-        <Moon className={`h-5 w-5 ${isDarkColorScheme ? 'text-primary' : 'text-foreground'}`} />
-      </View>
+      variant={isDarkColorScheme ? 'secondary' : 'ghost'}
+      className="aspect-[3/1]">
+      <Moon className={`h-5 w-5 ${isDarkColorScheme ? 'text-primary' : 'text-foreground'}`} />
     </Button>
   );
 }
@@ -52,10 +48,9 @@ function LightToggle() {
         setAndroidNavigationBar('light');
         AsyncStorage.setItem('theme', 'light');
       }}
-      variant={!isDarkColorScheme ? 'secondary' : 'ghost'}>
-      <View>
-        <Sun className={`h-5 w-5 ${!isDarkColorScheme ? 'text-primary' : 'text-foreground'}`} />
-      </View>
+      variant={!isDarkColorScheme ? 'secondary' : 'ghost'}
+      className="aspect-[3/1]">
+      <Sun className={`h-5 w-5 ${!isDarkColorScheme ? 'text-primary' : 'text-foreground'}`} />
     </Button>
   );
 }
