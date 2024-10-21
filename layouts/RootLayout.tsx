@@ -2,6 +2,7 @@ import '~/global.css';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Theme, ThemeProvider } from '@react-navigation/native';
+import { Refine } from '@refinedev/core';
 import { PortalHost } from '@rn-primitives/portal';
 import { SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -11,6 +12,7 @@ import { Platform } from 'react-native';
 
 import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
+import { authProvider } from '~/providers/auth-provider';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -73,7 +75,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         style="auto"
         backgroundColor={isDarkColorScheme ? NAV_THEME.dark.background : NAV_THEME.light.background}
       />
-      {children}
+      <Refine authProvider={authProvider} options={{ disableTelemetry: true }}>
+        {children}
+      </Refine>
       <PortalHost />
     </ThemeProvider>
   );
