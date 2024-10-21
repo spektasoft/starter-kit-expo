@@ -23,6 +23,7 @@
     "@rn-primitives/label": "^1.0.5",
     "@rn-primitives/slot": "^1.0.5",
     "@rn-primitives/types": "^1.0.5",
+    "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "expo": "^51.0.38",
@@ -47,7 +48,9 @@
     "react-native-web": "~0.19.13",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "expo-device": "~6.0.2",
+    "expo-secure-store": "~13.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.8",

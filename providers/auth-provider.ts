@@ -1,8 +1,8 @@
 import { AuthProvider } from '@refinedev/core';
+import * as SecureStore from 'expo-secure-store';
+import { Platform } from 'react-native';
 
-import config from '../../appconfig';
-const host = process.env.EXPO_PUBLIC_HOSTS;
-const port = process.env.EXPO_PUBLIC_PORT;
+import { login } from './auth-provider/login';
 const BASE_URL = 'http://${host}:${port}';
 const TOKEN_KEY = 'access_token';
 
@@ -11,29 +11,25 @@ export const authProvider: AuthProvider = {
     localStorage.removeItem(TOKEN_KEY);
     return { success: true };
   },
-  login: async ({ username, password }) => {
-    const response = await fetch(`${BASE_URL}/login`, {
-      method: 'POST',
-      body: JSON.stringify({ username, password }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const data = await response.json();
-    console.log(data.access_token);
-    if (data.access_token) {
-      localStorage.setItem(TOKEN_KEY, data.access_token);
-      return { success: true };
+  login: async (params) => {
+    const result = await login(params);
+    if (params.strategy === 'spa') {
+      localStorage.setItem(TOKEN_KEY, result.token);
+    } else {
+      await SecureStore.setItemAsync(TOKEN_KEY, result.token);
     }
-
-    return { success: false };
+    return { success: true };
   },
   check: async () => {
-    const token = localStorage.getItem(TOKEN_KEY);
+    let token = null;
+    if (Platform.OS === 'web') {
+      token = localStorage.getItem(TOKEN_KEY);
+    } else {
+      token = await SecureStore.getItemAsync(TOKEN_KEY);
+    }
     return { authenticated: Boolean(token) };
   },
-  onError: async (error) => {
+  onError: async () => {
     throw new Error('Not implemented');
   },
   register: async ({ username, password, email, phone, streetaddress }) => {
@@ -66,7 +62,7 @@ export const authProvider: AuthProvider = {
         return Promise.reject(data.message || 'Registration failed');
       }
     } catch (error) {
-      return Promise.reject('Network error');
+      throw error;
     }
   },
   forgotPassword: async (email: string) => {
@@ -93,7 +89,7 @@ export const authProvider: AuthProvider = {
         return Promise.reject(data.message || 'Error sending reset link');
       }
     } catch (error) {
-      return Promise.reject('Network error');
+      throw error;
     }
   },
   updatePassword: async (params) => {
