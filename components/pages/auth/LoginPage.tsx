@@ -4,7 +4,7 @@ import { Link } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
 import { Platform, ScrollViewProps, Text, View, ViewProps } from 'react-native';
 
-import { FormPropsType } from '../..';
+import { FormPropsType } from './AuthPage';
 
 import { AuthenticationCard } from '~/components/AuthenticationCard';
 import { Button } from '~/components/ui/button';

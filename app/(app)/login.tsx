@@ -3,7 +3,7 @@ import { Redirect, Stack } from 'expo-router';
 import { ScrollView } from 'react-native';
 
 import { Container } from '~/components/Container';
-import { AuthPage } from '~/components/pages/auth';
+import { AuthPage } from '~/components/pages/auth/AuthPage';
 
 export default function Login() {
   return (

@@ -1,6 +1,6 @@
 import { AuthPageProps, RegisterFormTypes, UseFormProps } from '@refinedev/core';
 
-import { LoginPage } from './components';
+import { LoginPage } from './LoginPage';
 
 export interface FormPropsType extends UseFormProps {
   onSubmit?: (values: RegisterFormTypes) => void;
