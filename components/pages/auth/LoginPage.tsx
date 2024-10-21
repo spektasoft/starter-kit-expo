@@ -1,3 +1,4 @@
+import { useTheme } from '@react-navigation/native';
 import { LoginPageProps, useLogin } from '@refinedev/core';
 import * as Device from 'expo-device';
 import { Link } from 'expo-router';
@@ -55,6 +56,7 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
     },
   });
   const { mutate, error, isLoading, isError } = useLogin();
+  const { colors } = useTheme();
   const onSubmit = (data: LoginParams) => {
     mutate(data);
   };
@@ -153,7 +155,7 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
             )}
             {isLoading && (
               <>
-                <ActivityIndicator />
+                <ActivityIndicator color={colors.primary} />
                 <Label className="ml-2 font-bold">Logging in…</Label>
               </>
             )}

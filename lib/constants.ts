@@ -1,4 +1,16 @@
-export const NAV_THEME = {
+export type Theme = {
+  background: string;
+  border: string;
+  card: string;
+  notification: string;
+  primary: string;
+  text: string;
+};
+
+export const NAV_THEME: {
+  light: Theme;
+  dark: Theme;
+} = {
   light: {
     background: 'hsl(0 0% 100%)', // background
     border: 'hsl(240 5.9% 90%)', // border
