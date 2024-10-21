@@ -2,7 +2,7 @@ import { LoginPageProps, useLogin } from '@refinedev/core';
 import * as Device from 'expo-device';
 import { Link } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
-import { Platform, ScrollViewProps, Text, View, ViewProps } from 'react-native';
+import { ActivityIndicator, Platform, ScrollViewProps, Text, View, ViewProps } from 'react-native';
 
 import { FormPropsType } from './AuthPage';
 
@@ -54,13 +54,24 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
       strategy: determineStrategy(),
     },
   });
-  const { mutate } = useLogin();
+  const { mutate, error, isLoading, isError } = useLogin();
   const onSubmit = (data: LoginParams) => {
     mutate(data);
   };
 
   return (
     <AuthenticationCard {...props.wrapperProps}>
+      {isError && (
+        <Card className="mb-4">
+          <CardHeader>
+            <CardDescription>
+              <Text className="font-medium text-red-600 dark:text-red-400">
+                Whoops! Something went wrong: {error.message}
+              </Text>
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      )}
       <Card {...props.contentProps}>
         <CardHeader>
           <CardDescription>
@@ -85,6 +96,7 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
+                    editable={!isLoading}
                     aria-labelledby="inputLabel"
                     aria-errormessage="inputError"
                   />
@@ -116,6 +128,7 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
+                    editable={!isLoading}
                     aria-labelledby="inputLabel"
                     aria-errormessage="inputError"
                     secureTextEntry
@@ -128,12 +141,22 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
         </CardContent>
         <CardContent>
           <View className="flex flex-row items-center justify-end gap-3">
-            <Link href="/">
-              <Text className="font-semibold text-primary hover:underline">Sign up</Text>
-            </Link>
-            <Button onPress={handleSubmit(onSubmit)}>
-              <Text className="font-semibold text-primary-foreground">Login</Text>
-            </Button>
+            {!isLoading && (
+              <>
+                <Link href="/">
+                  <Text className="font-semibold text-primary hover:underline">Sign up</Text>
+                </Link>
+                <Button onPress={handleSubmit(onSubmit)}>
+                  <Text className="font-semibold text-primary-foreground">Login</Text>
+                </Button>
+              </>
+            )}
+            {isLoading && (
+              <>
+                <ActivityIndicator />
+                <Label className="ml-2 font-bold">Logging in…</Label>
+              </>
+            )}
           </View>
         </CardContent>
       </Card>

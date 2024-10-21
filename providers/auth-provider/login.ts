@@ -40,8 +40,6 @@ export const login = async (params: LoginParams): Promise<{ token: string }> => 
       await http.get(csrfCookieRoute);
     }
 
-    console.log(params);
-
     const result = await http.post(route, {
       email: params.email,
       password: params.password,
