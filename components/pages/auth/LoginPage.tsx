@@ -1,9 +1,8 @@
 import { useTheme } from '@react-navigation/native';
 import { LoginPageProps, useLogin } from '@refinedev/core';
-import * as Device from 'expo-device';
 import { Link } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
-import { ActivityIndicator, Platform, ScrollViewProps, Text, View, ViewProps } from 'react-native';
+import { ActivityIndicator, ScrollViewProps, Text, View, ViewProps } from 'react-native';
 
 import { FormPropsType } from './AuthPage';
 
@@ -12,35 +11,9 @@ import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
-import { LoginParams, Strategy } from '~/providers/auth-provider/login';
+import { LoginParams } from '~/providers/auth-provider/login';
 
 type LoginProps = LoginPageProps<ScrollViewProps, ViewProps, FormPropsType>;
-
-const determineDeviceName = () => {
-  if (Device.modelName) {
-    return Device.modelName;
-  } else if (Device.deviceName) {
-    return Device.deviceName;
-  } else {
-    if (Platform.OS === 'web') {
-      return 'Web';
-    } else if (Platform.OS === 'android') {
-      return 'Android';
-    } else if (Platform.OS === 'ios') {
-      return 'iOS';
-    } else {
-      return 'Unknown Device';
-    }
-  }
-};
-
-const determineStrategy = (): Strategy => {
-  if (Platform.OS === 'web') {
-    return 'spa';
-  } else {
-    return 'native';
-  }
-};
 
 export const LoginPage: React.FC<LoginProps> = (props) => {
   const {
@@ -51,8 +24,6 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
     defaultValues: {
       email: '',
       password: '',
-      deviceName: determineDeviceName(),
-      strategy: determineStrategy(),
     },
   });
   const { mutate, error, isLoading, isError } = useLogin();
