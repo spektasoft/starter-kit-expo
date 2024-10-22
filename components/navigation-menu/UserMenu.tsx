@@ -1,8 +1,10 @@
+import { useLogout } from '@refinedev/core';
 import { View } from '@rn-primitives/slot';
 import { Link } from 'expo-router';
-import { Text } from 'react-native';
+import { Pressable, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { SigningOutAlertDialog } from '../SigningOutAlertDialog';
 import { ThemeSwitcher } from '../ThemeSwitcher';
 
 import { Button } from '~/components/ui/button';
@@ -28,6 +30,10 @@ export function UserMenu() {
     bottom: insets.bottom,
     left: 12,
     right: 12,
+  };
+  const { mutate, isLoading } = useLogout();
+  const signOut = () => {
+    mutate();
   };
 
   return (
@@ -67,15 +73,16 @@ export function UserMenu() {
                 <Text className="text-foreground">API Tokens</Text>
               </DropdownMenuItem>
             </Link>
-            <Link href="/" asChild>
-              <DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Pressable onPress={signOut} disabled={isLoading}>
                 <ArrowLeftEndOnRectangle className="h-5 w-5 text-foreground" />
                 <Text className="text-foreground">Sign out</Text>
-              </DropdownMenuItem>
-            </Link>
+              </Pressable>
+            </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
+      {isLoading && <SigningOutAlertDialog />}
     </>
   );
 }

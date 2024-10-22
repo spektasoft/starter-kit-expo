@@ -3,14 +3,27 @@ import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
 import { login, LoginParams } from './auth-provider/login';
+import { logout } from './auth-provider/logout';
 import { user } from './auth-provider/user';
 const BASE_URL = 'http://${host}:${port}';
 const TOKEN_KEY = 'access_token';
 
 export const authProvider: AuthProvider = {
   logout: async () => {
-    localStorage.removeItem(TOKEN_KEY);
-    return { success: true };
+    try {
+      const token =
+        Platform.OS !== 'web'
+          ? ((await SecureStore.getItemAsync(TOKEN_KEY)) ?? undefined)
+          : undefined;
+      const status = await logout(token);
+      if (Platform.OS !== 'web' && status) {
+        await SecureStore.deleteItemAsync(TOKEN_KEY);
+      }
+      return { success: status };
+    } catch (e) {
+      const error = e as Error;
+      return { success: true, error };
+    }
   },
   login: async (params: LoginParams) => {
     const result = await login(params);
@@ -26,9 +39,11 @@ export const authProvider: AuthProvider = {
           ? ((await SecureStore.getItemAsync(TOKEN_KEY)) ?? undefined)
           : undefined;
       const status = await user(token);
+
       return { authenticated: status, logout: !status };
-    } catch (error) {
-      return Promise.reject(error);
+    } catch (e) {
+      const error = e as Error;
+      return { authenticated: false, logout: true, error };
     }
   },
   onError: async () => {
