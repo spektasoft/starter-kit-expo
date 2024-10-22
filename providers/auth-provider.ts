@@ -13,9 +13,7 @@ export const authProvider: AuthProvider = {
   },
   login: async (params) => {
     const result = await login(params);
-    if (Platform.OS === 'web') {
-      localStorage.setItem(TOKEN_KEY, result.token);
-    } else {
+    if (Platform.OS !== 'web' && result) {
       await SecureStore.setItemAsync(TOKEN_KEY, result.token);
     }
     return { success: true };
