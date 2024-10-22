@@ -1,13 +1,8 @@
 import axios from 'axios';
-import { Platform } from 'react-native';
 
 import { getAxios, getStrategy } from './utils';
 
-export const user = async (token?: string): Promise<boolean> => {
-  if (Platform.OS !== 'web' && !token) {
-    return false;
-  }
-
+export const logout = async (token?: string): Promise<boolean> => {
   try {
     const http = getAxios(token);
     const strategy = getStrategy();
@@ -16,9 +11,9 @@ export const user = async (token?: string): Promise<boolean> => {
       await http.get('sanctum/csrf-cookie');
     }
 
-    const route = strategy === 'spa' ? 'user' : 'api/v1/user';
+    const route = strategy === 'spa' ? 'logout' : 'api/v1/logout';
 
-    const result = await http.get(route);
+    const result = await http.post(route);
 
     return result.status === 200;
   } catch (e) {
