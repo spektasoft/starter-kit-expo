@@ -3,6 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
 import { login, LoginParams } from './auth-provider/login';
+import { user } from './auth-provider/user';
 const BASE_URL = 'http://${host}:${port}';
 const TOKEN_KEY = 'access_token';
 
@@ -19,13 +20,16 @@ export const authProvider: AuthProvider = {
     return { success: true };
   },
   check: async () => {
-    let token = null;
-    if (Platform.OS === 'web') {
-      token = localStorage.getItem(TOKEN_KEY);
-    } else {
-      token = await SecureStore.getItemAsync(TOKEN_KEY);
+    try {
+      const token =
+        Platform.OS !== 'web'
+          ? ((await SecureStore.getItemAsync(TOKEN_KEY)) ?? undefined)
+          : undefined;
+      const status = await user(token);
+      return { authenticated: status, logout: !status };
+    } catch (error) {
+      return Promise.reject(error);
     }
-    return { authenticated: Boolean(token) };
   },
   onError: async () => {
     throw new Error('Not implemented');

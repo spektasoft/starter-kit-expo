@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 
 import { Strategy } from '~/types/strategy';
 
-export const getAxios = () => {
+export const getAxios = (token?: string) => {
   const baseUrl = process.env.EXPO_PUBLIC_API_URL;
   const strategy = getStrategy();
 
@@ -15,6 +15,7 @@ export const getAxios = () => {
         }
       : {
           'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
         };
 
   const http = axios.create({
