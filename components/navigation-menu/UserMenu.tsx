@@ -61,13 +61,13 @@ export function UserMenu() {
                 <Text className="text-foreground">Home</Text>
               </DropdownMenuItem>
             </Link>
-            <Link href="/" asChild>
+            <Link href="/wip" asChild>
               <DropdownMenuItem>
                 <User className="h-5 w-5 text-foreground" />
                 <Text className="text-foreground">Profile</Text>
               </DropdownMenuItem>
             </Link>
-            <Link href="/" asChild>
+            <Link href="/wip" asChild>
               <DropdownMenuItem>
                 <Key className="h-5 w-5 text-foreground" />
                 <Text className="text-foreground">API Tokens</Text>
