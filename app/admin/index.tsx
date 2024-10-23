@@ -1,5 +1,4 @@
 import { useLogout } from '@refinedev/core';
-import Drawer from 'expo-router/drawer';
 import { Text, View } from 'react-native';
 
 import { Container } from '~/components/Container';
@@ -7,7 +6,6 @@ import { SigningOutAlertDialog } from '~/components/SigningOutAlertDialog';
 import { Button } from '~/components/ui/button';
 import { Card, CardDescription, CardTitle } from '~/components/ui/card';
 import { ArrowLeftEndOnRectangle } from '~/lib/icons/ArrowLeftEndOnRectangle';
-import { Home } from '~/lib/icons/Home';
 
 export default function Dashboard() {
   const { mutate, isLoading } = useLogout();
@@ -17,13 +15,6 @@ export default function Dashboard() {
 
   return (
     <>
-      <Drawer.Screen
-        options={{
-          drawerLabel: 'Dashboard',
-          title: 'Dashboard',
-          drawerIcon: () => <Home className="text-foreground" />,
-        }}
-      />
       <Container>
         <View className="flex gap-y-8 py-8">
           <View className="flex gap-4 sm:flex-row sm:items-center sm:justify-between">

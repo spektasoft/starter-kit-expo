@@ -9,6 +9,7 @@ import { Loading } from '~/components/Loading';
 import { UserMenu } from '~/components/navigation-menu/UserMenu';
 import RootLayout from '~/layouts/RootLayout';
 import { Bars3 } from '~/lib/icons/Bars3';
+import { Home } from '~/lib/icons/Home';
 
 export default function Layout() {
   return (
@@ -35,9 +36,18 @@ export default function Layout() {
                     <Bars3 className="text-foreground" />
                   </Pressable>
                 ),
+                drawerType: 'back',
               };
-            }}
-          />
+            }}>
+            <Drawer.Screen
+              name="index"
+              options={{
+                drawerLabel: 'Dashboard',
+                title: 'Dashboard',
+                drawerIcon: ({ color }) => <Home className="h-5 w-5" color={color} />,
+              }}
+            />
+          </Drawer>
         </GestureHandlerRootView>
       </Authenticated>
     </RootLayout>
