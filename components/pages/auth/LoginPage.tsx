@@ -6,6 +6,7 @@ import { ScrollViewProps, Text, View, ViewProps } from 'react-native';
 import { FormPropsType } from './AuthPage';
 
 import { AuthenticationCard } from '~/components/AuthenticationCard';
+import { InputPassword } from '~/components/InputPassword';
 import { Loading } from '~/components/Loading';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
@@ -95,7 +96,7 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
                       </Text>
                     </Link>
                   </View>
-                  <Input
+                  <InputPassword
                     id="password"
                     onBlur={onBlur}
                     onChangeText={onChange}
@@ -103,7 +104,6 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
                     editable={!isLoading}
                     aria-labelledby="inputLabel"
                     aria-errormessage="inputError"
-                    secureTextEntry
                   />
                 </View>
               )}
