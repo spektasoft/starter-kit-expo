@@ -3,6 +3,7 @@ import { Redirect, Stack } from 'expo-router';
 import { ScrollView } from 'react-native';
 
 import { Container } from '~/components/Container';
+import { Loading } from '~/components/Loading';
 import { AuthPage } from '~/components/pages/auth/AuthPage';
 
 export default function Login() {
@@ -11,7 +12,10 @@ export default function Login() {
       <Stack.Screen options={{ title: 'Login' }} />
       <ScrollView>
         <Container>
-          <Authenticated key="login" fallback={<AuthPage type="login" />}>
+          <Authenticated
+            key="login"
+            fallback={<AuthPage type="login" />}
+            loading={<Loading withText />}>
             <Redirect href="/admin" />
           </Authenticated>
         </Container>
