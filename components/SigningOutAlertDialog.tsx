@@ -1,6 +1,6 @@
-import { useTheme } from '@react-navigation/native';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
+import { Loading } from './Loading';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -9,14 +9,13 @@ import {
 } from './ui/alert-dialog';
 
 export const SigningOutAlertDialog = () => {
-  const { colors } = useTheme();
   return (
     <AlertDialog defaultOpen>
       <AlertDialogContent className="m-2 w-full">
         <AlertDialogHeader>
           <AlertDialogTitle>Signing out</AlertDialogTitle>
           <View className="flex flex-row items-center gap-2">
-            <ActivityIndicator color={colors.primary} />
+            <Loading />
             <Text className="text-foreground">Please wait…</Text>
           </View>
         </AlertDialogHeader>
