@@ -1,12 +1,12 @@
-import { useTheme } from '@react-navigation/native';
 import { LoginPageProps, useLogin } from '@refinedev/core';
 import { Link } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
-import { ActivityIndicator, ScrollViewProps, Text, View, ViewProps } from 'react-native';
+import { ScrollViewProps, Text, View, ViewProps } from 'react-native';
 
 import { FormPropsType } from './AuthPage';
 
 import { AuthenticationCard } from '~/components/AuthenticationCard';
+import { Loading } from '~/components/Loading';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
@@ -27,7 +27,6 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
     },
   });
   const { mutate, error, isLoading, isError } = useLogin();
-  const { colors } = useTheme();
   const onSubmit = (data: LoginParams) => {
     mutate(data);
   };
@@ -126,8 +125,8 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
             )}
             {isLoading && (
               <>
-                <ActivityIndicator color={colors.primary} />
-                <Label className="ml-2 font-bold">Logging in…</Label>
+                <Loading />
+                <Label className="font-bold">Logging in…</Label>
               </>
             )}
           </View>

@@ -17,13 +17,14 @@ import {
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
 import { ArrowLeftEndOnRectangle } from '~/lib/icons/ArrowLeftEndOnRectangle';
+import { BuildingLibrary } from '~/lib/icons/BuildingLibrary';
 import { EllipsisVertical } from '~/lib/icons/EllipsesVertical';
 import { Home } from '~/lib/icons/Home';
 import { Key } from '~/lib/icons/Key';
 import { User } from '~/lib/icons/User';
 import { UserCircle } from '~/lib/icons/UserCircle';
 
-export function UserMenu() {
+export function UserMenu({ type }: { type: 'app' | 'admin' }) {
   const insets = useSafeAreaInsets();
   const contentInsets = {
     top: insets.top,
@@ -55,19 +56,29 @@ export function UserMenu() {
           </View>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <Link href="/" asChild>
-              <DropdownMenuItem>
-                <Home className="h-5 w-5 text-foreground" />
-                <Text className="text-foreground">Home</Text>
-              </DropdownMenuItem>
-            </Link>
-            <Link href="/" asChild>
+            {type === 'admin' && (
+              <Link href="/" asChild>
+                <DropdownMenuItem>
+                  <Home className="h-5 w-5 text-foreground" />
+                  <Text className="text-foreground">Home</Text>
+                </DropdownMenuItem>
+              </Link>
+            )}
+            {type === 'app' && (
+              <Link href="/admin" asChild>
+                <DropdownMenuItem>
+                  <BuildingLibrary className="h-5 w-5 text-foreground" />
+                  <Text className="text-foreground">Dashboard</Text>
+                </DropdownMenuItem>
+              </Link>
+            )}
+            <Link href="/wip" asChild>
               <DropdownMenuItem>
                 <User className="h-5 w-5 text-foreground" />
                 <Text className="text-foreground">Profile</Text>
               </DropdownMenuItem>
             </Link>
-            <Link href="/" asChild>
+            <Link href="/wip" asChild>
               <DropdownMenuItem>
                 <Key className="h-5 w-5 text-foreground" />
                 <Text className="text-foreground">API Tokens</Text>
