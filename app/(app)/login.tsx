@@ -1,5 +1,6 @@
 import { Authenticated } from '@refinedev/core';
-import { Redirect, Stack } from 'expo-router';
+import { Redirect } from 'expo-router';
+import Drawer from 'expo-router/drawer';
 import { ScrollView } from 'react-native';
 
 import { Container } from '~/components/Container';
@@ -9,7 +10,7 @@ import { AuthPage } from '~/components/pages/auth/AuthPage';
 export default function Login() {
   return (
     <>
-      <Stack.Screen options={{ title: 'Login' }} />
+      <Drawer.Screen options={{ title: 'Login' }} />
       <ScrollView>
         <Container>
           <Authenticated

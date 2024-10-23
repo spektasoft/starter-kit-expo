@@ -1,5 +1,5 @@
 import { View } from '@rn-primitives/slot';
-import { Link, Stack } from 'expo-router';
+import { Link } from 'expo-router';
 import { Text } from 'react-native';
 
 import { Container } from '~/components/Container';
@@ -11,7 +11,6 @@ import { InformationCircle } from '~/lib/icons/InformationCircle';
 export default function WIP() {
   return (
     <>
-      <Stack.Screen options={{ title: 'Work in Progress' }} />
       <Container>
         <View className="mx-auto">
           <Card>
@@ -20,7 +19,7 @@ export default function WIP() {
               <Text className="text-lg text-foreground">
                 This feature is not available yet. Check again later.
               </Text>
-              <Link href="/" asChild replace>
+              <Link href="/" asChild>
                 <Button variant="outline" className="flex flex-row gap-2">
                   <Home className="h-5 w-5 text-foreground" />
                   <Text className="text-foreground">Back to Home</Text>

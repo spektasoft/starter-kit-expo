@@ -1,4 +1,4 @@
-import { Stack, Link } from 'expo-router';
+import { Link } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 
 import { Container } from '~/components/Container';
@@ -8,7 +8,6 @@ import { Button } from '~/components/ui/button';
 export default function Home() {
   return (
     <>
-      <Stack.Screen options={{ title: 'Home' }} />
       <ScrollView>
         <Container>
           <ScreenContent path="app/index.tsx" title="Home" />
