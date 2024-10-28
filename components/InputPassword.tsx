@@ -12,7 +12,7 @@ const InputPassword = forwardRef<
   React.ElementRef<typeof TextInput>,
   React.ComponentPropsWithoutRef<typeof TextInput>
 >(({ className, ...props }, ref) => {
-  const [hidden, setHidden] = useState(false);
+  const [hidden, setHidden] = useState(true);
 
   const toggleHidden = () => {
     setHidden(!hidden);
@@ -22,7 +22,7 @@ const InputPassword = forwardRef<
     <View className="flex-row">
       <Input
         secureTextEntry={hidden}
-        className={cn('rounded-r-none', className)}
+        className={cn('flex-1 rounded-r-none', className)}
         {...props}
         ref={ref}
       />
