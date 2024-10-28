@@ -18,7 +18,7 @@ export default function AppLayout() {
         <Drawer
           screenOptions={(props) => ({
             headerRight: () => (
-              <View className="flex flex-row items-center space-x-1.5 web:mx-3">
+              <View className="mx-3 flex flex-row items-center justify-center">
                 <Authenticated key="menu" fallback={<GuestMenu />} loading={<Loading />}>
                   <UserMenu type="app" />
                 </Authenticated>

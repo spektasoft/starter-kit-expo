@@ -27,7 +27,7 @@ export default function Layout() {
             screenOptions={(props) => {
               return {
                 headerRight: () => (
-                  <View className="mx-3 flex flex-row items-center space-x-1.5">
+                  <View className="mx-3 flex flex-row items-center justify-center">
                     <UserMenu type="admin" />
                   </View>
                 ),
