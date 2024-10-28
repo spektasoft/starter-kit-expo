@@ -54,9 +54,7 @@ export const authProvider: AuthProvider = {
       const loginResponse = await login(params);
 
       if (loginResponse.twofactor) {
-        if (strategy === 'spa') {
-          localStorage.setItem(loginId, params.email);
-        } else {
+        if (strategy === 'native') {
           await SecureStore.setItemAsync(loginId, params.email);
         }
         throw new TwoFactorChallengeError();
@@ -64,24 +62,23 @@ export const authProvider: AuthProvider = {
 
       result = loginResponse;
     } else {
-      const email =
-        strategy === 'spa'
-          ? localStorage.getItem(loginId)
-          : await SecureStore.getItemAsync(loginId);
+      let email;
 
-      if (email === null) {
-        throw new EmailUnavailableError();
+      if (strategy === 'native') {
+        email = (await SecureStore.getItemAsync(loginId)) ?? undefined;
+
+        if (!email) {
+          throw new EmailUnavailableError();
+        }
       }
 
-      result = await twoFactorChallenge(email, params);
+      result = await twoFactorChallenge(params, email);
     }
     if (Platform.OS !== 'web' && result.token) {
       await SecureStore.setItemAsync(TOKEN_KEY, result.token);
     }
 
-    if (strategy === 'spa') {
-      localStorage.removeItem(loginId);
-    } else {
+    if (strategy === 'native') {
       await SecureStore.deleteItemAsync(loginId);
     }
 

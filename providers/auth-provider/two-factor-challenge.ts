@@ -13,8 +13,8 @@ export type TwoFactorChallengeResponse = {
 };
 
 export const twoFactorChallenge = async (
-  email: string,
-  params: TwoFactorChallengeParams
+  params: TwoFactorChallengeParams,
+  email?: string
 ): Promise<TwoFactorChallengeResponse> => {
   try {
     const strategy = getStrategy();
@@ -24,10 +24,9 @@ export const twoFactorChallenge = async (
     const route = strategy === 'spa' ? 'two-factor-challenge' : 'api/v1/two-factor-challenge';
 
     const result = await http.post(route, {
-      email,
       code: params.code,
       recovery_code: params.recoveryCode,
-      device_name: deviceName,
+      ...(strategy === 'native' && { email, device_name: deviceName }),
     });
 
     if (strategy === 'native') {

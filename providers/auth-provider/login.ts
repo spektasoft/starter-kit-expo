@@ -24,7 +24,7 @@ export const login = async (params: LoginParams): Promise<LoginResponse> => {
     const result = await http.post(route, {
       email: params.email,
       password: params.password,
-      device_name: deviceName,
+      ...(strategy === 'native' && { device_name: deviceName }),
     });
 
     if (result.data['two_factor']) {
