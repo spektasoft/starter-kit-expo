@@ -2,11 +2,31 @@ import { AuthProvider } from '@refinedev/core';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
-import { login, LoginParams } from './auth-provider/login';
+import { login, LoginParams, LoginResponse } from './auth-provider/login';
 import { logout } from './auth-provider/logout';
+import {
+  twoFactorChallenge,
+  TwoFactorChallengeParams,
+  TwoFactorChallengeResponse,
+} from './auth-provider/two-factor-challenge';
 import { user } from './auth-provider/user';
+import { getStrategy } from './auth-provider/utils';
 const BASE_URL = 'http://${host}:${port}';
 const TOKEN_KEY = 'access_token';
+
+export class EmailUnavailableError extends Error {
+  constructor() {
+    super();
+    this.name = EmailUnavailableError.name;
+  }
+}
+
+export class TwoFactorChallengeError extends Error {
+  constructor() {
+    super();
+    this.name = TwoFactorChallengeError.name;
+  }
+}
 
 export const authProvider: AuthProvider = {
   logout: async () => {
@@ -25,11 +45,46 @@ export const authProvider: AuthProvider = {
       return { success: true, error };
     }
   },
-  login: async (params: LoginParams) => {
-    const result = await login(params);
-    if (Platform.OS !== 'web' && result) {
+  login: async (params: LoginParams | TwoFactorChallengeParams) => {
+    const loginId = 'login.id';
+    const strategy = getStrategy();
+    let result: LoginResponse | TwoFactorChallengeResponse;
+
+    if (params.type === 'login') {
+      const loginResponse = await login(params);
+
+      if (loginResponse.twofactor) {
+        if (strategy === 'spa') {
+          localStorage.setItem(loginId, params.email);
+        } else {
+          await SecureStore.setItemAsync(loginId, params.email);
+        }
+        throw new TwoFactorChallengeError();
+      }
+
+      result = loginResponse;
+    } else {
+      const email =
+        strategy === 'spa'
+          ? localStorage.getItem(loginId)
+          : await SecureStore.getItemAsync(loginId);
+
+      if (email === null) {
+        throw new EmailUnavailableError();
+      }
+
+      result = await twoFactorChallenge(email, params);
+    }
+    if (Platform.OS !== 'web' && result.token) {
       await SecureStore.setItemAsync(TOKEN_KEY, result.token);
     }
+
+    if (strategy === 'spa') {
+      localStorage.removeItem(loginId);
+    } else {
+      await SecureStore.deleteItemAsync(loginId);
+    }
+
     return { success: true };
   },
   check: async () => {

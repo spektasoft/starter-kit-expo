@@ -54,6 +54,13 @@ export default function AppLayout() {
             }}
           />
           <Drawer.Screen
+            name="two-factor-challenge"
+            options={{
+              title: 'Two Factor Challenge',
+              drawerItemStyle: { display: 'none' },
+            }}
+          />
+          <Drawer.Screen
             name="products/index"
             options={{
               title: 'Products',

@@ -1,5 +1,6 @@
 import { LoginPageProps, useLogin } from '@refinedev/core';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
+import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ScrollViewProps, Text, View, ViewProps } from 'react-native';
 
@@ -12,6 +13,7 @@ import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
+import { TwoFactorChallengeError } from '~/providers/auth-provider';
 import { LoginParams } from '~/providers/auth-provider/login';
 
 type LoginProps = LoginPageProps<ScrollViewProps, ViewProps, FormPropsType>;
@@ -21,8 +23,9 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<LoginParams>({
     defaultValues: {
+      type: 'login',
       email: '',
       password: '',
     },
@@ -31,6 +34,12 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
   const onSubmit = (data: LoginParams) => {
     mutate(data);
   };
+
+  useEffect(() => {
+    if (isError && error.name === TwoFactorChallengeError.name) {
+      router.navigate('/two-factor-challenge');
+    }
+  }, [isError]);
 
   return (
     <AuthenticationCard {...props.wrapperProps}>
