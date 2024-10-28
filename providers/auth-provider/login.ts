@@ -17,11 +17,7 @@ export const login = async (params: LoginParams): Promise<LoginResponse> => {
   try {
     const strategy = getStrategy();
     const deviceName = getDeviceName();
-    const http = getAxios();
-
-    if (strategy === 'spa') {
-      await http.get('sanctum/csrf-cookie');
-    }
+    const http = await getAxios();
 
     const route = strategy === 'spa' ? 'login' : 'api/v1/login';
 

@@ -19,11 +19,7 @@ export const twoFactorChallenge = async (
   try {
     const strategy = getStrategy();
     const deviceName = getDeviceName();
-    const http = getAxios();
-
-    if (strategy === 'spa') {
-      await http.get('sanctum/csrf-cookie');
-    }
+    const http = await getAxios();
 
     const route = strategy === 'spa' ? 'two-factor-challenge' : 'api/v1/two-factor-challenge';
 

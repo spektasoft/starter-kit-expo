@@ -9,12 +9,8 @@ export const user = async (token?: string): Promise<boolean> => {
   }
 
   try {
-    const http = getAxios(token);
+    const http = await getAxios(token);
     const strategy = getStrategy();
-
-    if (strategy === 'spa') {
-      await http.get('sanctum/csrf-cookie');
-    }
 
     const route = strategy === 'spa' ? 'user' : 'api/v1/user';
 
