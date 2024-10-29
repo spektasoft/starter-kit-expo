@@ -122,7 +122,7 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
                     editable={!isLoading}
                     aria-labelledby="password-label"
                     aria-errormessage="password-error"
-                    autoComplete="new-password"
+                    autoComplete="password"
                     onSubmitEditing={handleSubmit(onSubmit)}
                   />
                   {errors.password?.message && (
