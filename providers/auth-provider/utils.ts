@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 
 import { Strategy } from '~/types/strategy';
 
-export const getAxios = (token?: string) => {
+export const getAxios = async (token?: string) => {
   const baseUrl = process.env.EXPO_PUBLIC_API_URL;
   const strategy = getStrategy();
 
@@ -24,6 +24,10 @@ export const getAxios = (token?: string) => {
     withCredentials: true,
     withXSRFToken: true,
   });
+
+  if (strategy === 'spa') {
+    await http.get('sanctum/csrf-cookie');
+  }
 
   return http;
 };

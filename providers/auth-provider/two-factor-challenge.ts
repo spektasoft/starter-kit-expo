@@ -2,34 +2,32 @@ import axios from 'axios';
 
 import { getAxios, getDeviceName, getStrategy } from './utils';
 
-export type LoginParams = {
-  type: 'login';
-  email: string;
-  password: string;
+export type TwoFactorChallengeParams = {
+  type: 'two-factor-challenge';
+  code: string;
+  recoveryCode: string;
 };
 
-export type LoginResponse = {
+export type TwoFactorChallengeResponse = {
   token?: string;
-  twofactor?: boolean;
 };
 
-export const login = async (params: LoginParams): Promise<LoginResponse> => {
+export const twoFactorChallenge = async (
+  params: TwoFactorChallengeParams,
+  email?: string
+): Promise<TwoFactorChallengeResponse> => {
   try {
     const strategy = getStrategy();
     const deviceName = getDeviceName();
     const http = await getAxios();
 
-    const route = strategy === 'spa' ? 'login' : 'api/v1/login';
+    const route = strategy === 'spa' ? 'two-factor-challenge' : 'api/v1/two-factor-challenge';
 
     const result = await http.post(route, {
-      email: params.email,
-      password: params.password,
-      ...(strategy === 'native' && { device_name: deviceName }),
+      code: params.code,
+      recovery_code: params.recoveryCode,
+      ...(strategy === 'native' && { email, device_name: deviceName }),
     });
-
-    if (result.data['two_factor']) {
-      return { twofactor: true };
-    }
 
     if (strategy === 'native') {
       return { token: result.data['token'] };

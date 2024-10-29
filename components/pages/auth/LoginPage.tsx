@@ -1,5 +1,6 @@
 import { LoginPageProps, useLogin } from '@refinedev/core';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
+import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ScrollViewProps, Text, View, ViewProps } from 'react-native';
 
@@ -12,6 +13,7 @@ import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
+import { TwoFactorChallengeError } from '~/providers/auth-provider';
 import { LoginParams } from '~/providers/auth-provider/login';
 
 type LoginProps = LoginPageProps<ScrollViewProps, ViewProps, FormPropsType>;
@@ -21,8 +23,9 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<LoginParams>({
     defaultValues: {
+      type: 'login',
       email: '',
       password: '',
     },
@@ -31,6 +34,12 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
   const onSubmit = (data: LoginParams) => {
     mutate(data);
   };
+
+  useEffect(() => {
+    if (isError && error.name === TwoFactorChallengeError.name) {
+      router.navigate('/two-factor-challenge');
+    }
+  }, [isError]);
 
   return (
     <AuthenticationCard {...props.wrapperProps}>
@@ -64,32 +73,41 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <View className="grid gap-2">
-                  <Label nativeID="email">Email</Label>
+                  <Label nativeID="email-label" htmlFor="email">
+                    Email *
+                  </Label>
                   <Input
+                    id="email"
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
                     editable={!isLoading}
-                    aria-labelledby="inputLabel"
-                    aria-errormessage="inputError"
+                    aria-labelledby="email-label"
+                    aria-errormessage="email-error"
+                    autoComplete="email"
+                    onSubmitEditing={handleSubmit(onSubmit)}
                   />
+                  {errors.email?.message && (
+                    <Text nativeID="email-error" className="text-red-600 dark:text-red-400">
+                      {errors.email?.message}
+                    </Text>
+                  )}
                 </View>
               )}
               name="email"
             />
-            {errors.email?.message && (
-              <Text className="text-foreground">{errors.email?.message}</Text>
-            )}
 
             <Controller
               control={control}
               rules={{
-                maxLength: 100,
+                required: 'Password is required',
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <View className="grid gap-2">
                   <View className="flex flex-row items-center gap-4">
-                    <Label nativeID="password">Password</Label>
+                    <Label nativeID="password-label" htmlFor="password">
+                      Password *
+                    </Label>
                     <Link href="/" className="ml-auto inline-block">
                       <Text className="font-semibold text-primary hover:underline">
                         Forgot your password?
@@ -102,9 +120,16 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
                     onChangeText={onChange}
                     value={value}
                     editable={!isLoading}
-                    aria-labelledby="inputLabel"
-                    aria-errormessage="inputError"
+                    aria-labelledby="password-label"
+                    aria-errormessage="password-error"
+                    autoComplete="password"
+                    onSubmitEditing={handleSubmit(onSubmit)}
                   />
+                  {errors.password?.message && (
+                    <Text nativeID="password-error" className="text-red-600 dark:text-red-400">
+                      {errors.password?.message}
+                    </Text>
+                  )}
                 </View>
               )}
               name="password"

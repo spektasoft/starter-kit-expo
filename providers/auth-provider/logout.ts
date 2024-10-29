@@ -4,12 +4,8 @@ import { getAxios, getStrategy } from './utils';
 
 export const logout = async (token?: string): Promise<boolean> => {
   try {
-    const http = getAxios(token);
+    const http = await getAxios(token);
     const strategy = getStrategy();
-
-    if (strategy === 'spa') {
-      await http.get('sanctum/csrf-cookie');
-    }
 
     const route = strategy === 'spa' ? 'logout' : 'api/v1/logout';
 
