@@ -61,6 +61,13 @@ export default function AppLayout() {
             }}
           />
           <Drawer.Screen
+            name="email/verify"
+            options={{
+              title: 'Email Verification',
+              drawerItemStyle: { display: 'none' },
+            }}
+          />
+          <Drawer.Screen
             name="products/index"
             options={{
               title: 'Products',

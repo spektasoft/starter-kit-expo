@@ -90,7 +90,9 @@ export const authProvider: AuthProvider = {
         Platform.OS !== 'web'
           ? ((await SecureStore.getItemAsync(TOKEN_KEY)) ?? undefined)
           : undefined;
-      const status = await user(token);
+
+      const userResponse = await user(token);
+      const status = userResponse !== undefined;
 
       return { authenticated: status, logout: !status };
     } catch (e) {
@@ -164,16 +166,12 @@ export const authProvider: AuthProvider = {
   updatePassword: async (params) => {
     throw new Error('Not implemented');
   },
-  getIdentity: async ({ username, password }) => {
-    const identityObject = {
-      name: 'misbah',
-      age: 25,
-      isAdmin: false,
-    };
-    console.log('ini');
-    console.log(username);
-    const jsonString = JSON.stringify(identityObject);
-    return JSON.parse(jsonString);
+  getIdentity: async () => {
+    const token =
+      Platform.OS !== 'web'
+        ? ((await SecureStore.getItemAsync(TOKEN_KEY)) ?? undefined)
+        : undefined;
+    return await user(token);
   },
   getPermissions: async () => {
     throw new Error('Not implemented');

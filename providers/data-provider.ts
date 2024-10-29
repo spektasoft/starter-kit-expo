@@ -1,8 +1,17 @@
-import type { DataProvider } from '@refinedev/core';
-process.env.REACT_APP_DEV_MODE;
-const host = process.env.EXPO_PUBLIC_HOSTS;
-const port = process.env.EXPO_PUBLIC_PORT;
-const API_URL = 'http://${host}:${port}';
+import type { BaseRecord, CustomParams, CustomResponse, DataProvider } from '@refinedev/core';
+import * as SecureStore from 'expo-secure-store';
+import { Platform } from 'react-native';
+
+import {
+  emailVerificationNotification,
+  EmailVerificationNotificationParams,
+} from './auth-provider/email/verification-notification';
+
+import { EmailVerificationNotificationError } from '~/lib/errors';
+
+const API_URL = process.env.EXPO_PUBLIC_API_URL!;
+const TOKEN_KEY = 'access_token';
+
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
     const response = await fetch(`${API_URL}/${resource}/${id}`, {
@@ -74,5 +83,36 @@ export const dataProvider: DataProvider = {
   // createMany: () => { /* ... */ },
   // deleteMany: () => { /* ... */ },
   // updateMany: () => { /* ... */ },
-  // custom: () => { /* ... */ },
+  custom: async <
+    TData = BaseRecord,
+    TQuery = unknown,
+    TPayload = EmailVerificationNotificationParams,
+  >(
+    params: CustomParams<TQuery, TPayload>
+  ): Promise<CustomResponse<TData>> => {
+    const data = params.payload as EmailVerificationNotificationParams | undefined;
+
+    if (!data) {
+      throw Error('Unset values');
+    }
+
+    const token =
+      Platform.OS !== 'web'
+        ? ((await SecureStore.getItemAsync(TOKEN_KEY)) ?? undefined)
+        : undefined;
+
+    data.token = token;
+
+    const status = await emailVerificationNotification(data);
+
+    if (!status) {
+      throw new EmailVerificationNotificationError();
+    }
+
+    const baseRecord = { status } as TData;
+
+    const response = { data: baseRecord };
+
+    return response;
+  },
 };
