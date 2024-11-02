@@ -17,7 +17,7 @@ export const emailVerificationNotification = async (
     const route =
       strategy === 'spa'
         ? 'email/verification-notification'
-        : 'api/v1/email/verification-notificatio';
+        : 'api/v1/email/verification-notification';
 
     const result = await http.post(route);
 
