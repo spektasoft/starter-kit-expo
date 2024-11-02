@@ -31,14 +31,7 @@ export class TwoFactorChallengeError extends Error {
 export const authProvider: AuthProvider = {
   logout: async () => {
     try {
-      const token =
-        Platform.OS !== 'web'
-          ? ((await SecureStore.getItemAsync(getTokenKey())) ?? undefined)
-          : undefined;
-      const status = await logout(token);
-      if (Platform.OS !== 'web' && status) {
-        await SecureStore.deleteItemAsync(getTokenKey());
-      }
+      const status = await logout();
       return { success: status };
     } catch (e) {
       const error = e as Error;
@@ -73,6 +66,7 @@ export const authProvider: AuthProvider = {
 
       result = await twoFactorChallenge(params, email);
     }
+
     if (Platform.OS !== 'web' && result.token) {
       await SecureStore.setItemAsync(getTokenKey(), result.token);
     }

@@ -1,21 +1,24 @@
 import axios, { AxiosResponse } from 'axios';
 import * as Device from 'expo-device';
+import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
-import { getApiUrl } from '~/config';
+import { getApiUrl, getTokenKey } from '~/config';
 
-export const getAxios = async (token?: string) => {
+export const getAxios = async () => {
   const apiUrl = getApiUrl();
 
-  const headers =
-    Platform.OS === 'web'
-      ? {
-          'X-Requested-With': 'XMLHttpRequest',
-        }
-      : {
-          'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` }),
-        };
+  let headers = {};
+  if (Platform.OS === 'web') {
+    headers = {
+      'X-Requested-With': 'XMLHttpRequest',
+    };
+  } else {
+    const token = await SecureStore.getItemAsync(getTokenKey());
+    headers = {
+      ...(token && { Authorization: `Bearer ${token}` }),
+    };
+  }
 
   const http = axios.create({
     baseURL: apiUrl,

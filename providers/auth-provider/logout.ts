@@ -1,17 +1,26 @@
 import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
-import { getAxios } from '../utils';
+import { getAxios, isSuccess } from '../utils';
 
-export const logout = async (token?: string): Promise<boolean> => {
+import { getTokenKey } from '~/config';
+
+export const logout = async (): Promise<boolean> => {
   try {
-    const http = await getAxios(token);
+    const http = await getAxios();
 
     const route = Platform.OS === 'web' ? 'logout' : 'api/v1/logout';
 
     const result = await http.post(route);
 
-    return result.status === 200;
+    const status = isSuccess(result);
+
+    if (Platform.OS !== 'web' && status) {
+      await SecureStore.deleteItemAsync(getTokenKey());
+    }
+
+    return status;
   } catch (e) {
     if (axios.isAxiosError(e)) {
       throw Error(

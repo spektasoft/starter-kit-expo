@@ -5,14 +5,13 @@ import { getAxios, isSuccess } from '../../utils';
 
 export type EmailVerificationNotificationParams = {
   type: 'email-verification-notification';
-  token?: string;
 };
 
 export const emailVerificationNotification = async (
   params: EmailVerificationNotificationParams
 ): Promise<boolean> => {
   try {
-    const http = await getAxios(params.token);
+    const http = await getAxios();
 
     const route =
       Platform.OS === 'web'
