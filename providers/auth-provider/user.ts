@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Platform } from 'react-native';
 
-import { getAxios, getStrategy } from './utils';
+import { getAxios } from '../utils';
 
 export type User = {
   email_verified_at?: Date;
@@ -14,9 +14,8 @@ export const user = async (token?: string): Promise<User | undefined> => {
 
   try {
     const http = await getAxios(token);
-    const strategy = getStrategy();
 
-    const route = strategy === 'spa' ? 'user' : 'api/v1/user';
+    const route = Platform.OS === 'web' ? 'user' : 'api/v1/user';
 
     const result = await http.get<User>(route);
 

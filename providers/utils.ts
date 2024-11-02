@@ -1,31 +1,33 @@
 import axios, { AxiosResponse } from 'axios';
 import * as Device from 'expo-device';
+import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
-import { Strategy } from '~/types/strategy';
+import { getApiUrl, getTokenKey } from '~/config';
 
-export const getAxios = async (token?: string) => {
-  const baseUrl = process.env.EXPO_PUBLIC_API_URL;
-  const strategy = getStrategy();
+export const getAxios = async () => {
+  const apiUrl = getApiUrl();
 
-  const headers =
-    strategy === 'spa'
-      ? {
-          'X-Requested-With': 'XMLHttpRequest',
-        }
-      : {
-          'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` }),
-        };
+  let headers = {};
+  if (Platform.OS === 'web') {
+    headers = {
+      'X-Requested-With': 'XMLHttpRequest',
+    };
+  } else {
+    const token = await SecureStore.getItemAsync(getTokenKey());
+    headers = {
+      ...(token && { Authorization: `Bearer ${token}` }),
+    };
+  }
 
   const http = axios.create({
-    baseURL: baseUrl,
+    baseURL: apiUrl,
     headers,
     withCredentials: true,
     withXSRFToken: true,
   });
 
-  if (strategy === 'spa') {
+  if (Platform.OS === 'web') {
     await http.get('sanctum/csrf-cookie');
   }
 
@@ -47,14 +49,6 @@ export const getDeviceName = () => {
     } else {
       return 'Unknown Device';
     }
-  }
-};
-
-export const getStrategy = (): Strategy => {
-  if (Platform.OS === 'web') {
-    return 'spa';
-  } else {
-    return 'native';
   }
 };
 

@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 import { Container } from '~/components/Container';
 import { Loading } from '~/components/Loading';
-import { TwoFactorChallengePage } from '~/components/pages/auth/TwoFactorChallengePage';
+import { TwoFactorChallengePage } from '~/pages/auth/TwoFactorChallengePage';
 
 export default function TwoFactorChallenge() {
   return (

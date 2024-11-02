@@ -7,14 +7,12 @@ import {
   EmailVerificationNotificationParams,
 } from './auth-provider/email/verification-notification';
 
+import { getApiUrl, getTokenKey } from '~/config';
 import { EmailVerificationNotificationError } from '~/lib/errors';
-
-const API_URL = process.env.EXPO_PUBLIC_API_URL!;
-const TOKEN_KEY = 'access_token';
 
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
-    const response = await fetch(`${API_URL}/${resource}/${id}`, {
+    const response = await fetch(`${getApiUrl()}/${resource}/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       },
@@ -25,7 +23,7 @@ export const dataProvider: DataProvider = {
     return response.json();
   },
   update: async ({ resource, id, variables }) => {
-    const response = await fetch(`${API_URL}/${resource}/${id}`, {
+    const response = await fetch(`${getApiUrl()}/${resource}/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -39,7 +37,7 @@ export const dataProvider: DataProvider = {
     return response.json();
   },
   getList: async ({ resource }) => {
-    const response = await fetch(`${API_URL}/${resource}`, {
+    const response = await fetch(`${getApiUrl()}/${resource}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       },
@@ -52,7 +50,7 @@ export const dataProvider: DataProvider = {
     return { data, total };
   },
   create: async ({ resource, variables }) => {
-    const response = await fetch(`${API_URL}/${resource}`, {
+    const response = await fetch(`${getApiUrl()}/${resource}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -66,7 +64,7 @@ export const dataProvider: DataProvider = {
     return response.json();
   },
   deleteOne: async ({ resource, id }) => {
-    const response = await fetch(`${API_URL}/${resource}/${id}`, {
+    const response = await fetch(`${getApiUrl()}/${resource}/${id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
@@ -77,7 +75,7 @@ export const dataProvider: DataProvider = {
     }
     return response.json();
   },
-  getApiUrl: () => API_URL,
+  getApiUrl: () => getApiUrl(),
   // Optional methods:
   // getMany: () => { /* ... */ },
   // createMany: () => { /* ... */ },
@@ -98,7 +96,7 @@ export const dataProvider: DataProvider = {
 
     const token =
       Platform.OS !== 'web'
-        ? ((await SecureStore.getItemAsync(TOKEN_KEY)) ?? undefined)
+        ? ((await SecureStore.getItemAsync(getTokenKey())) ?? undefined)
         : undefined;
 
     data.token = token;

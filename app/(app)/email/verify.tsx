@@ -6,7 +6,7 @@ import { Container } from '~/components/Container';
 import { Loading } from '~/components/Loading';
 import { Navigate } from '~/components/Navigate';
 import { Verified } from '~/components/Verified';
-import { EmailVerificationPage } from '~/components/pages/auth/EmailVerificationPage';
+import { EmailVerificationPage } from '~/pages/auth/EmailVerificationPage';
 
 export default function EmailVerify() {
   const loading = (
