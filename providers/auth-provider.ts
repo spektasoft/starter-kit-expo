@@ -11,8 +11,9 @@ import {
 } from './auth-provider/two-factor-challenge';
 import { user } from './auth-provider/user';
 import { getStrategy } from './utils';
+
+import { getTokenKey } from '~/config';
 const BASE_URL = 'http://${host}:${port}';
-const TOKEN_KEY = 'access_token';
 
 export class EmailUnavailableError extends Error {
   constructor() {
@@ -33,11 +34,11 @@ export const authProvider: AuthProvider = {
     try {
       const token =
         Platform.OS !== 'web'
-          ? ((await SecureStore.getItemAsync(TOKEN_KEY)) ?? undefined)
+          ? ((await SecureStore.getItemAsync(getTokenKey())) ?? undefined)
           : undefined;
       const status = await logout(token);
       if (Platform.OS !== 'web' && status) {
-        await SecureStore.deleteItemAsync(TOKEN_KEY);
+        await SecureStore.deleteItemAsync(getTokenKey());
       }
       return { success: status };
     } catch (e) {
@@ -75,7 +76,7 @@ export const authProvider: AuthProvider = {
       result = await twoFactorChallenge(params, email);
     }
     if (Platform.OS !== 'web' && result.token) {
-      await SecureStore.setItemAsync(TOKEN_KEY, result.token);
+      await SecureStore.setItemAsync(getTokenKey(), result.token);
     }
 
     if (strategy === 'native') {
@@ -88,7 +89,7 @@ export const authProvider: AuthProvider = {
     try {
       const token =
         Platform.OS !== 'web'
-          ? ((await SecureStore.getItemAsync(TOKEN_KEY)) ?? undefined)
+          ? ((await SecureStore.getItemAsync(getTokenKey())) ?? undefined)
           : undefined;
 
       const userResponse = await user(token);
@@ -169,7 +170,7 @@ export const authProvider: AuthProvider = {
   getIdentity: async () => {
     const token =
       Platform.OS !== 'web'
-        ? ((await SecureStore.getItemAsync(TOKEN_KEY)) ?? undefined)
+        ? ((await SecureStore.getItemAsync(getTokenKey())) ?? undefined)
         : undefined;
     return await user(token);
   },

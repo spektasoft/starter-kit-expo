@@ -2,10 +2,11 @@ import axios, { AxiosResponse } from 'axios';
 import * as Device from 'expo-device';
 import { Platform } from 'react-native';
 
+import { getApiUrl } from '~/config';
 import { Strategy } from '~/types/strategy';
 
 export const getAxios = async (token?: string) => {
-  const baseUrl = process.env.EXPO_PUBLIC_API_URL;
+  const apiUrl = getApiUrl();
   const strategy = getStrategy();
 
   const headers =
@@ -19,7 +20,7 @@ export const getAxios = async (token?: string) => {
         };
 
   const http = axios.create({
-    baseURL: baseUrl,
+    baseURL: apiUrl,
     headers,
     withCredentials: true,
     withXSRFToken: true,
