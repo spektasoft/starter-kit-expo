@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import * as Device from 'expo-device';
 import { Platform } from 'react-native';
 
@@ -56,4 +56,11 @@ export const getStrategy = (): Strategy => {
   } else {
     return 'native';
   }
+};
+
+export const isSuccess = (response: AxiosResponse) => {
+  if (response.status >= 200 && response.status < 300) {
+    return true;
+  }
+  return false;
 };

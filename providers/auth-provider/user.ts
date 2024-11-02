@@ -3,9 +3,13 @@ import { Platform } from 'react-native';
 
 import { getAxios, getStrategy } from './utils';
 
-export const user = async (token?: string): Promise<boolean> => {
+export type User = {
+  email_verified_at?: Date;
+};
+
+export const user = async (token?: string): Promise<User | undefined> => {
   if (Platform.OS !== 'web' && !token) {
-    return false;
+    return undefined;
   }
 
   try {
@@ -14,9 +18,9 @@ export const user = async (token?: string): Promise<boolean> => {
 
     const route = strategy === 'spa' ? 'user' : 'api/v1/user';
 
-    const result = await http.get(route);
+    const result = await http.get<User>(route);
 
-    return result.status === 200;
+    return result.data;
   } catch (e) {
     if (axios.isAxiosError(e)) {
       throw Error(

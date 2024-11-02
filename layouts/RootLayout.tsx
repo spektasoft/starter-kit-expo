@@ -13,6 +13,7 @@ import { Platform } from 'react-native';
 import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { authProvider } from '~/providers/auth-provider';
+import { dataProvider } from '~/providers/data-provider';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -75,7 +76,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         style="auto"
         backgroundColor={isDarkColorScheme ? NAV_THEME.dark.background : NAV_THEME.light.background}
       />
-      <Refine authProvider={authProvider} options={{ disableTelemetry: true }}>
+      <Refine
+        authProvider={authProvider}
+        dataProvider={dataProvider}
+        options={{ disableTelemetry: true }}>
         {children}
       </Refine>
       <PortalHost />
