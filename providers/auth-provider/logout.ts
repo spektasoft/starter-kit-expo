@@ -1,13 +1,13 @@
 import axios from 'axios';
+import { Platform } from 'react-native';
 
-import { getAxios, getStrategy } from '../utils';
+import { getAxios } from '../utils';
 
 export const logout = async (token?: string): Promise<boolean> => {
   try {
     const http = await getAxios(token);
-    const strategy = getStrategy();
 
-    const route = strategy === 'spa' ? 'logout' : 'api/v1/logout';
+    const route = Platform.OS === 'web' ? 'logout' : 'api/v1/logout';
 
     const result = await http.post(route);
 

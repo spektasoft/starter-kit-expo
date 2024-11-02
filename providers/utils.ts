@@ -3,14 +3,12 @@ import * as Device from 'expo-device';
 import { Platform } from 'react-native';
 
 import { getApiUrl } from '~/config';
-import { Strategy } from '~/types/strategy';
 
 export const getAxios = async (token?: string) => {
   const apiUrl = getApiUrl();
-  const strategy = getStrategy();
 
   const headers =
-    strategy === 'spa'
+    Platform.OS === 'web'
       ? {
           'X-Requested-With': 'XMLHttpRequest',
         }
@@ -26,7 +24,7 @@ export const getAxios = async (token?: string) => {
     withXSRFToken: true,
   });
 
-  if (strategy === 'spa') {
+  if (Platform.OS === 'web') {
     await http.get('sanctum/csrf-cookie');
   }
 
@@ -48,14 +46,6 @@ export const getDeviceName = () => {
     } else {
       return 'Unknown Device';
     }
-  }
-};
-
-export const getStrategy = (): Strategy => {
-  if (Platform.OS === 'web') {
-    return 'spa';
-  } else {
-    return 'native';
   }
 };
 

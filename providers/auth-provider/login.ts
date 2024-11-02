@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { Platform } from 'react-native';
 
-import { getAxios, getDeviceName, getStrategy } from '../utils';
+import { getAxios, getDeviceName } from '../utils';
 
 export type LoginParams = {
   type: 'login';
@@ -15,23 +16,22 @@ export type LoginResponse = {
 
 export const login = async (params: LoginParams): Promise<LoginResponse> => {
   try {
-    const strategy = getStrategy();
     const deviceName = getDeviceName();
     const http = await getAxios();
 
-    const route = strategy === 'spa' ? 'login' : 'api/v1/login';
+    const route = Platform.OS === 'web' ? 'login' : 'api/v1/login';
 
     const result = await http.post(route, {
       email: params.email,
       password: params.password,
-      ...(strategy === 'native' && { device_name: deviceName }),
+      ...(Platform.OS !== 'web' && { device_name: deviceName }),
     });
 
     if (result.data['two_factor']) {
       return { twofactor: true };
     }
 
-    if (strategy === 'native') {
+    if (Platform.OS !== 'web') {
       return { token: result.data['token'] };
     }
 

@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { Platform } from 'react-native';
 
-import { getAxios, getDeviceName, getStrategy } from '../utils';
+import { getAxios, getDeviceName } from '../utils';
 
 export type TwoFactorChallengeParams = {
   type: 'two-factor-challenge';
@@ -17,19 +18,18 @@ export const twoFactorChallenge = async (
   email?: string
 ): Promise<TwoFactorChallengeResponse> => {
   try {
-    const strategy = getStrategy();
     const deviceName = getDeviceName();
     const http = await getAxios();
 
-    const route = strategy === 'spa' ? 'two-factor-challenge' : 'api/v1/two-factor-challenge';
+    const route = Platform.OS === 'web' ? 'two-factor-challenge' : 'api/v1/two-factor-challenge';
 
     const result = await http.post(route, {
       code: params.code,
       recovery_code: params.recoveryCode,
-      ...(strategy === 'native' && { email, device_name: deviceName }),
+      ...(Platform.OS !== 'web' && { email, device_name: deviceName }),
     });
 
-    if (strategy === 'native') {
+    if (Platform.OS !== 'web') {
       return { token: result.data['token'] };
     }
 

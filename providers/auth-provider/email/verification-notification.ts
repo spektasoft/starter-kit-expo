@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { Platform } from 'react-native';
 
-import { getAxios, getStrategy, isSuccess } from '../../utils';
+import { getAxios, isSuccess } from '../../utils';
 
 export type EmailVerificationNotificationParams = {
   type: 'email-verification-notification';
@@ -12,10 +13,9 @@ export const emailVerificationNotification = async (
 ): Promise<boolean> => {
   try {
     const http = await getAxios(params.token);
-    const strategy = getStrategy();
 
     const route =
-      strategy === 'spa'
+      Platform.OS === 'web'
         ? 'email/verification-notification'
         : 'api/v1/email/verification-notification';
 

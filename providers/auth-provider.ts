@@ -10,7 +10,6 @@ import {
   TwoFactorChallengeResponse,
 } from './auth-provider/two-factor-challenge';
 import { user } from './auth-provider/user';
-import { getStrategy } from './utils';
 
 import { getTokenKey } from '~/config';
 const BASE_URL = 'http://${host}:${port}';
@@ -48,14 +47,13 @@ export const authProvider: AuthProvider = {
   },
   login: async (params: LoginParams | TwoFactorChallengeParams) => {
     const loginId = 'login.id';
-    const strategy = getStrategy();
     let result: LoginResponse | TwoFactorChallengeResponse;
 
     if (params.type === 'login') {
       const loginResponse = await login(params);
 
       if (loginResponse.twofactor) {
-        if (strategy === 'native') {
+        if (Platform.OS !== 'web') {
           await SecureStore.setItemAsync(loginId, params.email);
         }
         throw new TwoFactorChallengeError();
@@ -65,7 +63,7 @@ export const authProvider: AuthProvider = {
     } else {
       let email;
 
-      if (strategy === 'native') {
+      if (Platform.OS !== 'web') {
         email = (await SecureStore.getItemAsync(loginId)) ?? undefined;
 
         if (!email) {
@@ -79,7 +77,7 @@ export const authProvider: AuthProvider = {
       await SecureStore.setItemAsync(getTokenKey(), result.token);
     }
 
-    if (strategy === 'native') {
+    if (Platform.OS !== 'web') {
       await SecureStore.deleteItemAsync(loginId);
     }
 
