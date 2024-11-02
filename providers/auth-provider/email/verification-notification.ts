@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getAxios, getStrategy, isSuccess } from '../utils';
+import { getAxios, getStrategy, isSuccess } from '../../utils';
 
 export type EmailVerificationNotificationParams = {
   type: 'email-verification-notification';

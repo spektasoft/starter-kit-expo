@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Platform } from 'react-native';
 
-import { getAxios, getStrategy } from './utils';
+import { getAxios, getStrategy } from '../utils';
 
 export type User = {
   email_verified_at?: Date;

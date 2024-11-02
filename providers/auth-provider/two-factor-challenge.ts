@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getAxios, getDeviceName, getStrategy } from './utils';
+import { getAxios, getDeviceName, getStrategy } from '../utils';
 
 export type TwoFactorChallengeParams = {
   type: 'two-factor-challenge';

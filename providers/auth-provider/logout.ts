@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getAxios, getStrategy } from './utils';
+import { getAxios, getStrategy } from '../utils';
 
 export const logout = async (token?: string): Promise<boolean> => {
   try {

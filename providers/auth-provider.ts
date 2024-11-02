@@ -10,7 +10,7 @@ import {
   TwoFactorChallengeResponse,
 } from './auth-provider/two-factor-challenge';
 import { user } from './auth-provider/user';
-import { getStrategy } from './auth-provider/utils';
+import { getStrategy } from './utils';
 const BASE_URL = 'http://${host}:${port}';
 const TOKEN_KEY = 'access_token';
 
