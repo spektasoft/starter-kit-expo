@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native';
 
 import { Container } from '~/components/Container';
 import { Loading } from '~/components/Loading';
-import { AuthPage } from '~/components/pages/auth/AuthPage';
+import { AuthPage } from '~/pages/auth/AuthPage';
 
 export default function Login() {
   return (
