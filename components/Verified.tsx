@@ -1,6 +1,6 @@
 import { useGetIdentity } from '@refinedev/core';
 
-import { User } from '~/providers/auth-provider/user';
+import { User } from '~/models/User';
 
 export type VerifiedProps = {
   key: React.Key;
