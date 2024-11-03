@@ -1,9 +1,10 @@
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Loading } from './Loading';
 import {
   AlertDialog,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogHeader,
   AlertDialogTitle,
 } from './ui/alert-dialog';
@@ -16,7 +17,7 @@ export const SigningOutAlertDialog = () => {
           <AlertDialogTitle>Signing out</AlertDialogTitle>
           <View className="flex flex-row items-center gap-2">
             <Loading />
-            <Text className="text-foreground">Please wait…</Text>
+            <AlertDialogDescription>Signing out, please wait…</AlertDialogDescription>
           </View>
         </AlertDialogHeader>
       </AlertDialogContent>
