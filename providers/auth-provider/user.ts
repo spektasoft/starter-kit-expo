@@ -1,9 +1,9 @@
-import { getItemAsync } from 'expo-secure-store';
 import { Platform } from 'react-native';
 
 import { getTokenKey } from '~/config';
 import { UnauthenticatedError } from '~/errors/UnauthenticatedError';
 import { getHttp } from '~/lib/http';
+import { getItemAsync } from '~/lib/store';
 import { User } from '~/models/User';
 
 export const user = async (): Promise<User> => {
