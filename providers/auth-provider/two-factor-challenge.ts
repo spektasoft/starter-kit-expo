@@ -1,9 +1,10 @@
 import { Platform } from 'react-native';
 
-import { getAxios, getDeviceName, getLoginId } from '../utils';
+import { getDeviceName, getLoginId } from '../utils';
 
 import { getTokenKey } from '~/config';
 import { EmailUnavailableError } from '~/errors/EmailUnavailableError';
+import { getHttp } from '~/lib/http';
 import { deleteItemAsync, getItemAsync, setItemAsync } from '~/lib/store';
 
 export type TwoFactorChallengeParams = {
@@ -13,7 +14,7 @@ export type TwoFactorChallengeParams = {
 
 export const twoFactorChallenge = async (params: TwoFactorChallengeParams): Promise<void> => {
   const deviceName = getDeviceName();
-  const http = await getAxios();
+  const http = await getHttp();
   const loginId = getLoginId();
   const route = Platform.OS === 'web' ? 'two-factor-challenge' : 'api/v1/two-factor-challenge';
 

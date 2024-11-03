@@ -2,13 +2,12 @@ import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
-import { getAxios, isSuccess } from '../utils';
-
 import { getTokenKey } from '~/config';
+import { getHttp, isSuccess } from '~/lib/http';
 
 export const logout = async (): Promise<boolean> => {
   try {
-    const http = await getAxios();
+    const http = await getHttp();
 
     const route = Platform.OS === 'web' ? 'logout' : 'api/v1/logout';
 

@@ -1,9 +1,10 @@
 import { Platform } from 'react-native';
 
-import { getAxios, getDeviceName, getLoginId } from '../utils';
+import { getDeviceName, getLoginId } from '../utils';
 
 import { getTokenKey } from '~/config';
 import { TwoFactorChallengeError } from '~/errors/TwoFactorChallengeError';
+import { getHttp } from '~/lib/http';
 import { setItemAsync } from '~/lib/store';
 
 export type LoginParams = {
@@ -13,7 +14,7 @@ export type LoginParams = {
 
 export const login = async (params: LoginParams): Promise<void> => {
   const deviceName = getDeviceName();
-  const http = await getAxios();
+  const http = await getHttp();
 
   const route = Platform.OS === 'web' ? 'login' : 'api/v1/login';
 

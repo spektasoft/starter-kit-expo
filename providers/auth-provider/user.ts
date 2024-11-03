@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Platform } from 'react-native';
 
-import { getAxios } from '../utils';
+import { getHttp } from '~/lib/http';
 
 export type User = {
   email_verified_at?: Date;
@@ -13,7 +13,7 @@ export const user = async (token?: string): Promise<User | undefined> => {
   }
 
   try {
-    const http = await getAxios(token);
+    const http = await getHttp();
 
     const route = Platform.OS === 'web' ? 'user' : 'api/v1/user';
 
