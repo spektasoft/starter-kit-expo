@@ -1,9 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
 import * as Device from 'expo-device';
-import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
 import { getApiUrl, getTokenKey } from '~/config';
+import { getItemAsync } from '~/lib/store';
 
 export const getAxios = async () => {
   const apiUrl = getApiUrl();
@@ -14,7 +14,7 @@ export const getAxios = async () => {
       'X-Requested-With': 'XMLHttpRequest',
     };
   } else {
-    const token = await SecureStore.getItemAsync(getTokenKey());
+    const token = await getItemAsync(getTokenKey());
     headers = {
       ...(token && { Authorization: `Bearer ${token}` }),
     };
@@ -51,6 +51,8 @@ export const getDeviceName = () => {
     }
   }
 };
+
+export const getLoginId = () => 'login.id';
 
 export const isSuccess = (response: AxiosResponse) => {
   if (response.status >= 200 && response.status < 300) {

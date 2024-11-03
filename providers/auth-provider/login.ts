@@ -1,49 +1,34 @@
-import axios from 'axios';
 import { Platform } from 'react-native';
 
-import { getAxios, getDeviceName } from '../utils';
+import { getAxios, getDeviceName, getLoginId } from '../utils';
+
+import { getTokenKey } from '~/config';
+import { TwoFactorChallengeError } from '~/errors/TwoFactorChallengeError';
+import { setItemAsync } from '~/lib/store';
 
 export type LoginParams = {
-  type: 'login';
   email: string;
   password: string;
 };
 
-export type LoginResponse = {
-  token?: string;
-  twofactor?: boolean;
-};
+export const login = async (params: LoginParams): Promise<void> => {
+  const deviceName = getDeviceName();
+  const http = await getAxios();
 
-export const login = async (params: LoginParams): Promise<LoginResponse> => {
-  try {
-    const deviceName = getDeviceName();
-    const http = await getAxios();
+  const route = Platform.OS === 'web' ? 'login' : 'api/v1/login';
 
-    const route = Platform.OS === 'web' ? 'login' : 'api/v1/login';
+  const response = await http.post(route, {
+    email: params.email,
+    password: params.password,
+    ...(Platform.OS !== 'web' && { device_name: deviceName }),
+  });
 
-    const result = await http.post(route, {
-      email: params.email,
-      password: params.password,
-      ...(Platform.OS !== 'web' && { device_name: deviceName }),
-    });
-
-    if (result.data['two_factor']) {
-      return { twofactor: true };
-    }
-
+  if (response.data['two_factor']) {
     if (Platform.OS !== 'web') {
-      return { token: result.data['token'] };
+      await setItemAsync(getLoginId(), params.email);
     }
-
-    return {};
-  } catch (e) {
-    if (axios.isAxiosError(e)) {
-      throw Error(
-        e.response?.data.message ||
-          'Login failed, please check you internet connection and try again'
-      );
-    } else {
-      throw Error('An error occurred, please try again');
-    }
+    throw new TwoFactorChallengeError();
   }
+
+  await setItemAsync(getTokenKey(), response.data['token']);
 };

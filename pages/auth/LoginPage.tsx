@@ -13,7 +13,7 @@ import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
-import { TwoFactorChallengeError } from '~/providers/auth-provider';
+import { TwoFactorChallengeError } from '~/errors/TwoFactorChallengeError';
 import { LoginParams } from '~/providers/auth-provider/login';
 
 type LoginProps = LoginPageProps<ScrollViewProps, ViewProps, FormPropsType>;
@@ -25,7 +25,6 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
     formState: { errors },
   } = useForm<LoginParams>({
     defaultValues: {
-      type: 'login',
       email: '',
       password: '',
     },

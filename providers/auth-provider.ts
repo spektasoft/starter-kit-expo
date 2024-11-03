@@ -2,31 +2,14 @@ import { AuthProvider } from '@refinedev/core';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
-import { login, LoginParams, LoginResponse } from './auth-provider/login';
+import { login, LoginParams } from './auth-provider/login';
 import { logout } from './auth-provider/logout';
-import {
-  twoFactorChallenge,
-  TwoFactorChallengeParams,
-  TwoFactorChallengeResponse,
-} from './auth-provider/two-factor-challenge';
+import { twoFactorChallenge, TwoFactorChallengeParams } from './auth-provider/two-factor-challenge';
 import { user } from './auth-provider/user';
 
 import { getTokenKey } from '~/config';
+import { InvalidTypeError } from '~/errors/InvalidTypeError';
 const BASE_URL = 'http://${host}:${port}';
-
-export class EmailUnavailableError extends Error {
-  constructor() {
-    super();
-    this.name = EmailUnavailableError.name;
-  }
-}
-
-export class TwoFactorChallengeError extends Error {
-  constructor() {
-    super();
-    this.name = TwoFactorChallengeError.name;
-  }
-}
 
 export const authProvider: AuthProvider = {
   logout: async () => {
@@ -39,40 +22,12 @@ export const authProvider: AuthProvider = {
     }
   },
   login: async (params: LoginParams | TwoFactorChallengeParams) => {
-    const loginId = 'login.id';
-    let result: LoginResponse | TwoFactorChallengeResponse;
-
-    if (params.type === 'login') {
-      const loginResponse = await login(params);
-
-      if (loginResponse.twofactor) {
-        if (Platform.OS !== 'web') {
-          await SecureStore.setItemAsync(loginId, params.email);
-        }
-        throw new TwoFactorChallengeError();
-      }
-
-      result = loginResponse;
+    if ('password' in params) {
+      await login(params);
+    } else if ('code' in params) {
+      await twoFactorChallenge(params);
     } else {
-      let email;
-
-      if (Platform.OS !== 'web') {
-        email = (await SecureStore.getItemAsync(loginId)) ?? undefined;
-
-        if (!email) {
-          throw new EmailUnavailableError();
-        }
-      }
-
-      result = await twoFactorChallenge(params, email);
-    }
-
-    if (Platform.OS !== 'web' && result.token) {
-      await SecureStore.setItemAsync(getTokenKey(), result.token);
-    }
-
-    if (Platform.OS !== 'web') {
-      await SecureStore.deleteItemAsync(loginId);
+      throw new InvalidTypeError();
     }
 
     return { success: true };
