@@ -1,14 +1,9 @@
 import type { BaseRecord, CustomParams, CustomResponse, DataProvider } from '@refinedev/core';
-import * as SecureStore from 'expo-secure-store';
-import { Platform } from 'react-native';
 
-import {
-  emailVerificationNotification,
-  EmailVerificationNotificationParams,
-} from './auth-provider/email/verification-notification';
+import { emailVerificationNotification } from './auth-provider/email/verification-notification';
 
-import { getApiUrl, getTokenKey } from '~/config';
-import { EmailVerificationNotificationError } from '~/lib/errors';
+import { getApiUrl } from '~/config';
+import { UnimplementedError } from '~/errors/UnimplementedError';
 
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
@@ -81,36 +76,14 @@ export const dataProvider: DataProvider = {
   // createMany: () => { /* ... */ },
   // deleteMany: () => { /* ... */ },
   // updateMany: () => { /* ... */ },
-  custom: async <
-    TData = BaseRecord,
-    TQuery = unknown,
-    TPayload = EmailVerificationNotificationParams,
-  >(
+  custom: async <TData = BaseRecord, TQuery = unknown, TPayload = unknown>(
     params: CustomParams<TQuery, TPayload>
   ): Promise<CustomResponse<TData>> => {
-    const data = params.payload as EmailVerificationNotificationParams | undefined;
-
-    if (!data) {
-      throw Error('Unset values');
+    if (params.payload === 'email-verification-notification') {
+      await emailVerificationNotification();
+      return { data: {} as TData };
     }
 
-    const token =
-      Platform.OS !== 'web'
-        ? ((await SecureStore.getItemAsync(getTokenKey())) ?? undefined)
-        : undefined;
-
-    data.token = token;
-
-    const status = await emailVerificationNotification(data);
-
-    if (!status) {
-      throw new EmailVerificationNotificationError();
-    }
-
-    const baseRecord = { status } as TData;
-
-    const response = { data: baseRecord };
-
-    return response;
+    throw new UnimplementedError();
   },
 };
