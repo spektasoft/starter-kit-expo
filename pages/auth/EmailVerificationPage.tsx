@@ -8,7 +8,6 @@ import { Loading } from '~/components/Loading';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
 import { Label } from '~/components/ui/label';
-import { EmailVerificationNotificationParams } from '~/providers/auth-provider/email/verification-notification';
 
 type EmailVerificationProps = {
   wrapperProps?: ViewProps;
@@ -16,27 +15,19 @@ type EmailVerificationProps = {
 };
 
 export const EmailVerificationPage = (props: EmailVerificationProps) => {
-  const { handleSubmit } = useForm<EmailVerificationNotificationParams>({
-    defaultValues: {
-      type: 'email-verification-notification',
-    },
+  const { handleSubmit } = useForm({
+    defaultValues: {},
   });
 
   const url = useApiUrl();
 
-  const {
-    mutate: verify,
-    isLoading,
-    isError,
-    isSuccess,
-    error,
-  } = useCustomMutation<EmailVerificationNotificationParams>();
+  const { mutate: verify, isLoading, isError, isSuccess, error } = useCustomMutation();
 
-  const onSubmit = (data: EmailVerificationNotificationParams) => {
+  const onSubmit = () => {
     verify({
       url,
       method: 'post',
-      values: data,
+      values: 'email-verification-notification',
     });
   };
 
