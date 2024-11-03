@@ -1,33 +1,14 @@
-import axios from 'axios';
 import { Platform } from 'react-native';
 
 import { getHttp } from '~/lib/http';
+import { User } from '~/models/User';
 
-export type User = {
-  email_verified_at?: Date;
-};
+export const user = async (): Promise<User> => {
+  const http = await getHttp();
 
-export const user = async (token?: string): Promise<User | undefined> => {
-  if (Platform.OS !== 'web' && !token) {
-    return undefined;
-  }
+  const route = Platform.OS === 'web' ? 'user' : 'api/v1/user';
 
-  try {
-    const http = await getHttp();
+  const result = await http.get<User>(route);
 
-    const route = Platform.OS === 'web' ? 'user' : 'api/v1/user';
-
-    const result = await http.get<User>(route);
-
-    return result.data;
-  } catch (e) {
-    if (axios.isAxiosError(e)) {
-      throw Error(
-        e.response?.data.message ||
-          'Operation failed, please check you internet connection and try again'
-      );
-    } else {
-      throw Error('An error occurred, please try again');
-    }
-  }
+  return result.data;
 };

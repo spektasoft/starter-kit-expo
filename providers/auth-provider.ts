@@ -1,13 +1,10 @@
 import { AuthProvider } from '@refinedev/core';
-import * as SecureStore from 'expo-secure-store';
-import { Platform } from 'react-native';
 
 import { login, LoginParams } from './auth-provider/login';
 import { logout } from './auth-provider/logout';
 import { twoFactorChallenge, TwoFactorChallengeParams } from './auth-provider/two-factor-challenge';
 import { user } from './auth-provider/user';
 
-import { getTokenKey } from '~/config';
 import { InvalidTypeError } from '~/errors/InvalidTypeError';
 const BASE_URL = 'http://${host}:${port}';
 
@@ -34,18 +31,11 @@ export const authProvider: AuthProvider = {
   },
   check: async () => {
     try {
-      const token =
-        Platform.OS !== 'web'
-          ? ((await SecureStore.getItemAsync(getTokenKey())) ?? undefined)
-          : undefined;
-
-      const userResponse = await user(token);
-      const status = userResponse !== undefined;
-
-      return { authenticated: status, logout: !status };
+      await user();
+      return { authenticated: true };
     } catch (e) {
       const error = e as Error;
-      return { authenticated: false, logout: true, error };
+      return { authenticated: false, error };
     }
   },
   onError: async () => {
@@ -115,11 +105,7 @@ export const authProvider: AuthProvider = {
     throw new Error('Not implemented');
   },
   getIdentity: async () => {
-    const token =
-      Platform.OS !== 'web'
-        ? ((await SecureStore.getItemAsync(getTokenKey())) ?? undefined)
-        : undefined;
-    return await user(token);
+    return await user();
   },
   getPermissions: async () => {
     throw new Error('Not implemented');
