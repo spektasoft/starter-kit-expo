@@ -1,8 +1,6 @@
 import { Platform } from 'react-native';
 
-import { getLoginId } from '../utils';
-
-import { getTokenKey } from '~/config';
+import { getLoginId, getTokenKey } from '~/config';
 import { TwoFactorChallengeError } from '~/errors/TwoFactorChallengeError';
 import { getDeviceName } from '~/lib/device';
 import { getHttp } from '~/lib/http';

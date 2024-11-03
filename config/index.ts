@@ -10,6 +10,8 @@ export const getApiUrl = () => {
   return apiUrl;
 };
 
+export const getLoginId = () => 'login.id';
+
 export const getTokenKey = () => {
   const tokenKey = process.env.EXPO_PUBLIC_TOKEN_KEY;
   if (!tokenKey) {
