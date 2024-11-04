@@ -1,11 +1,35 @@
-import type { BaseRecord, CustomParams, CustomResponse, DataProvider } from '@refinedev/core';
+import type {
+  BaseRecord,
+  CustomParams,
+  CustomResponse,
+  DataProvider,
+  GetListParams,
+} from '@refinedev/core';
 
 import { emailVerificationNotification } from './auth-provider/email/verification-notification';
 
 import { getApiUrl } from '~/config';
 import { UnimplementedError } from '~/errors/UnimplementedError';
+import { getHttp } from '~/lib/http';
+import { ListResponse } from '~/types/list-response';
 
 export const dataProvider: DataProvider = {
+  getList: async <TData = BaseRecord>(params: GetListParams) => {
+    const httpParams = new Map<string, string>();
+
+    if (params.sorters && params.sorters.length > 0) {
+      httpParams.set('tableSortColumn', params.sorters[0].field);
+      httpParams.set('tableSortDirection', params.sorters[0].order);
+    }
+
+    const http = await getHttp();
+    const response = await http.get<ListResponse<TData>>(`${params.resource}`, {
+      params: Object.fromEntries(httpParams),
+    });
+    const data = response.data.data;
+    const total = response.data.meta.total;
+    return { data, total };
+  },
   getOne: async ({ resource, id }) => {
     const response = await fetch(`${getApiUrl()}/${resource}/${id}`, {
       headers: {
@@ -30,19 +54,6 @@ export const dataProvider: DataProvider = {
       throw new Error('Error updating data');
     }
     return response.json();
-  },
-  getList: async ({ resource }) => {
-    const response = await fetch(`${getApiUrl()}/${resource}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Error fetching data');
-    }
-    const data = await response.json();
-    const total = Number(response.headers.get('x-total-count'));
-    return { data, total };
   },
   create: async ({ resource, variables }) => {
     const response = await fetch(`${getApiUrl()}/${resource}`, {

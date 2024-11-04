@@ -40,3 +40,8 @@ export const isSuccess = (response: AxiosResponse) => {
   }
   return false;
 };
+
+export const setItemAsync = async (key: string, value: string) => {
+  if (Platform.OS === 'web') return;
+  await SecureStore.setItemAsync(key, value);
+};
