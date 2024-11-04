@@ -12,4 +12,12 @@ export const userDrawerScreens = [
       drawerIcon: ({ color }) => <User className="h-5 w-5" color={color} />,
     }}
   />,
+  <Drawer.Screen
+    key="users/create"
+    name="users/create"
+    options={{
+      title: 'Create Users',
+      drawerItemStyle: { display: 'none' },
+    }}
+  />,
 ];

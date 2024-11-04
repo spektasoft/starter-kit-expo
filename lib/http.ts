@@ -1,3 +1,4 @@
+import { HttpError } from '@refinedev/core';
 import axios, { AxiosResponse } from 'axios';
 import { Platform } from 'react-native';
 
@@ -41,7 +42,13 @@ export const isSuccess = (response: AxiosResponse) => {
   return false;
 };
 
-export const setItemAsync = async (key: string, value: string) => {
-  if (Platform.OS === 'web') return;
-  await SecureStore.setItemAsync(key, value);
+export const convertToHttpError = (e: unknown): HttpError => {
+  if (axios.isAxiosError(e)) {
+    return {
+      message: e.message,
+      statusCode: e.status ?? 500,
+    };
+  }
+
+  return { message: '', statusCode: 0 };
 };

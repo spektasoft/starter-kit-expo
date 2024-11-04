@@ -1,8 +1,10 @@
 import { useTable } from '@refinedev/react-table';
 import { ColumnDef, flexRender } from '@tanstack/react-table';
+import { Link } from 'expo-router';
 import { useMemo } from 'react';
 import { Pressable, ScrollView, Text, useWindowDimensions, View } from 'react-native';
 
+import { Button } from '~/components/ui/button';
 import {
   Table,
   TableBody,
@@ -56,51 +58,67 @@ export const UserList = () => {
   }, [width]);
 
   return (
-    <ScrollView horizontal bounces={false} showsHorizontalScrollIndicator={false}>
-      <Table aria-labelledby="post-table">
-        <TableHeader>
-          {getHeaderGroups().map((headerGroup) => {
-            return (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header, index) => (
-                  <TableHead key={header.id} style={{ width: columnWidths[index] }}>
-                    <Pressable onPress={header.column.getToggleSortingHandler()}>
-                      <View className="flex-row items-center gap-x-1">
-                        <Text className="text-sm font-semibold text-foreground">
-                          {flexRender(header.column.columnDef.header, header.getContext())}
-                        </Text>
-                        {{
-                          asc: <ChevronUp className="h-4 w-4 text-foreground" />,
-                          desc: <ChevronDown className="h-4 w-4 text-foreground" />,
-                        }[header.column.getIsSorted() as string] ?? (
-                          <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                        )}
-                      </View>
-                    </Pressable>
-                  </TableHead>
-                ))}
-              </TableRow>
-            );
-          })}
-        </TableHeader>
-        <TableBody>
-          {getRowModel().rows.map((row, index) => (
-            <TableRow
-              key={row.id}
-              className={cn('active:bg-secondary', index % 2 && 'bg-muted/40')}>
-              {row.getVisibleCells().map((cell, index) => {
+    <ScrollView>
+      <View className="gap-y-8 py-8">
+        <View className="flex flex-col gap-4 px-4 sm:flex-row sm:items-center sm:justify-between md:px-6 lg:px-8">
+          <Text className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Users
+          </Text>
+          <View className="flex-row">
+            <Link href="/admin/users/create" asChild>
+              <Button>
+                <Text className="text-primary-foreground">New user</Text>
+              </Button>
+            </Link>
+          </View>
+        </View>
+        <ScrollView horizontal bounces={false} showsHorizontalScrollIndicator={false}>
+          <Table aria-labelledby="post-table">
+            <TableHeader>
+              {getHeaderGroups().map((headerGroup) => {
                 return (
-                  <TableCell key={cell.id} style={{ width: columnWidths[index] }}>
-                    <Text className="text-foreground">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </Text>
-                  </TableCell>
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header, index) => (
+                      <TableHead key={header.id} style={{ width: columnWidths[index] }}>
+                        <Pressable onPress={header.column.getToggleSortingHandler()}>
+                          <View className="flex-row items-center gap-x-1">
+                            <Text className="text-sm font-semibold text-foreground">
+                              {flexRender(header.column.columnDef.header, header.getContext())}
+                            </Text>
+                            {{
+                              asc: <ChevronUp className="h-4 w-4 text-foreground" />,
+                              desc: <ChevronDown className="h-4 w-4 text-foreground" />,
+                            }[header.column.getIsSorted() as string] ?? (
+                              <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                            )}
+                          </View>
+                        </Pressable>
+                      </TableHead>
+                    ))}
+                  </TableRow>
                 );
               })}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+            </TableHeader>
+            <TableBody>
+              {getRowModel().rows.map((row, index) => (
+                <TableRow
+                  key={row.id}
+                  className={cn('active:bg-secondary', index % 2 && 'bg-muted/40')}>
+                  {row.getVisibleCells().map((cell, index) => {
+                    return (
+                      <TableCell key={cell.id} style={{ width: columnWidths[index] }}>
+                        <Text className="text-foreground">
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </Text>
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </ScrollView>
+      </View>
     </ScrollView>
   );
 };

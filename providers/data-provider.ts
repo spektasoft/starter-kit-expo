@@ -1,5 +1,6 @@
 import type {
   BaseRecord,
+  CreateParams,
   CustomParams,
   CustomResponse,
   DataProvider,
@@ -7,10 +8,12 @@ import type {
 } from '@refinedev/core';
 
 import { emailVerificationNotification } from './auth-provider/email/verification-notification';
+import { createUser } from './data-provider/user/create-user';
 
 import { getApiUrl } from '~/config';
 import { UnimplementedError } from '~/errors/UnimplementedError';
-import { getHttp } from '~/lib/http';
+import { convertToHttpError, getHttp } from '~/lib/http';
+import { User } from '~/models/User';
 import { ListResponse } from '~/types/list-response';
 
 export const dataProvider: DataProvider = {
@@ -55,19 +58,19 @@ export const dataProvider: DataProvider = {
     }
     return response.json();
   },
-  create: async ({ resource, variables }) => {
-    const response = await fetch(`${getApiUrl()}/${resource}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      },
-      body: JSON.stringify(variables),
-    });
-    if (!response.ok) {
-      throw new Error('Error creating data');
+  create: async <TData = BaseRecord, TVariables = object>(params: CreateParams<TVariables>) => {
+    try {
+      if (params.resource === 'users') {
+        const user = params.variables as User;
+        await createUser({ user });
+
+        return { data: {} as TData };
+      } else {
+        throw new UnimplementedError();
+      }
+    } catch (e) {
+      return Promise.reject(convertToHttpError(e));
     }
-    return response.json();
   },
   deleteOne: async ({ resource, id }) => {
     const response = await fetch(`${getApiUrl()}/${resource}/${id}`, {
