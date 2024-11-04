@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 
-import { getLoginId, getTokenKey } from '~/config';
+import { getLoginIdKey, getTokenKey } from '~/config';
 import { TwoFactorChallengeError } from '~/errors/TwoFactorChallengeError';
 import { getDeviceName } from '~/lib/device';
 import { getHttp } from '~/lib/http';
@@ -23,9 +23,12 @@ export const login = async (params: LoginParams): Promise<void> => {
     ...(Platform.OS !== 'web' && { device_name: deviceName }),
   });
 
-  if (response.data['two_factor']) {
+  const loginId = response.data['login_id'];
+  const twoFactor = response.data['two_factor'];
+
+  if (loginId && twoFactor) {
     if (Platform.OS !== 'web') {
-      await setItemAsync(getLoginId(), params.email);
+      await setItemAsync(getLoginIdKey(), loginId);
     }
     throw new TwoFactorChallengeError();
   }
