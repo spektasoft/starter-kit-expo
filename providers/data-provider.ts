@@ -9,13 +9,12 @@ import type {
 } from '@refinedev/core';
 
 import { emailVerificationNotification } from './auth-provider/email/verification-notification';
-import { createUser } from './data-provider/user/create-user';
+import { createUser, CreateUserParams } from './data-provider/user/create-user';
 import { deleteUser } from './data-provider/user/delete-user';
 
 import { getApiUrl } from '~/config';
 import { UnimplementedError } from '~/errors/UnimplementedError';
 import { convertToHttpError, getHttp } from '~/lib/http';
-import { User } from '~/models/User';
 import { ListResponse } from '~/types/list-response';
 
 export const dataProvider: DataProvider = {
@@ -63,8 +62,8 @@ export const dataProvider: DataProvider = {
   create: async <TData = BaseRecord, TVariables = object>(params: CreateParams<TVariables>) => {
     try {
       if (params.resource === 'users') {
-        const user = params.variables as User;
-        await createUser({ user });
+        const createUserParams = params.variables as CreateUserParams;
+        await createUser(createUserParams);
 
         return { data: {} as TData };
       } else {
