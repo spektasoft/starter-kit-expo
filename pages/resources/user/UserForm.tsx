@@ -5,6 +5,8 @@ import { Controller } from 'react-hook-form';
 import { Text, View } from 'react-native';
 
 import { InputPassword } from '~/components/InputPassword';
+import { Loading } from '~/components/Loading';
+import { CreateButton } from '~/components/buttons/CreateButton';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
@@ -163,15 +165,25 @@ export const UserForm = (props: UserFormProps) => {
           </View>
         </CardContent>
         <CardContent>
-          <View className="gap-3 sm:flex-row">
-            <Button onPress={handleSubmit(onFinish)}>
-              <Text className="font-semibold text-primary-foreground">Create</Text>
-            </Button>
-            <Link href="/admin/users" asChild>
-              <Button variant="outline">
-                <Text className="font-semibold text-foreground">Cancel</Text>
-              </Button>
-            </Link>
+          <View className="flex flex-row items-center justify-start gap-3">
+            {!formLoading && (
+              <>
+                <CreateButton onPress={handleSubmit(onFinish)} />
+                <Link href="/admin/users" asChild>
+                  <Button variant="outline">
+                    <Text className="font-semibold text-foreground">Cancel</Text>
+                  </Button>
+                </Link>
+              </>
+            )}
+            {formLoading && (
+              <>
+                <Loading />
+                <Label className="font-bold">
+                  {props.action === 'create' ? 'Creating…' : 'Updating…'}
+                </Label>
+              </>
+            )}
           </View>
         </CardContent>
       </Card>
