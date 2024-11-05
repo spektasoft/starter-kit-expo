@@ -4,6 +4,8 @@ import { Link } from 'expo-router';
 import { useMemo } from 'react';
 import { Pressable, ScrollView, Text, useWindowDimensions, View } from 'react-native';
 
+import { Container } from '~/components/Container';
+import { Loading } from '~/components/Loading';
 import { DeleteButton } from '~/components/buttons/DeleteButton';
 import { Button } from '~/components/ui/button';
 import {
@@ -44,7 +46,13 @@ export const UserList = () => {
     []
   );
 
-  const { getHeaderGroups, getRowModel } = useTable({
+  const {
+    getHeaderGroups,
+    getRowModel,
+    refineCore: {
+      tableQuery: { isFetching },
+    },
+  } = useTable({
     columns,
     refineCoreProps: {
       resource: 'users',
@@ -105,28 +113,34 @@ export const UserList = () => {
               })}
             </TableHeader>
             <TableBody>
-              {getRowModel().rows.map((row, index) => (
-                <TableRow
-                  key={row.id}
-                  className={cn('active:bg-secondary', index % 2 && 'bg-muted/40')}>
-                  {row.getVisibleCells().map((cell, index) => {
-                    return (
-                      <TableCell key={cell.id} style={{ width: columnWidths[index] }}>
-                        <Text className="text-foreground">
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </Text>
-                      </TableCell>
-                    );
-                  })}
-                  <View className="flex-row items-center justify-end">
-                    <DeleteButton
-                      resource="users"
-                      recordItemId={row.original.id}
-                      title={`Delete ${row.original.name}`}
-                    />
-                  </View>
-                </TableRow>
-              ))}
+              {!isFetching &&
+                getRowModel().rows.map((row, index) => (
+                  <TableRow
+                    key={row.id}
+                    className={cn('active:bg-secondary', index % 2 && 'bg-muted/40')}>
+                    {row.getVisibleCells().map((cell, index) => {
+                      return (
+                        <TableCell key={cell.id} style={{ width: columnWidths[index] }}>
+                          <Text className="text-foreground">
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          </Text>
+                        </TableCell>
+                      );
+                    })}
+                    <View className="flex-row items-center justify-end">
+                      <DeleteButton
+                        resource="users"
+                        recordItemId={row.original.id}
+                        title={`Delete ${row.original.name}`}
+                      />
+                    </View>
+                  </TableRow>
+                ))}
+              {isFetching && (
+                <Container>
+                  <Loading withText />
+                </Container>
+              )}
             </TableBody>
           </Table>
         </ScrollView>
