@@ -4,11 +4,13 @@ import type {
   CustomParams,
   CustomResponse,
   DataProvider,
+  DeleteOneParams,
   GetListParams,
 } from '@refinedev/core';
 
 import { emailVerificationNotification } from './auth-provider/email/verification-notification';
 import { createUser } from './data-provider/user/create-user';
+import { deleteUser } from './data-provider/user/delete-user';
 
 import { getApiUrl } from '~/config';
 import { UnimplementedError } from '~/errors/UnimplementedError';
@@ -72,17 +74,20 @@ export const dataProvider: DataProvider = {
       return Promise.reject(convertToHttpError(e));
     }
   },
-  deleteOne: async ({ resource, id }) => {
-    const response = await fetch(`${getApiUrl()}/${resource}/${id}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Error deleting data');
+  deleteOne: async <TData = BaseRecord, TVariables = object>(
+    params: DeleteOneParams<TVariables>
+  ) => {
+    try {
+      if (params.resource === 'users') {
+        await deleteUser({ id: params.id.toString() });
+
+        return { data: {} as TData };
+      } else {
+        throw new UnimplementedError();
+      }
+    } catch (e) {
+      return Promise.reject(convertToHttpError(e));
     }
-    return response.json();
   },
   getApiUrl: () => getApiUrl(),
   // Optional methods:

@@ -50,5 +50,5 @@ export const convertToHttpError = (e: unknown): HttpError => {
     };
   }
 
-  return { message: '', statusCode: 0 };
+  throw e;
 };

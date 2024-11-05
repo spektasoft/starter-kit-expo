@@ -4,6 +4,7 @@ import { Link } from 'expo-router';
 import { useMemo } from 'react';
 import { Pressable, ScrollView, Text, useWindowDimensions, View } from 'react-native';
 
+import { DeleteButton } from '~/components/buttons/DeleteButton';
 import { Button } from '~/components/ui/button';
 import {
   Table,
@@ -18,7 +19,7 @@ import { ChevronUp } from '~/lib/icons/ChevronUp';
 import { cn } from '~/lib/utils';
 import { User } from '~/models/User';
 
-const MIN_COLUMN_WIDTHS = [120, 220, 200];
+const MIN_COLUMN_WIDTHS = [120, 220, 200, 100];
 
 export const UserList = () => {
   const { width } = useWindowDimensions();
@@ -95,6 +96,10 @@ export const UserList = () => {
                         </Pressable>
                       </TableHead>
                     ))}
+                    <TableHead
+                      key={`${headerGroup.id}-actions`}
+                      style={{ width: columnWidths[columnWidths.length - 1] }}
+                    />
                   </TableRow>
                 );
               })}
@@ -113,6 +118,13 @@ export const UserList = () => {
                       </TableCell>
                     );
                   })}
+                  <View className="flex-row items-center justify-end">
+                    <DeleteButton
+                      resource="users"
+                      recordItemId={row.original.id}
+                      title={`Delete ${row.original.name}`}
+                    />
+                  </View>
                 </TableRow>
               ))}
             </TableBody>
