@@ -77,16 +77,17 @@ export const TwoFactorChallengePage = (props: TwoFactorChallengeProps) => {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <View className="grid gap-2">
-                <Label nativeID="password">{showRecovery ? 'Recovery Code *' : 'Code *'}</Label>
+                <Label nativeID="code-label">{showRecovery ? 'Recovery Code *' : 'Code *'}</Label>
                 <Input
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
                   editable={!isLoading}
-                  aria-labelledby="inputLabel"
-                  aria-errormessage="inputError"
+                  aria-labelledby="code-label"
+                  aria-errormessage="code-error"
+                  onSubmitEditing={handleSubmit(onSubmit)}
                 />
-                <Text className="text-red-600 dark:text-red-400">
+                <Text nativeID="code-error" className="text-red-600 dark:text-red-400">
                   {errors.code?.message || errors.recoveryCode?.message}
                 </Text>
               </View>
