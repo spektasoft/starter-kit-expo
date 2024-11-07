@@ -42,7 +42,7 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
 
   return (
     <AuthenticationCard {...props.wrapperProps}>
-      {isError && (
+      {isError && error.message !== '' && (
         <Card className="mb-4">
           <CardHeader>
             <CardDescription>

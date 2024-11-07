@@ -11,7 +11,7 @@ import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
-import { EmailUnavailableError } from '~/errors/EmailUnavailableError';
+import { LoginIdUnavailableError } from '~/errors/LoginIdUnavailableError';
 import { TwoFactorChallengeParams } from '~/providers/auth-provider/two-factor-challenge';
 
 type TwoFactorChallengeProps = {
@@ -38,7 +38,7 @@ export const TwoFactorChallengePage = (props: TwoFactorChallengeProps) => {
   };
 
   useEffect(() => {
-    if (isError && error.name === EmailUnavailableError.name) {
+    if (isError && error.name === LoginIdUnavailableError.name) {
       router.navigate('/login');
     }
   }, [isError]);
@@ -77,16 +77,17 @@ export const TwoFactorChallengePage = (props: TwoFactorChallengeProps) => {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <View className="grid gap-2">
-                <Label nativeID="password">{showRecovery ? 'Recovery Code *' : 'Code *'}</Label>
+                <Label nativeID="code-label">{showRecovery ? 'Recovery Code *' : 'Code *'}</Label>
                 <Input
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
                   editable={!isLoading}
-                  aria-labelledby="inputLabel"
-                  aria-errormessage="inputError"
+                  aria-labelledby="code-label"
+                  aria-errormessage="code-error"
+                  onSubmitEditing={handleSubmit(onSubmit)}
                 />
-                <Text className="text-red-600 dark:text-red-400">
+                <Text nativeID="code-error" className="text-red-600 dark:text-red-400">
                   {errors.code?.message || errors.recoveryCode?.message}
                 </Text>
               </View>

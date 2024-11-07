@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 
 import { getLoginIdKey, getTokenKey } from '~/config';
-import { EmailUnavailableError } from '~/errors/EmailUnavailableError';
+import { LoginIdUnavailableError } from '~/errors/LoginIdUnavailableError';
 import { getDeviceName } from '~/lib/device';
 import { getHttp } from '~/lib/http';
 import { deleteItemAsync, getItemAsync, setItemAsync } from '~/lib/store';
@@ -23,7 +23,7 @@ export const twoFactorChallenge = async (params: TwoFactorChallengeParams): Prom
     loginId = (await getItemAsync(loginIdKey)) ?? undefined;
 
     if (!loginId) {
-      throw new EmailUnavailableError();
+      throw new LoginIdUnavailableError();
     }
   }
 
