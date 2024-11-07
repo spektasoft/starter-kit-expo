@@ -11,7 +11,7 @@ import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
-import { EmailUnavailableError } from '~/errors/EmailUnavailableError';
+import { LoginIdUnavailableError } from '~/errors/LoginIdUnavailableError';
 import { TwoFactorChallengeParams } from '~/providers/auth-provider/two-factor-challenge';
 
 type TwoFactorChallengeProps = {
@@ -38,7 +38,7 @@ export const TwoFactorChallengePage = (props: TwoFactorChallengeProps) => {
   };
 
   useEffect(() => {
-    if (isError && error.name === EmailUnavailableError.name) {
+    if (isError && error.name === LoginIdUnavailableError.name) {
       router.navigate('/login');
     }
   }, [isError]);

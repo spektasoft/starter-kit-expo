@@ -29,3 +29,8 @@ export const getTestAccountPassword = (): string => {
   if (!Platform.isTesting) throw new NotTestEnvirontmentError();
   return process.env.TEST_ACCOUNT_PASSWORD!;
 };
+
+export const getTestAccount2faSecret = (): string => {
+  if (!Platform.isTesting) throw new NotTestEnvirontmentError();
+  return process.env.TEST_ACCOUNT_2FA_SECRET!;
+};
