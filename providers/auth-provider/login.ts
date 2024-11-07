@@ -26,7 +26,7 @@ export const login = async (params: LoginParams): Promise<void> => {
   const loginId = response.data['login_id'];
   const twoFactor = response.data['two_factor'];
 
-  if (loginId && twoFactor) {
+  if (loginId || twoFactor) {
     if (Platform.OS !== 'web') {
       await setItemAsync(getLoginIdKey(), loginId);
     }
