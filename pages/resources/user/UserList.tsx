@@ -18,6 +18,7 @@ import {
 } from '~/components/ui/table';
 import { ChevronDown } from '~/lib/icons/ChevronDown';
 import { ChevronUp } from '~/lib/icons/ChevronUp';
+import { Eye } from '~/lib/icons/Eye';
 import { Pencil } from '~/lib/icons/Pencil';
 import { cn } from '~/lib/utils';
 import { User } from '~/models/User';
@@ -129,6 +130,14 @@ export const UserList = () => {
                       );
                     })}
                     <View className="flex-row items-center justify-end">
+                      <Link href={`/admin/users/${row.original.id}`} asChild>
+                        <Button variant="ghost">
+                          <View className="flex-row items-center gap-1">
+                            <Eye className="h-4 w-4 text-foreground" />
+                            <Text className="font-semibold text-foreground">View</Text>
+                          </View>
+                        </Button>
+                      </Link>
                       <Link href={`/admin/users/${row.original.id}/edit`} asChild>
                         <Button variant="ghost">
                           <View className="flex-row items-center gap-1">

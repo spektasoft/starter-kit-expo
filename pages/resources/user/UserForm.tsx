@@ -15,7 +15,7 @@ import { Label } from '~/components/ui/label';
 import { User } from '~/models/User';
 
 export type UserFormProps = {
-  action: 'create' | 'edit' | 'clone';
+  action: 'create' | 'edit' | 'clone' | 'view';
 };
 
 export const UserForm = (props: UserFormProps) => {
@@ -34,11 +34,13 @@ export const UserForm = (props: UserFormProps) => {
       password: '',
     },
     refineCoreProps: {
-      action: props.action,
+      action: props.action === 'view' ? 'clone' : props.action,
       resource: 'users',
       id: local.id?.toString(),
     },
   });
+
+  const isReadOnly = props.action === 'view';
 
   useEffect(() => {
     if (mutation.isSuccess) {
@@ -83,7 +85,7 @@ export const UserForm = (props: UserFormProps) => {
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
-                    editable={!formLoading}
+                    editable={!formLoading && !isReadOnly}
                     aria-labelledby="name-label"
                     aria-errormessage="name-error"
                     autoComplete="name"
@@ -118,7 +120,7 @@ export const UserForm = (props: UserFormProps) => {
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
-                    editable={!formLoading}
+                    editable={!formLoading && !isReadOnly}
                     aria-labelledby="email-label"
                     aria-errormessage="email-error"
                     autoComplete="email"
@@ -139,31 +141,35 @@ export const UserForm = (props: UserFormProps) => {
               rules={{
                 required: props.action === 'create' ? 'Password is required' : false,
               }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <View className="grid gap-2">
-                  <View className="flex flex-row items-center gap-4">
-                    <Label nativeID="password-label" htmlFor="password">
-                      Password {props.action === 'create' && '*'}
-                    </Label>
+              render={({ field: { onChange, onBlur, value } }) =>
+                isReadOnly ? (
+                  <></>
+                ) : (
+                  <View className="grid gap-2">
+                    <View className="flex flex-row items-center gap-4">
+                      <Label nativeID="password-label" htmlFor="password">
+                        Password {props.action === 'create' && '*'}
+                      </Label>
+                    </View>
+                    <InputPassword
+                      id="password"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                      editable={!formLoading && !isReadOnly}
+                      aria-labelledby="password-label"
+                      aria-errormessage="password-error"
+                      autoComplete="password"
+                      onSubmitEditing={handleSubmit(onFinish)}
+                    />
+                    {errors.password?.message && (
+                      <Text nativeID="password-error" className="text-destructive-foreground">
+                        {errors.password?.message?.toString()}
+                      </Text>
+                    )}
                   </View>
-                  <InputPassword
-                    id="password"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    editable={!formLoading}
-                    aria-labelledby="password-label"
-                    aria-errormessage="password-error"
-                    autoComplete="password"
-                    onSubmitEditing={handleSubmit(onFinish)}
-                  />
-                  {errors.password?.message && (
-                    <Text nativeID="password-error" className="text-destructive-foreground">
-                      {errors.password?.message?.toString()}
-                    </Text>
-                  )}
-                </View>
-              )}
+                )
+              }
               name="password"
             />
           </View>
@@ -176,7 +182,9 @@ export const UserForm = (props: UserFormProps) => {
                 {props.action === 'edit' && <EditButton onPress={handleSubmit(onFinish)} />}
                 <Link href="/admin/users" asChild>
                   <Button variant="outline">
-                    <Text className="font-semibold text-foreground">Cancel</Text>
+                    <Text className="font-semibold text-foreground">
+                      {isReadOnly ? 'Back' : 'Cancel'}
+                    </Text>
                   </Button>
                 </Link>
               </>
