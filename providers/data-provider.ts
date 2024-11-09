@@ -6,15 +6,20 @@ import type {
   DataProvider,
   DeleteOneParams,
   GetListParams,
+  GetOneParams,
+  UpdateParams,
 } from '@refinedev/core';
 
 import { emailVerificationNotification } from './auth-provider/email/verification-notification';
 import { createUser, CreateUserParams } from './data-provider/user/create-user';
 import { deleteUser } from './data-provider/user/delete-user';
+import { showUser } from './data-provider/user/show-user';
+import { updateUser, UpdateUserParams } from './data-provider/user/update-user';
 
 import { getApiUrl } from '~/config';
 import { UnimplementedError } from '~/errors/UnimplementedError';
 import { convertToHttpError, getHttp } from '~/lib/http';
+import { User } from '~/models/User';
 import { ListResponse } from '~/types/list-response';
 
 export const dataProvider: DataProvider = {
@@ -34,30 +39,32 @@ export const dataProvider: DataProvider = {
     const total = response.data.meta.total;
     return { data, total };
   },
-  getOne: async ({ resource, id }) => {
-    const response = await fetch(`${getApiUrl()}/${resource}/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Error fetching data');
+  getOne: async <TData = User>(params: GetOneParams) => {
+    try {
+      if (params.resource === 'users') {
+        const user = await showUser({ id: params.id.toString() });
+
+        return { data: user as TData };
+      } else {
+        throw new UnimplementedError();
+      }
+    } catch (e) {
+      return Promise.reject(convertToHttpError(e));
     }
-    return response.json();
   },
-  update: async ({ resource, id, variables }) => {
-    const response = await fetch(`${getApiUrl()}/${resource}/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      },
-      body: JSON.stringify(variables),
-    });
-    if (!response.ok) {
-      throw new Error('Error updating data');
+  update: async <TData = BaseRecord, TVariables = object>(params: UpdateParams<TVariables>) => {
+    try {
+      if (params.resource === 'users') {
+        const updateUserParams = params.variables as UpdateUserParams;
+        await updateUser({ ...updateUserParams, id: params.id.toString() });
+
+        return { data: {} as TData };
+      } else {
+        throw new UnimplementedError();
+      }
+    } catch (e) {
+      return Promise.reject(convertToHttpError(e));
     }
-    return response.json();
   },
   create: async <TData = BaseRecord, TVariables = object>(params: CreateParams<TVariables>) => {
     try {

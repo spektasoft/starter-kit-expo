@@ -20,4 +20,12 @@ export const userDrawerScreens = [
       drawerItemStyle: { display: 'none' },
     }}
   />,
+  <Drawer.Screen
+    key="users/[id]/edit"
+    name="users/[id]/edit"
+    options={{
+      title: 'Edit User',
+      drawerItemStyle: { display: 'none' },
+    }}
+  />,
 ];

@@ -1,5 +1,5 @@
 import { useForm } from '@refinedev/react-hook-form';
-import { Link, router } from 'expo-router';
+import { Link, router, useLocalSearchParams } from 'expo-router';
 import { useEffect } from 'react';
 import { Controller } from 'react-hook-form';
 import { Text, View } from 'react-native';
@@ -7,6 +7,7 @@ import { Text, View } from 'react-native';
 import { InputPassword } from '~/components/InputPassword';
 import { Loading } from '~/components/Loading';
 import { CreateButton } from '~/components/buttons/CreateButton';
+import { EditButton } from '~/components/buttons/EditButton';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
@@ -14,10 +15,12 @@ import { Label } from '~/components/ui/label';
 import { User } from '~/models/User';
 
 export type UserFormProps = {
-  action: 'create' | 'edit';
+  action: 'create' | 'edit' | 'clone';
 };
 
 export const UserForm = (props: UserFormProps) => {
+  const local = useLocalSearchParams();
+
   const {
     refineCore: { onFinish, formLoading, mutation },
     control,
@@ -33,6 +36,7 @@ export const UserForm = (props: UserFormProps) => {
     refineCoreProps: {
       action: props.action,
       resource: 'users',
+      id: local.id?.toString(),
     },
   });
 
@@ -67,12 +71,12 @@ export const UserForm = (props: UserFormProps) => {
             <Controller
               control={control}
               rules={{
-                required: 'Name is required',
+                required: props.action === 'create' ? 'Name is required' : false,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <View className="grid gap-2">
                   <Label nativeID="name-label" htmlFor="name">
-                    Name *
+                    Name {props.action === 'create' && '*'}
                   </Label>
                   <Input
                     id="name"
@@ -98,7 +102,7 @@ export const UserForm = (props: UserFormProps) => {
             <Controller
               control={control}
               rules={{
-                required: 'Email is required',
+                required: props.action === 'create' ? 'Email is required' : false,
                 pattern: {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/i,
                   message: 'Please enter a valid email address',
@@ -107,7 +111,7 @@ export const UserForm = (props: UserFormProps) => {
               render={({ field: { onChange, onBlur, value } }) => (
                 <View className="grid gap-2">
                   <Label nativeID="email-label" htmlFor="email">
-                    Email *
+                    Email {props.action === 'create' && '*'}
                   </Label>
                   <Input
                     id="email"
@@ -133,13 +137,13 @@ export const UserForm = (props: UserFormProps) => {
             <Controller
               control={control}
               rules={{
-                required: 'Password is required',
+                required: props.action === 'create' ? 'Password is required' : false,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <View className="grid gap-2">
                   <View className="flex flex-row items-center gap-4">
                     <Label nativeID="password-label" htmlFor="password">
-                      Password *
+                      Password {props.action === 'create' && '*'}
                     </Label>
                   </View>
                   <InputPassword
@@ -168,7 +172,8 @@ export const UserForm = (props: UserFormProps) => {
           <View className="flex flex-row items-center justify-start gap-3">
             {!formLoading && (
               <>
-                <CreateButton onPress={handleSubmit(onFinish)} />
+                {props.action === 'create' && <CreateButton onPress={handleSubmit(onFinish)} />}
+                {props.action === 'edit' && <EditButton onPress={handleSubmit(onFinish)} />}
                 <Link href="/admin/users" asChild>
                   <Button variant="outline">
                     <Text className="font-semibold text-foreground">Cancel</Text>
@@ -179,9 +184,7 @@ export const UserForm = (props: UserFormProps) => {
             {formLoading && (
               <>
                 <Loading />
-                <Label className="font-bold">
-                  {props.action === 'create' ? 'Creating…' : 'Updating…'}
-                </Label>
+                <Label className="font-bold">Loading…</Label>
               </>
             )}
           </View>
