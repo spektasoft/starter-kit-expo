@@ -5,7 +5,7 @@ import { listUsers } from '../list-users';
 import { logout } from '~/providers/auth-provider/logout';
 import { actingAsDefaultUser } from '~/tests/authentication';
 
-describe('Users', () => {
+describe('Create user', () => {
   test('should success creating, listing, and deleting', async () => {
     await actingAsDefaultUser();
     const params: CreateUserParams = {
