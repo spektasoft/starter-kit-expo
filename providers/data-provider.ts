@@ -1,74 +1,99 @@
-import type { BaseRecord, CustomParams, CustomResponse, DataProvider } from '@refinedev/core';
+import type {
+  BaseRecord,
+  CreateParams,
+  CustomParams,
+  CustomResponse,
+  DataProvider,
+  DeleteOneParams,
+  GetListParams,
+  GetOneParams,
+  UpdateParams,
+} from '@refinedev/core';
 
 import { emailVerificationNotification } from './auth-provider/email/verification-notification';
+import { createUser, CreateUserParams } from './data-provider/user/create-user';
+import { deleteUser } from './data-provider/user/delete-user';
+import { showUser } from './data-provider/user/show-user';
+import { updateUser, UpdateUserParams } from './data-provider/user/update-user';
 
 import { getApiUrl } from '~/config';
 import { UnimplementedError } from '~/errors/UnimplementedError';
+import { convertToHttpError, getHttp } from '~/lib/http';
+import { User } from '~/models/User';
+import { ListResponse } from '~/types/list-response';
 
 export const dataProvider: DataProvider = {
-  getOne: async ({ resource, id }) => {
-    const response = await fetch(`${getApiUrl()}/${resource}/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Error fetching data');
+  getList: async <TData = BaseRecord>(params: GetListParams) => {
+    const httpParams = new Map<string, string>();
+
+    if (params.sorters && params.sorters.length > 0) {
+      httpParams.set('tableSortColumn', params.sorters[0].field);
+      httpParams.set('tableSortDirection', params.sorters[0].order);
     }
-    return response.json();
-  },
-  update: async ({ resource, id, variables }) => {
-    const response = await fetch(`${getApiUrl()}/${resource}/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      },
-      body: JSON.stringify(variables),
+
+    const http = await getHttp();
+    const response = await http.get<ListResponse<TData>>(`${params.resource}`, {
+      params: Object.fromEntries(httpParams),
     });
-    if (!response.ok) {
-      throw new Error('Error updating data');
-    }
-    return response.json();
-  },
-  getList: async ({ resource }) => {
-    const response = await fetch(`${getApiUrl()}/${resource}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Error fetching data');
-    }
-    const data = await response.json();
-    const total = Number(response.headers.get('x-total-count'));
+    const data = response.data.data;
+    const total = response.data.meta.total;
     return { data, total };
   },
-  create: async ({ resource, variables }) => {
-    const response = await fetch(`${getApiUrl()}/${resource}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      },
-      body: JSON.stringify(variables),
-    });
-    if (!response.ok) {
-      throw new Error('Error creating data');
+  getOne: async <TData = User>(params: GetOneParams) => {
+    try {
+      if (params.resource === 'users') {
+        const user = await showUser({ id: params.id.toString() });
+
+        return { data: user as TData };
+      } else {
+        throw new UnimplementedError();
+      }
+    } catch (e) {
+      return Promise.reject(convertToHttpError(e));
     }
-    return response.json();
   },
-  deleteOne: async ({ resource, id }) => {
-    const response = await fetch(`${getApiUrl()}/${resource}/${id}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Error deleting data');
+  update: async <TData = BaseRecord, TVariables = object>(params: UpdateParams<TVariables>) => {
+    try {
+      if (params.resource === 'users') {
+        const updateUserParams = params.variables as UpdateUserParams;
+        await updateUser({ ...updateUserParams, id: params.id.toString() });
+
+        return { data: {} as TData };
+      } else {
+        throw new UnimplementedError();
+      }
+    } catch (e) {
+      return Promise.reject(convertToHttpError(e));
     }
-    return response.json();
+  },
+  create: async <TData = BaseRecord, TVariables = object>(params: CreateParams<TVariables>) => {
+    try {
+      if (params.resource === 'users') {
+        const createUserParams = params.variables as CreateUserParams;
+        await createUser(createUserParams);
+
+        return { data: {} as TData };
+      } else {
+        throw new UnimplementedError();
+      }
+    } catch (e) {
+      return Promise.reject(convertToHttpError(e));
+    }
+  },
+  deleteOne: async <TData = BaseRecord, TVariables = object>(
+    params: DeleteOneParams<TVariables>
+  ) => {
+    try {
+      if (params.resource === 'users') {
+        await deleteUser({ id: params.id.toString() });
+
+        return { data: {} as TData };
+      } else {
+        throw new UnimplementedError();
+      }
+    } catch (e) {
+      return Promise.reject(convertToHttpError(e));
+    }
   },
   getApiUrl: () => getApiUrl(),
   // Optional methods:

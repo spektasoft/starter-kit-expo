@@ -1,3 +1,8 @@
 export type User = {
-  email_verified_at?: Date;
+  id: string;
+  name: string;
+  email: string;
+  created_at: string;
+  password?: string;
+  email_verified_at?: string;
 };

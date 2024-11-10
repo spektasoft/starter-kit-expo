@@ -11,6 +11,7 @@ import { UserMenu } from '~/components/navigation-menu/UserMenu';
 import RootLayout from '~/layouts/RootLayout';
 import { Bars3 } from '~/lib/icons/Bars3';
 import { Home } from '~/lib/icons/Home';
+import { userDrawerScreens } from '~/pages/resources/user/userDrawerScreens';
 
 export default function Layout() {
   const loading = (
@@ -47,6 +48,7 @@ export default function Layout() {
                   drawerIcon: ({ color }) => <Home className="h-5 w-5" color={color} />,
                 }}
               />
+              {userDrawerScreens}
             </Drawer>
           </GestureHandlerRootView>
         </Verified>

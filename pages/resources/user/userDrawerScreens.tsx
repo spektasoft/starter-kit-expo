@@ -1,0 +1,39 @@
+import Drawer from 'expo-router/drawer';
+
+import { User } from '~/lib/icons/User';
+
+export const userDrawerScreens = [
+  <Drawer.Screen
+    key="users/index"
+    name="users/index"
+    options={{
+      drawerLabel: 'Users',
+      title: 'Users',
+      drawerIcon: ({ color }) => <User className="h-5 w-5" color={color} />,
+    }}
+  />,
+  <Drawer.Screen
+    key="users/create"
+    name="users/create"
+    options={{
+      title: 'Create Users',
+      drawerItemStyle: { display: 'none' },
+    }}
+  />,
+  <Drawer.Screen
+    key="users/[id]/index"
+    name="users/[id]/index"
+    options={{
+      title: 'View User',
+      drawerItemStyle: { display: 'none' },
+    }}
+  />,
+  <Drawer.Screen
+    key="users/[id]/edit"
+    name="users/[id]/edit"
+    options={{
+      title: 'Edit User',
+      drawerItemStyle: { display: 'none' },
+    }}
+  />,
+];

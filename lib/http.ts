@@ -1,3 +1,4 @@
+import { HttpError } from '@refinedev/core';
 import axios, { AxiosResponse } from 'axios';
 import { Platform } from 'react-native';
 
@@ -39,4 +40,15 @@ export const isSuccess = (response: AxiosResponse) => {
     return true;
   }
   return false;
+};
+
+export const convertToHttpError = (e: unknown): HttpError => {
+  if (axios.isAxiosError(e)) {
+    return {
+      message: e.message,
+      statusCode: e.status ?? 500,
+    };
+  }
+
+  throw e;
 };
