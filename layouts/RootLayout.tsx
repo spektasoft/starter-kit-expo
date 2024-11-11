@@ -12,9 +12,9 @@ import { Platform } from 'react-native';
 
 import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
+import { accessControlProvider } from '~/providers/access-control-provider';
 import { authProvider } from '~/providers/auth-provider';
 import { dataProvider } from '~/providers/data-provider';
-import { accessControlProvider } from '~/providers/access-control-provider';
 
 const LIGHT_THEME: Theme = {
   dark: false,

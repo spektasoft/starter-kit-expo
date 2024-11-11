@@ -36,7 +36,7 @@ export const dataProvider: DataProvider = {
       params: Object.fromEntries(httpParams),
     });
     const data = response.data.data;
-    const total = response.data.meta.total;
+    const total = response.data.total;
     return { data, total };
   },
   getOne: async <TData = User>(params: GetOneParams) => {

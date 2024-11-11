@@ -2,6 +2,8 @@ import { AccessControlProvider, CanParams, CanReturnType } from '@refinedev/core
 
 import { can } from './access-control-provider/can';
 
+import { convertToHttpError } from '~/lib/http';
+
 export const accessControlProvider: AccessControlProvider = {
   can: async (params: CanParams): Promise<CanReturnType> => {
     const resource = params.resource;
@@ -10,12 +12,17 @@ export const accessControlProvider: AccessControlProvider = {
       return { can: false };
     }
 
-    const isGranted = await can({
-      permission: params.action,
-      resource,
-      id: params.params?.id?.toString(),
-    });
+    try {
+      const isGranted = await can({
+        permission: params.action,
+        resource,
+        id: params.params?.id?.toString(),
+      });
 
-    return { can: isGranted };
+      return { can: isGranted };
+    } catch (e) {
+      const error = convertToHttpError(e);
+      return { can: false, reason: error.message };
+    }
   },
 };
