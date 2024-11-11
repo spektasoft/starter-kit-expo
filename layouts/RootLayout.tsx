@@ -14,6 +14,7 @@ import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { authProvider } from '~/providers/auth-provider';
 import { dataProvider } from '~/providers/data-provider';
+import { accessControlProvider } from '~/providers/access-control-provider';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -77,6 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         backgroundColor={isDarkColorScheme ? NAV_THEME.dark.background : NAV_THEME.light.background}
       />
       <Refine
+        accessControlProvider={accessControlProvider}
         authProvider={authProvider}
         dataProvider={dataProvider}
         options={{ disableTelemetry: true }}>
