@@ -1,3 +1,4 @@
+import { CanAccess } from '@refinedev/core';
 import { useTable } from '@refinedev/react-table';
 import { ColumnDef, flexRender } from '@tanstack/react-table';
 import { Link } from 'expo-router';
@@ -76,11 +77,13 @@ export const UserList = () => {
             Users
           </Text>
           <View className="flex-row">
-            <Link href="/admin/users/create" asChild>
-              <Button>
-                <Text className="text-primary-foreground">New user</Text>
-              </Button>
-            </Link>
+            <CanAccess action="create_user" resource="users">
+              <Link href="/admin/users/create" asChild>
+                <Button>
+                  <Text className="text-primary-foreground">New user</Text>
+                </Button>
+              </Link>
+            </CanAccess>
           </View>
         </View>
         <ScrollView horizontal bounces={false} showsHorizontalScrollIndicator={false}>
@@ -130,30 +133,36 @@ export const UserList = () => {
                       );
                     })}
                     <View className="flex-row items-center justify-end">
-                      <Link href={`/admin/users/${row.original.id}`} asChild>
-                        <Button variant="ghost">
-                          <View className="flex-row items-center gap-1">
-                            <Eye className="h-4 w-4 text-foreground" />
-                            <Text className="font-semibold text-foreground">View</Text>
-                          </View>
-                        </Button>
-                      </Link>
-                      <Link href={`/admin/users/${row.original.id}/edit`} asChild>
-                        <Button variant="ghost">
-                          <View className="flex-row items-center gap-1">
-                            <Pencil className="h-4 w-4 text-muted-foreground" />
-                            <Text className="font-semibold text-muted-foreground">Edit</Text>
-                          </View>
-                        </Button>
-                      </Link>
+                      <CanAccess action="view_user" resource="users">
+                        <Link href={`/admin/users/${row.original.id}`} asChild>
+                          <Button variant="ghost">
+                            <View className="flex-row items-center gap-1">
+                              <Eye className="h-4 w-4 text-foreground" />
+                              <Text className="font-semibold text-foreground">View</Text>
+                            </View>
+                          </Button>
+                        </Link>
+                      </CanAccess>
+                      <CanAccess action="update_user" resource="users">
+                        <Link href={`/admin/users/${row.original.id}/edit`} asChild>
+                          <Button variant="ghost">
+                            <View className="flex-row items-center gap-1">
+                              <Pencil className="h-4 w-4 text-muted-foreground" />
+                              <Text className="font-semibold text-muted-foreground">Edit</Text>
+                            </View>
+                          </Button>
+                        </Link>
+                      </CanAccess>
                     </View>
-                    <View className="flex-row items-center justify-end">
-                      <DeleteButton
-                        resource="users"
-                        recordItemId={row.original.id}
-                        title={`Delete ${row.original.name}`}
-                      />
-                    </View>
+                    <CanAccess action="delete_user" resource="users">
+                      <View className="flex-row items-center justify-end">
+                        <DeleteButton
+                          resource="users"
+                          recordItemId={row.original.id}
+                          title={`Delete ${row.original.name}`}
+                        />
+                      </View>
+                    </CanAccess>
                   </TableRow>
                 ))}
               {isFetching && (
