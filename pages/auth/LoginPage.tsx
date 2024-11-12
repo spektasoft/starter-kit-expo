@@ -1,4 +1,4 @@
-import { LoginPageProps, useLogin } from '@refinedev/core';
+import { LoginPageProps, useLogin, useTranslation } from '@refinedev/core';
 import { Link, router } from 'expo-router';
 import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
@@ -19,6 +19,7 @@ import { LoginParams } from '~/providers/auth-provider/login';
 type LoginProps = LoginPageProps<ScrollViewProps, ViewProps, FormPropsType>;
 
 export const LoginPage: React.FC<LoginProps> = (props) => {
+  const { translate: __ } = useTranslation();
   const {
     control,
     handleSubmit,
@@ -56,7 +57,7 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
       <Card {...props.contentProps}>
         <CardHeader>
           <CardDescription>
-            <Text className="font-semibold leading-6">Login to your account</Text>
+            <Text className="font-semibold leading-6">{__('auth:login:heading')}</Text>
           </CardDescription>
         </CardHeader>
         <CardContent>

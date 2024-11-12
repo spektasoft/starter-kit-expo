@@ -1,12 +1,15 @@
 import '~/global.css';
+import '~/lib/i18n';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Theme, ThemeProvider } from '@react-navigation/native';
 import { Refine } from '@refinedev/core';
 import { PortalHost } from '@rn-primitives/portal';
+import { getLocales } from 'expo-localization';
 import { SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
+import i18next from 'i18next';
 import * as React from 'react';
 import { Platform } from 'react-native';
 
@@ -15,6 +18,7 @@ import { useColorScheme } from '~/lib/useColorScheme';
 import { accessControlProvider } from '~/providers/access-control-provider';
 import { authProvider } from '~/providers/auth-provider';
 import { dataProvider } from '~/providers/data-provider';
+import { i18nProvider } from '~/providers/i18n-provider';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -36,6 +40,8 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
+
+  i18next.changeLanguage(getLocales()[0].languageCode ?? 'en');
 
   React.useEffect(() => {
     (async () => {
@@ -81,6 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         accessControlProvider={accessControlProvider}
         authProvider={authProvider}
         dataProvider={dataProvider}
+        i18nProvider={i18nProvider}
         options={{ disableTelemetry: true }}>
         {children}
       </Refine>
