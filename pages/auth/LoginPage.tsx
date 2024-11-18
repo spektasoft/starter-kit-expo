@@ -14,6 +14,7 @@ import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
 import { TwoFactorChallengeError } from '~/errors/TwoFactorChallengeError';
+import { convertToHttpError } from '~/lib/http';
 import { LoginParams } from '~/providers/auth-provider/login';
 
 type LoginProps = LoginPageProps<ScrollViewProps, ViewProps, FormPropsType>;
@@ -49,7 +50,7 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
           <CardHeader>
             <CardDescription>
               <Text className="font-medium text-red-600 dark:text-red-400">
-                {__('Whoops! Something went wrong.')} {error.message}
+                {__('Whoops! Something went wrong.')} {convertToHttpError(error).message}
               </Text>
             </CardDescription>
           </CardHeader>
