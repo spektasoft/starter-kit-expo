@@ -52,5 +52,6 @@ export const en = {
     'Work in Progress': 'Work in Progress',
     'Two Factor Authentication': 'Two Factor Authentication',
     View: 'View',
+    Welcome: 'Welcome',
   },
 };

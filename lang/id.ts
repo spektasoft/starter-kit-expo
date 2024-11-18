@@ -52,5 +52,6 @@ export const id = {
     'Work in Progress': 'Dalam Pengerjaan',
     'Two Factor Authentication': 'Autentikasi Dua Faktor',
     View: 'Lihat',
+    Welcome: 'Selamat Datang',
   },
 };
