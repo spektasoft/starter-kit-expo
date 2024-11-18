@@ -1,10 +1,10 @@
-import { useLogout } from '@refinedev/core';
+import { useLogout, useTranslate } from '@refinedev/core';
 import { View } from '@rn-primitives/slot';
 import { Link } from 'expo-router';
 import { Pressable, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { SigningOutAlertDialog } from '../SigningOutAlertDialog';
+import { ProgressAlertDialog } from '../ProgressAlertDialog';
 import { ThemeSwitcher } from '../ThemeSwitcher';
 
 import { Button } from '~/components/ui/button';
@@ -26,6 +26,8 @@ import { UserCircle } from '~/lib/icons/UserCircle';
 
 export function UserMenu({ type }: { type: 'app' | 'admin' }) {
   const insets = useSafeAreaInsets();
+  const __ = useTranslate();
+
   const contentInsets = {
     top: insets.top,
     bottom: insets.bottom,
@@ -60,7 +62,7 @@ export function UserMenu({ type }: { type: 'app' | 'admin' }) {
               <Link href="/" asChild>
                 <DropdownMenuItem>
                   <Home className="h-5 w-5 text-foreground" />
-                  <Text className="text-foreground">Home</Text>
+                  <Text className="text-foreground">{__('Home')}</Text>
                 </DropdownMenuItem>
               </Link>
             )}
@@ -68,32 +70,32 @@ export function UserMenu({ type }: { type: 'app' | 'admin' }) {
               <Link href="/admin" asChild>
                 <DropdownMenuItem>
                   <BuildingLibrary className="h-5 w-5 text-foreground" />
-                  <Text className="text-foreground">Dashboard</Text>
+                  <Text className="text-foreground">{__('Dashboard')}</Text>
                 </DropdownMenuItem>
               </Link>
             )}
             <Link href="/wip" asChild>
               <DropdownMenuItem>
                 <User className="h-5 w-5 text-foreground" />
-                <Text className="text-foreground">Profile</Text>
+                <Text className="text-foreground">{__('Profile')}</Text>
               </DropdownMenuItem>
             </Link>
             <Link href="/wip" asChild>
               <DropdownMenuItem>
                 <Key className="h-5 w-5 text-foreground" />
-                <Text className="text-foreground">API Tokens</Text>
+                <Text className="text-foreground">{__('API Tokens')}</Text>
               </DropdownMenuItem>
             </Link>
             <DropdownMenuItem asChild>
               <Pressable onPress={signOut} disabled={isLoading}>
                 <ArrowLeftEndOnRectangle className="h-5 w-5 text-foreground" />
-                <Text className="text-foreground">Sign out</Text>
+                <Text className="text-foreground">{__('Logout')}</Text>
               </Pressable>
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
-      {isLoading && <SigningOutAlertDialog />}
+      {isLoading && <ProgressAlertDialog title={__('progress.logout')} />}
     </>
   );
 }

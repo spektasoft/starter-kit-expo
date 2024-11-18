@@ -1,4 +1,4 @@
-import { CanAccess } from '@refinedev/core';
+import { CanAccess, useTranslate } from '@refinedev/core';
 import { useTable } from '@refinedev/react-table';
 import { ColumnDef, flexRender } from '@tanstack/react-table';
 import { Link } from 'expo-router';
@@ -28,21 +28,23 @@ const MIN_COLUMN_WIDTHS = [120, 220, 200, 100];
 
 export const UserList = () => {
   const { width } = useWindowDimensions();
+  const __ = useTranslate();
+
   const columns = useMemo<ColumnDef<User>[]>(
     () => [
       {
         id: 'name',
-        header: 'Name',
+        header: __('Name'),
         accessorKey: 'name',
       },
       {
         id: 'email',
-        header: 'Email address',
+        header: __('Email'),
         accessorKey: 'email',
       },
       {
-        id: 'created_at',
-        header: 'Created at',
+        id: 'createdAt',
+        header: __('validation.attributes.createdAt'),
         accessorFn: (user) => new Date(user.created_at).toLocaleString(),
       },
     ],
@@ -74,13 +76,15 @@ export const UserList = () => {
       <View className="gap-y-8 py-8">
         <View className="flex flex-col gap-4 px-4 sm:flex-row sm:items-center sm:justify-between md:px-6 lg:px-8">
           <Text className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            Users
+            {__('user.resource.pluralModelLabel')}
           </Text>
           <View className="flex-row">
             <CanAccess action="create_user" resource="users">
               <Link href="/admin/users/create" asChild>
                 <Button>
-                  <Text className="text-primary-foreground">New user</Text>
+                  <Text className="text-primary-foreground">
+                    {__('Create')} {__('user.resource.modelLabel')}
+                  </Text>
                 </Button>
               </Link>
             </CanAccess>
@@ -138,7 +142,7 @@ export const UserList = () => {
                           <Button variant="ghost">
                             <View className="flex-row items-center gap-1">
                               <Eye className="h-4 w-4 text-foreground" />
-                              <Text className="font-semibold text-foreground">View</Text>
+                              <Text className="font-semibold text-foreground">{__('View')}</Text>
                             </View>
                           </Button>
                         </Link>
@@ -148,7 +152,9 @@ export const UserList = () => {
                           <Button variant="ghost">
                             <View className="flex-row items-center gap-1">
                               <Pencil className="h-4 w-4 text-muted-foreground" />
-                              <Text className="font-semibold text-muted-foreground">Edit</Text>
+                              <Text className="font-semibold text-muted-foreground">
+                                {__('Edit')}
+                              </Text>
                             </View>
                           </Button>
                         </Link>
@@ -159,7 +165,7 @@ export const UserList = () => {
                         <DeleteButton
                           resource="users"
                           recordItemId={row.original.id}
-                          title={`Delete ${row.original.name}`}
+                          title={`${__('Delete')} ${row.original.name}`}
                         />
                       </View>
                     </CanAccess>

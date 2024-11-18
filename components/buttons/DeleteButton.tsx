@@ -1,4 +1,4 @@
-import { useDeleteButton } from '@refinedev/core';
+import { useDeleteButton, useTranslate } from '@refinedev/core';
 import { RefineDeleteButtonProps } from '@refinedev/ui-types';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
@@ -35,6 +35,9 @@ export const DeleteButton = (props: DeleteButtonProps & RefineDeleteButtonProps 
     successNotification: props.successNotification,
     accessControl: props.accessControl,
   });
+  const __ = useTranslate();
+
+  console.log(deleteButton.label);
 
   return (
     <>
@@ -85,7 +88,7 @@ export const DeleteButton = (props: DeleteButtonProps & RefineDeleteButtonProps 
               <AlertDialogTitle>Deleting</AlertDialogTitle>
               <View className="flex flex-row items-center gap-2">
                 <Loading />
-                <AlertDialogDescription>Deleting, please wait…</AlertDialogDescription>
+                <AlertDialogDescription>{__('progress.delete')}</AlertDialogDescription>
               </View>
             </AlertDialogHeader>
           </AlertDialogContent>

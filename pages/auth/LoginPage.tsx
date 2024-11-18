@@ -1,4 +1,4 @@
-import { LoginPageProps, useLogin, useTranslation } from '@refinedev/core';
+import { LoginPageProps, useLogin, useTranslate } from '@refinedev/core';
 import { Link, router } from 'expo-router';
 import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
@@ -19,7 +19,6 @@ import { LoginParams } from '~/providers/auth-provider/login';
 type LoginProps = LoginPageProps<ScrollViewProps, ViewProps, FormPropsType>;
 
 export const LoginPage: React.FC<LoginProps> = (props) => {
-  const { translate: __ } = useTranslation();
   const {
     control,
     handleSubmit,
@@ -31,6 +30,8 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
     },
   });
   const { mutate, error, isLoading, isError } = useLogin();
+  const __ = useTranslate();
+
   const onSubmit = (data: LoginParams) => {
     mutate(data);
   };
@@ -48,7 +49,7 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
           <CardHeader>
             <CardDescription>
               <Text className="font-medium text-red-600 dark:text-red-400">
-                Whoops! Something went wrong: {error.message}
+                {__('Whoops! Something went wrong.')} {error.message}
               </Text>
             </CardDescription>
           </CardHeader>
@@ -57,7 +58,7 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
       <Card {...props.contentProps}>
         <CardHeader>
           <CardDescription>
-            <Text className="font-semibold leading-6">{__('auth:login:heading')}</Text>
+            <Text className="font-semibold leading-6">{__('auth.login.heading')}</Text>
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -65,16 +66,16 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
             <Controller
               control={control}
               rules={{
-                required: 'Email is required',
+                required: `${__('Email')} ${__('is required')}}`,
                 pattern: {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/i,
-                  message: 'Please enter a valid email address',
+                  message: __('Please enter a valid email address'),
                 },
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <View className="grid gap-2">
                   <Label nativeID="email-label" htmlFor="email">
-                    Email *
+                    {__('Email')} *
                   </Label>
                   <Input
                     id="email"
@@ -100,17 +101,17 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
             <Controller
               control={control}
               rules={{
-                required: 'Password is required',
+                required: `${__('Password')} ${__('is required')}}`,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <View className="grid gap-2">
                   <View className="flex flex-row items-center gap-4">
                     <Label nativeID="password-label" htmlFor="password">
-                      Password *
+                      {__('Password')} *
                     </Label>
                     <Link href="/" className="ml-auto inline-block">
                       <Text className="font-semibold text-primary hover:underline">
-                        Forgot your password?
+                        {__('Forgot your password?')}
                       </Text>
                     </Link>
                   </View>
@@ -141,17 +142,19 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
             {!isLoading && (
               <>
                 <Link href="/">
-                  <Text className="font-semibold text-primary hover:underline">Sign up</Text>
+                  <Text className="font-semibold text-primary hover:underline">
+                    {__('Register')}
+                  </Text>
                 </Link>
                 <Button onPress={handleSubmit(onSubmit)}>
-                  <Text className="font-semibold text-primary-foreground">Login</Text>
+                  <Text className="font-semibold text-primary-foreground">{__('Login')}</Text>
                 </Button>
               </>
             )}
             {isLoading && (
               <>
                 <Loading />
-                <Label className="font-bold">Logging in…</Label>
+                <Label className="font-bold">{__('progress.login')}…</Label>
               </>
             )}
           </View>

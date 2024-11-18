@@ -1,3 +1,4 @@
+import { useTranslate } from '@refinedev/core';
 import { View } from '@rn-primitives/slot';
 import { Link } from 'expo-router';
 import { Text } from 'react-native';
@@ -20,6 +21,8 @@ import { UserCircle } from '~/lib/icons/UserCircle';
 
 export function GuestMenu() {
   const insets = useSafeAreaInsets();
+  const __ = useTranslate();
+
   const contentInsets = {
     top: insets.top,
     bottom: insets.bottom,
@@ -38,7 +41,7 @@ export function GuestMenu() {
         <DropdownMenuContent insets={contentInsets} className="mt-1">
           <DropdownMenuGroup className="flex flex-row items-center gap-2 p-2.5">
             <UserCircle className="h-5 w-5 text-foreground" />
-            <Text className="text-foreground">Guest</Text>
+            <Text className="text-foreground">{__('navigationMenu.menu.guest')}</Text>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <View className="justify-center">
@@ -48,7 +51,7 @@ export function GuestMenu() {
           <Link href="/login" asChild>
             <DropdownMenuItem>
               <ArrowRightEndOnRectangle className="h-5 w-5 text-foreground" />
-              <Text className="text-foreground">Login/Register</Text>
+              <Text className="text-foreground">{__('navigationMenu.menu.loginRegister')}</Text>
             </DropdownMenuItem>
           </Link>
         </DropdownMenuContent>

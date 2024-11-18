@@ -1,14 +1,16 @@
-import { useLogout } from '@refinedev/core';
+import { useLogout, useTranslate } from '@refinedev/core';
 import { Text, View } from 'react-native';
 
 import { Container } from '~/components/Container';
-import { SigningOutAlertDialog } from '~/components/SigningOutAlertDialog';
+import { ProgressAlertDialog } from '~/components/ProgressAlertDialog';
 import { Button } from '~/components/ui/button';
 import { Card, CardDescription, CardTitle } from '~/components/ui/card';
 import { ArrowLeftEndOnRectangle } from '~/lib/icons/ArrowLeftEndOnRectangle';
 
 export default function Dashboard() {
   const { mutate, isLoading } = useLogout();
+  const __ = useTranslate();
+
   const signOut = () => {
     mutate();
   };
@@ -47,7 +49,7 @@ export default function Dashboard() {
           </View>
         </View>
       </Container>
-      {isLoading && <SigningOutAlertDialog />}
+      {isLoading && <ProgressAlertDialog title={__('progress.logout')} />}
     </>
   );
 }
