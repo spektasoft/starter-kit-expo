@@ -2,7 +2,7 @@ import '~/global.css';
 import '~/lib/i18n';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Theme, ThemeProvider } from '@react-navigation/native';
+import { DefaultTheme, Theme, ThemeProvider, DarkTheme } from '@react-navigation/native';
 import { Refine, useTranslation } from '@refinedev/core';
 import { PortalHost } from '@rn-primitives/portal';
 import { SplashScreen } from 'expo-router';
@@ -18,13 +18,16 @@ import { accessControlProvider } from '~/providers/access-control-provider';
 import { authProvider } from '~/providers/auth-provider';
 import { dataProvider } from '~/providers/data-provider';
 import { i18nProvider } from '~/providers/i18n-provider';
+
 const LIGHT_THEME: Theme = {
   dark: false,
   colors: NAV_THEME.light,
+  fonts: DefaultTheme.fonts,
 };
 const DARK_THEME: Theme = {
   dark: true,
   colors: NAV_THEME.dark,
+  fonts: DarkTheme.fonts,
 };
 
 export {
