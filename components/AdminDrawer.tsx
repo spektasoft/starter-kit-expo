@@ -1,7 +1,8 @@
-import { useCan } from '@refinedev/core';
+import { useCan, useTranslate } from '@refinedev/core';
 import { Drawer } from 'expo-router/drawer';
-import { Pressable, View } from 'react-native';
+import { Platform, Pressable, View } from 'react-native';
 
+import { LanguageSwitcher } from './navigation-menu/LanguageSwitcher';
 import { userDrawerScreens } from '../pages/resources/user/userDrawerScreens';
 
 import { UserMenu } from '~/components/navigation-menu/UserMenu';
@@ -14,6 +15,7 @@ export const AdminDrawer = () => {
     resource: 'users',
     action: 'view_any_user',
   });
+  const __ = useTranslate();
 
   let isShown = true;
 
@@ -30,7 +32,8 @@ export const AdminDrawer = () => {
       screenOptions={(props) => {
         return {
           headerRight: () => (
-            <View className="mx-3 flex flex-row items-center justify-center">
+            <View className="mx-3 flex flex-row items-center justify-center gap-1">
+              {Platform.OS === 'web' && <LanguageSwitcher />}
               <UserMenu type="admin" />
             </View>
           ),
@@ -45,8 +48,8 @@ export const AdminDrawer = () => {
       <Drawer.Screen
         name="index"
         options={{
-          drawerLabel: 'Dashboard',
-          title: 'Dashboard',
+          drawerLabel: __('Dashboard'),
+          title: __('Dashboard'),
           drawerIcon: ({ color }) => <Home className="h-5 w-5" color={color} />,
         }}
       />
@@ -54,13 +57,15 @@ export const AdminDrawer = () => {
         key="users/index"
         name="users/index"
         options={{
-          drawerLabel: 'Users',
-          title: 'Users',
+          drawerLabel: __('user.resource.pluralModelLabel'),
+          title: __('user.resource.pluralModelLabel'),
           drawerIcon: ({ color }) => <User className="h-5 w-5" color={color} />,
           drawerItemStyle: { display: isShown ? 'flex' : 'none' },
         }}
       />
-      {userDrawerScreens}
+      {userDrawerScreens({
+        __: (key) => __(key),
+      })}
     </Drawer>
   );
 };

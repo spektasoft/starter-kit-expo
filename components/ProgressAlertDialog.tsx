@@ -1,3 +1,4 @@
+import { useTranslate } from '@refinedev/core';
 import { View } from 'react-native';
 
 import { Loading } from './Loading';
@@ -9,15 +10,19 @@ import {
   AlertDialogTitle,
 } from './ui/alert-dialog';
 
-export const SigningOutAlertDialog = () => {
+export const ProgressAlertDialog = (props: { title: string; message?: string }) => {
+  const __ = useTranslate();
+
   return (
     <AlertDialog defaultOpen>
       <AlertDialogContent className="m-2 w-full">
         <AlertDialogHeader>
-          <AlertDialogTitle>Signing out</AlertDialogTitle>
+          <AlertDialogTitle>{props.title}</AlertDialogTitle>
           <View className="flex flex-row items-center gap-2">
             <Loading />
-            <AlertDialogDescription>Signing out, please wait…</AlertDialogDescription>
+            <AlertDialogDescription>
+              {props.message ?? __('progress.pleaseWait')}
+            </AlertDialogDescription>
           </View>
         </AlertDialogHeader>
       </AlertDialogContent>

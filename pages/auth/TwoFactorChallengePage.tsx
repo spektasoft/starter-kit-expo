@@ -1,4 +1,4 @@
-import { useLogin } from '@refinedev/core';
+import { useLogin, useTranslate } from '@refinedev/core';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
@@ -21,6 +21,7 @@ type TwoFactorChallengeProps = {
 
 export const TwoFactorChallengePage = (props: TwoFactorChallengeProps) => {
   const [showRecovery, setShowRecovery] = useState(false);
+
   const {
     control,
     handleSubmit,
@@ -33,6 +34,8 @@ export const TwoFactorChallengePage = (props: TwoFactorChallengeProps) => {
     },
   });
   const { mutate: challenge, error, isLoading, isError } = useLogin<TwoFactorChallengeParams>();
+  const __ = useTranslate();
+
   const onSubmit = (data: TwoFactorChallengeParams) => {
     challenge(data);
   };
@@ -50,7 +53,7 @@ export const TwoFactorChallengePage = (props: TwoFactorChallengeProps) => {
           <CardHeader>
             <CardDescription>
               <Text className="font-medium text-red-600 dark:text-red-400">
-                Whoops! Something went wrong: {error.message}
+                {__('Whoops! Something went wrong.')} {error.message}
               </Text>
             </CardDescription>
           </CardHeader>
@@ -64,8 +67,12 @@ export const TwoFactorChallengePage = (props: TwoFactorChallengeProps) => {
             </CardDescription>
             <CardDescription className="leading-6">
               {showRecovery
-                ? 'Please confirm access to your account by entering one of your emergency recovery codes.'
-                : 'Please confirm access to your account by entering the authentication code provided by your authenticator application.'}
+                ? __(
+                    'Please confirm access to your account by entering one of your emergency recovery codes.'
+                  )
+                : __(
+                    'Please confirm access to your account by entering the authentication code provided by your authenticator application.'
+                  )}
             </CardDescription>
           </View>
         </CardHeader>
@@ -73,11 +80,13 @@ export const TwoFactorChallengePage = (props: TwoFactorChallengeProps) => {
           <Controller
             control={control}
             rules={{
-              required: `${showRecovery ? 'Recovery Code' : 'Code'} is required`,
+              required: `${showRecovery ? __('Recovery Code') : __('Code')} ${__('is required')}`,
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <View className="grid gap-2">
-                <Label nativeID="code-label">{showRecovery ? 'Recovery Code *' : 'Code *'}</Label>
+                <Label nativeID="code-label">
+                  {showRecovery ? `${__('Recovery Code')} *` : `${__('Code')} *`}
+                </Label>
                 <Input
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -109,14 +118,14 @@ export const TwoFactorChallengePage = (props: TwoFactorChallengeProps) => {
                   </Text>
                 </Pressable>
                 <Button onPress={handleSubmit(onSubmit)}>
-                  <Text className="font-semibold text-primary-foreground">Login</Text>
+                  <Text className="font-semibold text-primary-foreground">{__('Login')}</Text>
                 </Button>
               </>
             )}
             {isLoading && (
               <>
                 <Loading />
-                <Label className="font-bold">Logging in…</Label>
+                <Label className="font-bold">{__('progress.login')}…</Label>
               </>
             )}
           </View>

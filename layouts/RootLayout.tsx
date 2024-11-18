@@ -1,12 +1,14 @@
 import '~/global.css';
+import '~/lib/i18n';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Theme, ThemeProvider } from '@react-navigation/native';
-import { Refine } from '@refinedev/core';
+import { Refine, useTranslation } from '@refinedev/core';
 import { PortalHost } from '@rn-primitives/portal';
 import { SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
+import i18next from 'i18next';
 import * as React from 'react';
 import { Platform } from 'react-native';
 
@@ -15,7 +17,7 @@ import { useColorScheme } from '~/lib/useColorScheme';
 import { accessControlProvider } from '~/providers/access-control-provider';
 import { authProvider } from '~/providers/auth-provider';
 import { dataProvider } from '~/providers/data-provider';
-
+import { i18nProvider } from '~/providers/i18n-provider';
 const LIGHT_THEME: Theme = {
   dark: false,
   colors: NAV_THEME.light,
@@ -81,10 +83,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         accessControlProvider={accessControlProvider}
         authProvider={authProvider}
         dataProvider={dataProvider}
+        i18nProvider={i18nProvider}
         options={{ disableTelemetry: true }}>
-        {children}
+        <LocaleProvider>{children}</LocaleProvider>
       </Refine>
       <PortalHost />
     </ThemeProvider>
   );
 }
+
+const LocaleProvider = ({ children }: { children: React.ReactNode }) => {
+  const { getLocale } = useTranslation();
+
+  i18next.changeLanguage(getLocale());
+
+  return <>{children}</>;
+};

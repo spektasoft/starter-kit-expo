@@ -1,4 +1,4 @@
-import { useApiUrl, useCustomMutation } from '@refinedev/core';
+import { useApiUrl, useCustomMutation, useTranslate } from '@refinedev/core';
 import { Link } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { Pressable, Text, View, ViewProps } from 'react-native';
@@ -15,13 +15,12 @@ type EmailVerificationProps = {
 };
 
 export const EmailVerificationPage = (props: EmailVerificationProps) => {
+  const url = useApiUrl();
+  const { mutate: verify, isLoading, isError, isSuccess, error } = useCustomMutation();
   const { handleSubmit } = useForm({
     defaultValues: {},
   });
-
-  const url = useApiUrl();
-
-  const { mutate: verify, isLoading, isError, isSuccess, error } = useCustomMutation();
+  const __ = useTranslate();
 
   const onSubmit = () => {
     verify({
@@ -38,7 +37,7 @@ export const EmailVerificationPage = (props: EmailVerificationProps) => {
           <CardHeader>
             <CardDescription>
               <Text className="font-medium text-red-600 dark:text-red-400">
-                Whoops! Something went wrong: {error.message}
+                {__('Whoops! Something went wrong.')} {error.message}
               </Text>
             </CardDescription>
           </CardHeader>
@@ -49,8 +48,9 @@ export const EmailVerificationPage = (props: EmailVerificationProps) => {
           <CardHeader>
             <CardDescription>
               <Text className="text-sm font-medium text-green-600 dark:text-green-400">
-                A new verification link has been sent to the email address you provided in your
-                profile settings.
+                {__(
+                  'A new verification link has been sent to the email address you provided in your profile settings.'
+                )}
               </Text>
             </CardDescription>
           </CardHeader>
@@ -63,8 +63,9 @@ export const EmailVerificationPage = (props: EmailVerificationProps) => {
               Verify your email address
             </CardDescription>
             <CardDescription className="leading-6">
-              Before continuing, could you verify your email address by clicking on the link we just
-              emailed to you? If you didn't receive the email, we will gladly send you another.
+              {__(
+                "Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another."
+              )}
             </CardDescription>
           </View>
         </CardHeader>
@@ -75,17 +76,21 @@ export const EmailVerificationPage = (props: EmailVerificationProps) => {
               <>
                 <Link href="/wip" asChild>
                   <Pressable>
-                    <Text className="font-semibold text-primary hover:underline">Edit Profile</Text>
+                    <Text className="font-semibold text-primary hover:underline">
+                      {__('Edit Profile')}
+                    </Text>
                   </Pressable>
                 </Link>
                 <Button onPress={handleSubmit(onSubmit)}>
                   <Text className="font-semibold text-primary-foreground">
-                    Resend Verification Email
+                    {__('Resend Verification Email')}
                   </Text>
                 </Button>
                 <Link href="/admin" asChild>
                   <Button variant="secondary">
-                    <Text className="font-semibold text-secondary-foreground">Go to Dashboard</Text>
+                    <Text className="font-semibold text-secondary-foreground">
+                      {__('Go to Dashboard')}
+                    </Text>
                   </Button>
                 </Link>
               </>
@@ -93,7 +98,7 @@ export const EmailVerificationPage = (props: EmailVerificationProps) => {
             {isLoading && (
               <>
                 <Loading />
-                <Label className="font-bold">Sending…</Label>
+                <Label className="font-bold">{__('progress.send')}…</Label>
               </>
             )}
           </View>

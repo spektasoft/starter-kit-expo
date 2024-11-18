@@ -1,11 +1,11 @@
 import Drawer from 'expo-router/drawer';
 
-export const userDrawerScreens = [
+export const userDrawerScreens = ({ __ }: { __: (key: string) => void }) => [
   <Drawer.Screen
     key="users/create"
     name="users/create"
     options={{
-      title: 'Create Users',
+      title: `${__('Create')} ${__('user.resource.pluralModelLabel')}`,
       drawerItemStyle: { display: 'none' },
     }}
   />,
@@ -13,7 +13,7 @@ export const userDrawerScreens = [
     key="users/[id]/index"
     name="users/[id]/index"
     options={{
-      title: 'View User',
+      title: `${__('View')} ${__('user.resource.modelLabel')}`,
       drawerItemStyle: { display: 'none' },
     }}
   />,
@@ -21,7 +21,7 @@ export const userDrawerScreens = [
     key="users/[id]/edit"
     name="users/[id]/edit"
     options={{
-      title: 'Edit User',
+      title: `${__('Edit')} ${__('user.resource.modelLabel')}`,
       drawerItemStyle: { display: 'none' },
     }}
   />,

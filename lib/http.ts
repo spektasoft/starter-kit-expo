@@ -5,18 +5,23 @@ import { Platform } from 'react-native';
 import { getItemAsync } from './store';
 
 import { getApiUrl, getTokenKey } from '~/config';
+import { i18nProvider } from '~/providers/i18n-provider';
 
 export const getHttp = async () => {
   const apiUrl = getApiUrl();
 
-  let headers = {};
+  let headers: { [key: string]: string } = {
+    'Content-Language': i18nProvider.getLocale(),
+  };
   if (Platform.OS === 'web') {
     headers = {
+      ...headers,
       'X-Requested-With': 'XMLHttpRequest',
     };
   } else {
     const token = await getItemAsync(getTokenKey());
     headers = {
+      ...headers,
       ...(token && { Authorization: `Bearer ${token}` }),
     };
   }
@@ -45,7 +50,7 @@ export const isSuccess = (response: AxiosResponse) => {
 export const convertToHttpError = (e: unknown): HttpError => {
   if (axios.isAxiosError(e)) {
     return {
-      message: e.message,
+      message: e.response?.data?.message ?? e.message,
       statusCode: e.status ?? 500,
     };
   }
