@@ -9,6 +9,7 @@ import { LanguageSwitcher } from './navigation-menu/LanguageSwitcher';
 import { UserMenu } from '~/components/navigation-menu/UserMenu';
 import { Bars3 } from '~/lib/icons/Bars3';
 import { Home } from '~/lib/icons/Home';
+import { DRAWER_ITEM_STYLE } from '~/lib/constants';
 
 export const HomeDrawer = () => {
   const __ = useTranslate();
@@ -29,16 +30,14 @@ export const HomeDrawer = () => {
             <Bars3 className="text-foreground" />
           </Pressable>
         ),
-        drawerType: 'back',
-        drawerItemStyle: {
-          marginBottom: 8,
-        },
+        drawerItemStyle: DRAWER_ITEM_STYLE,
       })}>
       <Drawer.Screen
         name="index"
         options={{
           title: __('Home'),
           drawerIcon: ({ color }) => <Home className="h-5 w-5" color={color} />,
+          drawerItemStyle: DRAWER_ITEM_STYLE,
         }}
       />
       <Drawer.Screen

@@ -9,6 +9,7 @@ import { UserMenu } from '~/components/navigation-menu/UserMenu';
 import { Bars3 } from '~/lib/icons/Bars3';
 import { Home } from '~/lib/icons/Home';
 import { User } from '~/lib/icons/User';
+import { DRAWER_ITEM_STYLE } from '~/lib/constants';
 
 export const AdminDrawer = () => {
   const { data: viewAnyUser, isLoading } = useCan({
@@ -42,10 +43,7 @@ export const AdminDrawer = () => {
               <Bars3 className="text-foreground" />
             </Pressable>
           ),
-          drawerType: 'back',
-          drawerItemStyle: {
-            marginBottom: 8,
-          },
+          drawerItemStyle: DRAWER_ITEM_STYLE,
         };
       }}>
       <Drawer.Screen
@@ -54,6 +52,7 @@ export const AdminDrawer = () => {
           drawerLabel: __('Dashboard'),
           title: __('Dashboard'),
           drawerIcon: ({ color }) => <Home className="h-5 w-5" color={color} />,
+          drawerItemStyle: DRAWER_ITEM_STYLE,
         }}
       />
       <Drawer.Screen
@@ -63,7 +62,7 @@ export const AdminDrawer = () => {
           drawerLabel: __('user.resource.pluralModelLabel'),
           title: __('user.resource.pluralModelLabel'),
           drawerIcon: ({ color }) => <User className="h-5 w-5" color={color} />,
-          drawerItemStyle: { display: isShown ? 'flex' : 'none' },
+          drawerItemStyle: Object.assign({ display: isShown ? 'flex' : 'none' }, DRAWER_ITEM_STYLE),
         }}
       />
       {userDrawerScreens({

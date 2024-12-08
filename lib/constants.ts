@@ -1,3 +1,10 @@
+import { StyleProp, ViewStyle } from 'react-native';
+
+export const DRAWER_ITEM_STYLE: StyleProp<ViewStyle> = {
+  borderRadius: 8,
+  marginBottom: 4,
+};
+
 export type Theme = {
   background: string;
   border: string;
