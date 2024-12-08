@@ -40,7 +40,7 @@ export function GuestMenu() {
         </DropdownMenuTrigger>
         <DropdownMenuContent insets={contentInsets} className="mt-1">
           <DropdownMenuGroup className="flex flex-row items-center gap-2 p-2.5">
-            <UserCircle className="h-5 w-5 text-foreground" />
+            <UserCircle className="h-5 w-5 text-muted-foreground" />
             <Text className="text-foreground">{__('navigationMenu.menu.guest')}</Text>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />

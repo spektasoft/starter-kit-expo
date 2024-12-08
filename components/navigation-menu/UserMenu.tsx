@@ -52,7 +52,7 @@ export function UserMenu({ type }: { type: 'app' | 'admin' }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent insets={contentInsets} className="mt-1">
           <DropdownMenuGroup className="flex flex-row items-center gap-2 p-2.5">
-            <UserCircle className="h-5 w-5 text-foreground" variant="solid" />
+            <UserCircle className="h-5 w-5 text-muted-foreground" variant="solid" />
             {isFetching ? <Loading /> : <Text className="text-foreground">{user?.name}</Text>}
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
@@ -64,7 +64,7 @@ export function UserMenu({ type }: { type: 'app' | 'admin' }) {
             {type === 'admin' && (
               <Link href="/" asChild>
                 <DropdownMenuItem>
-                  <Home className="h-5 w-5 text-foreground" />
+                  <Home className="h-5 w-5 text-muted-foreground" />
                   <Text className="text-foreground">{__('Home')}</Text>
                 </DropdownMenuItem>
               </Link>
@@ -72,26 +72,26 @@ export function UserMenu({ type }: { type: 'app' | 'admin' }) {
             {type === 'app' && (
               <Link href="/admin" asChild>
                 <DropdownMenuItem>
-                  <BuildingLibrary className="h-5 w-5 text-foreground" />
+                  <BuildingLibrary className="h-5 w-5 text-muted-foreground" />
                   <Text className="text-foreground">{__('Dashboard')}</Text>
                 </DropdownMenuItem>
               </Link>
             )}
             <Link href="/wip" asChild>
               <DropdownMenuItem>
-                <User className="h-5 w-5 text-foreground" />
+                <User className="h-5 w-5 text-muted-foreground" />
                 <Text className="text-foreground">{__('Profile')}</Text>
               </DropdownMenuItem>
             </Link>
             <Link href="/wip" asChild>
               <DropdownMenuItem>
-                <Key className="h-5 w-5 text-foreground" />
+                <Key className="h-5 w-5 text-muted-foreground" />
                 <Text className="text-foreground">{__('API Tokens')}</Text>
               </DropdownMenuItem>
             </Link>
             <DropdownMenuItem asChild>
               <Pressable onPress={signOut} disabled={isLoading}>
-                <ArrowLeftEndOnRectangle className="h-5 w-5 text-foreground" />
+                <ArrowLeftEndOnRectangle className="h-5 w-5 text-muted-foreground" />
                 <Text className="text-foreground">{__('Logout')}</Text>
               </Pressable>
             </DropdownMenuItem>

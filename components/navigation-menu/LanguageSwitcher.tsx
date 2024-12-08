@@ -38,11 +38,11 @@ export function LanguageSwitcher() {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost">
             <View className="flex flex-row items-center gap-2">
-              <Language className="h-5 w-5 text-foreground" />
-              <Text className="hidden text-foreground sm:flex">
+              <Language className="h-5 w-5 text-muted-foreground" />
+              <Text className="hidden text-muted-foreground sm:flex">
                 {__('navigationMenu.languageSwitcher.language')}
               </Text>
-              <ChevronDown className="h-3 w-3 text-foreground" />
+              <ChevronDown className="h-3 w-3 text-muted-foreground" />
             </View>
           </Button>
         </DropdownMenuTrigger>
