@@ -13,7 +13,7 @@ import { User } from '~/lib/icons/User';
 export const AdminDrawer = () => {
   const { data: viewAnyUser, isLoading } = useCan({
     resource: 'users',
-    action: 'view_any_user',
+    action: 'viewAny',
   });
   const __ = useTranslate();
 

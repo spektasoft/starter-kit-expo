@@ -14,7 +14,7 @@ export const accessControlProvider: AccessControlProvider = {
 
     try {
       const isGranted = await can({
-        permission: params.action,
+        action: params.action,
         resource,
         id: params.params?.id?.toString(),
       });
