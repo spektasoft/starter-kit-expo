@@ -22,11 +22,6 @@ export default function Dashboard() {
     <>
       <Container>
         <View className="flex gap-y-8 py-8">
-          <View className="flex gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <Text className="text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl">
-              {__('Dashboard')}
-            </Text>
-          </View>
           <View className="grid sm:grid-cols-2">
             <Card>
               <View className="flex flex-row items-center justify-between">

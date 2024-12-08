@@ -74,11 +74,8 @@ export const UserList = () => {
   return (
     <ScrollView>
       <View className="gap-y-8 py-8">
-        <View className="flex flex-col gap-4 px-4 sm:flex-row sm:items-center sm:justify-between md:px-6 lg:px-8">
-          <Text className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            {__('user.resource.pluralModelLabel')}
-          </Text>
-          <View className="flex-row">
+        <View className="flex w-full flex-col gap-4 px-4 sm:flex-row sm:items-center sm:justify-end md:px-6 lg:px-8">
+          <View className="flex flex-col sm:flex-row">
             <CanAccess action="create" resource="users">
               <Link href="/admin/users/create" asChild>
                 <Button>
