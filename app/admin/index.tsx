@@ -1,13 +1,16 @@
-import { useLogout, useTranslate } from '@refinedev/core';
+import { useGetIdentity, useLogout, useTranslate } from '@refinedev/core';
 import { Text, View } from 'react-native';
 
 import { Container } from '~/components/Container';
+import { Loading } from '~/components/Loading';
 import { ProgressAlertDialog } from '~/components/ProgressAlertDialog';
 import { Button } from '~/components/ui/button';
 import { Card, CardDescription, CardTitle } from '~/components/ui/card';
 import { ArrowLeftEndOnRectangle } from '~/lib/icons/ArrowLeftEndOnRectangle';
+import { User } from '~/models/User';
 
 export default function Dashboard() {
+  const { data: user, isFetching } = useGetIdentity<User>();
   const { mutate, isLoading } = useLogout();
   const __ = useTranslate();
 
@@ -29,7 +32,13 @@ export default function Dashboard() {
               <View className="flex flex-row items-center justify-between">
                 <View className="flex flex-col space-y-1.5 p-6">
                   <CardTitle>{__('Welcome')}</CardTitle>
-                  <CardDescription>Admin</CardDescription>
+                  <CardDescription>
+                    {isFetching ? (
+                      <Loading />
+                    ) : (
+                      <Text className="text-foreground">{user?.name}</Text>
+                    )}
+                  </CardDescription>
                 </View>
                 <View className="p-6">
                   <Button variant="secondary" className="hidden sm:flex" onPress={signOut}>
