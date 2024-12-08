@@ -30,6 +30,9 @@ export const HomeDrawer = () => {
           </Pressable>
         ),
         drawerType: 'back',
+        drawerItemStyle: {
+          marginBottom: 8,
+        },
       })}>
       <Drawer.Screen
         name="index"

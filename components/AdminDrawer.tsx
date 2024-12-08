@@ -9,7 +9,6 @@ import { UserMenu } from '~/components/navigation-menu/UserMenu';
 import { Bars3 } from '~/lib/icons/Bars3';
 import { Home } from '~/lib/icons/Home';
 import { User } from '~/lib/icons/User';
-import { GetIdentity } from './GetIdentity';
 
 export const AdminDrawer = () => {
   const { data: viewAnyUser, isLoading } = useCan({
@@ -44,6 +43,9 @@ export const AdminDrawer = () => {
             </Pressable>
           ),
           drawerType: 'back',
+          drawerItemStyle: {
+            marginBottom: 8,
+          },
         };
       }}>
       <Drawer.Screen
