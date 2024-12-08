@@ -79,7 +79,7 @@ export const UserList = () => {
             <CanAccess action="create" resource="users">
               <Link href="/admin/users/create" asChild>
                 <Button>
-                  <Text className="text-primary-foreground">
+                  <Text className="font-semibold text-primary-foreground">
                     {__('Create')} {__('user.resource.modelLabel')}
                   </Text>
                 </Button>
