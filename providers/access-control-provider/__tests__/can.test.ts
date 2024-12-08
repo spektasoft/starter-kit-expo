@@ -7,7 +7,7 @@ describe('Can', () => {
   test('should success', async () => {
     await actingAsDefaultUser();
     const params: CanParams = {
-      permission: 'view_any_user',
+      action: 'viewAny',
       resource: 'users',
     };
     await expect(can(params)).resolves.not.toThrow();

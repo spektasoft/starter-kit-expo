@@ -10,7 +10,7 @@ export default function Edit() {
   const local = useLocalSearchParams();
   const { data: viewAnyUser, isLoading } = useCan({
     resource: 'users',
-    action: 'update_user',
+    action: 'update',
     params: {
       id: local.id?.toString(),
     },

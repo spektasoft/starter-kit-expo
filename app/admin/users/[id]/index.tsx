@@ -10,7 +10,7 @@ export default function Index() {
   const local = useLocalSearchParams();
   const { data: viewAnyUser, isLoading } = useCan({
     resource: 'users',
-    action: 'view_user',
+    action: 'view',
     params: {
       id: local.id?.toString(),
     },

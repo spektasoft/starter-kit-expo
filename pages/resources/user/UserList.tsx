@@ -79,7 +79,7 @@ export const UserList = () => {
             {__('user.resource.pluralModelLabel')}
           </Text>
           <View className="flex-row">
-            <CanAccess action="create_user" resource="users">
+            <CanAccess action="create" resource="users">
               <Link href="/admin/users/create" asChild>
                 <Button>
                   <Text className="text-primary-foreground">
@@ -137,7 +137,7 @@ export const UserList = () => {
                       );
                     })}
                     <View className="flex-row items-center justify-end">
-                      <CanAccess action="view_user" resource="users">
+                      <CanAccess action="view" resource="users" params={{ id: row.original.id }}>
                         <Link href={`/admin/users/${row.original.id}`} asChild>
                           <Button variant="ghost">
                             <View className="flex-row items-center gap-1">
@@ -147,7 +147,7 @@ export const UserList = () => {
                           </Button>
                         </Link>
                       </CanAccess>
-                      <CanAccess action="update_user" resource="users">
+                      <CanAccess action="update" resource="users" params={{ id: row.original.id }}>
                         <Link href={`/admin/users/${row.original.id}/edit`} asChild>
                           <Button variant="ghost">
                             <View className="flex-row items-center gap-1">
@@ -160,7 +160,7 @@ export const UserList = () => {
                         </Link>
                       </CanAccess>
                     </View>
-                    <CanAccess action="delete_user" resource="users">
+                    <CanAccess action="delete" resource="users" params={{ id: row.original.id }}>
                       <View className="flex-row items-center justify-end">
                         <DeleteButton
                           resource="users"

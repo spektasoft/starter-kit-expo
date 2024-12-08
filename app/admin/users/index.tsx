@@ -8,7 +8,7 @@ import { UserList } from '~/pages/resources/user/UserList';
 export default function Users() {
   const { data: viewAnyUser, isLoading } = useCan({
     resource: 'users',
-    action: 'view_any_user',
+    action: 'viewAny',
   });
 
   if (isLoading) {

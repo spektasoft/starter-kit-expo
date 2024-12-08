@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import { getHttp } from '~/lib/http';
 
 export type CanParams = {
-  permission: string;
+  action: string;
   resource: string;
   id?: string;
 };
