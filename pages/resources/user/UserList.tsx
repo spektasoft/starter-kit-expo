@@ -3,7 +3,7 @@ import { useTable } from '@refinedev/react-table';
 import { ColumnDef, flexRender } from '@tanstack/react-table';
 import { Link } from 'expo-router';
 import { useMemo } from 'react';
-import { Pressable, ScrollView, Text, useWindowDimensions, View } from 'react-native';
+import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
 
 import { Container } from '~/components/Container';
 import { Loading } from '~/components/Loading';
@@ -17,6 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui/table';
+import { Text } from '~/components/ui/text';
 import { ChevronDown } from '~/lib/icons/ChevronDown';
 import { ChevronUp } from '~/lib/icons/ChevronUp';
 import { Eye } from '~/lib/icons/Eye';
@@ -79,7 +80,7 @@ export const UserList = () => {
             <CanAccess action="create" resource="users">
               <Link href="/admin/users/create" asChild>
                 <Button>
-                  <Text className="font-semibold text-primary-foreground">
+                  <Text className="font-sans-bold text-primary-foreground">
                     {__('Create')} {__('user.resource.modelLabel')}
                   </Text>
                 </Button>
@@ -97,7 +98,7 @@ export const UserList = () => {
                       <TableHead key={header.id} style={{ width: columnWidths[index] }}>
                         <Pressable onPress={header.column.getToggleSortingHandler()}>
                           <View className="flex-row items-center gap-x-1">
-                            <Text className="text-sm font-semibold text-foreground">
+                            <Text className="font-sans-semibold text-sm text-foreground">
                               {flexRender(header.column.columnDef.header, header.getContext())}
                             </Text>
                             {{
@@ -139,7 +140,9 @@ export const UserList = () => {
                           <Button variant="ghost">
                             <View className="flex-row items-center gap-1">
                               <Eye className="h-4 w-4 text-foreground" />
-                              <Text className="font-semibold text-foreground">{__('View')}</Text>
+                              <Text className="font-sans-semibold text-foreground">
+                                {__('View')}
+                              </Text>
                             </View>
                           </Button>
                         </Link>
@@ -149,7 +152,7 @@ export const UserList = () => {
                           <Button variant="ghost">
                             <View className="flex-row items-center gap-1">
                               <Pencil className="h-4 w-4 text-muted-foreground" />
-                              <Text className="font-semibold text-muted-foreground">
+                              <Text className="font-sans-semibold text-muted-foreground">
                                 {__('Edit')}
                               </Text>
                             </View>

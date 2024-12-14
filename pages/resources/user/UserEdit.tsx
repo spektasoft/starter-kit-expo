@@ -1,5 +1,5 @@
 import { useTranslate } from '@refinedev/core';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { UserForm } from './UserForm';
 

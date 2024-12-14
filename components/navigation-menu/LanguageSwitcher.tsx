@@ -1,6 +1,6 @@
 import { useTranslation } from '@refinedev/core';
-import { useState } from 'react';
-import { Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ProgressAlertDialog } from '../ProgressAlertDialog';
@@ -12,6 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
+import { Text } from '~/components/ui/text';
 import { ChevronDown } from '~/lib/icons/ChevronDown';
 import { Language } from '~/lib/icons/Language';
 

@@ -1,9 +1,11 @@
 import { useGetIdentity, useLogout, useTranslate } from '@refinedev/core';
 import { View } from '@rn-primitives/slot';
 import { Link } from 'expo-router';
-import { Pressable, Text } from 'react-native';
+import React from 'react';
+import { Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { Loading } from '../Loading';
 import { ProgressAlertDialog } from '../ProgressAlertDialog';
 import { ThemeSwitcher } from '../ThemeSwitcher';
 
@@ -16,6 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
+import { Text } from '~/components/ui/text';
 import { ArrowLeftEndOnRectangle } from '~/lib/icons/ArrowLeftEndOnRectangle';
 import { BuildingLibrary } from '~/lib/icons/BuildingLibrary';
 import { EllipsisVertical } from '~/lib/icons/EllipsesVertical';
@@ -24,7 +27,6 @@ import { Key } from '~/lib/icons/Key';
 import { User } from '~/lib/icons/User';
 import { UserCircle } from '~/lib/icons/UserCircle';
 import { User as UserModel } from '~/models/User';
-import { Loading } from '../Loading';
 
 export function UserMenu({ type }: { type: 'app' | 'admin' }) {
   const { data: user, isFetching } = useGetIdentity<UserModel>();

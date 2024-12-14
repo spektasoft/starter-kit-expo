@@ -1,6 +1,8 @@
 import { useLogout, useGetIdentity } from '@refinedev/core';
 import React from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
+
+import { Text } from '~/components/ui/text';
 
 export const Header = () => {
   const { mutate, isLoading } = useLogout();
@@ -17,7 +19,7 @@ export const Header = () => {
         {isLoading ? (
           <ActivityIndicator color="#ffffff" />
         ) : (
-          <Text className="text-center font-semibold text-white">Logout</Text>
+          <Text className="font-sans-semibold text-center text-white">Logout</Text>
         )}
       </TouchableOpacity>
     </View>

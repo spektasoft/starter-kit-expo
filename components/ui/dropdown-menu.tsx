@@ -1,8 +1,8 @@
 import * as DropdownMenuPrimitive from '@rn-primitives/dropdown-menu';
 import * as React from 'react';
-import { Platform, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
-import { TextClassContext } from '~/components/ui/text';
+import { Text, TextClassContext } from '~/components/ui/text';
 import { Check } from '~/lib/icons/Check';
 import { ChevronDown } from '~/lib/icons/ChevronDown';
 import { ChevronRight } from '~/lib/icons/ChevronRight';
@@ -188,7 +188,7 @@ const DropdownMenuLabel = React.forwardRef<
   <DropdownMenuPrimitive.Label
     ref={ref}
     className={cn(
-      'native:text-base px-2 py-1.5 text-sm font-semibold text-foreground web:cursor-default',
+      'native:text-base font-sans-semibold px-2 py-1.5 text-sm text-foreground web:cursor-default',
       inset && 'pl-8',
       className
     )}

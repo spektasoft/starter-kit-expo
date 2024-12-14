@@ -1,9 +1,10 @@
 import { useTranslate } from '@refinedev/core';
 import { View } from '@rn-primitives/slot';
-import { Text } from 'react-native';
+import React from 'react';
 
 import { Container } from '~/components/Container';
 import { Card, CardHeader } from '~/components/ui/card';
+import { Text } from '~/components/ui/text';
 import { InformationCircle } from '~/lib/icons/InformationCircle';
 
 export default function Forbidden() {

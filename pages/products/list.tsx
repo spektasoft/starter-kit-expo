@@ -1,6 +1,8 @@
 import { useTable } from '@refinedev/core';
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, TouchableOpacity, ScrollView } from 'react-native';
+
+import { Text } from '~/components/ui/text';
 
 export const ListProducts = () => {
   const {

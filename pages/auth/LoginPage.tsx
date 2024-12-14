@@ -1,8 +1,8 @@
 import { LoginPageProps, useLogin, useTranslate } from '@refinedev/core';
 import { Link, router } from 'expo-router';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { ScrollViewProps, Text, View, ViewProps } from 'react-native';
+import { ScrollViewProps, View, ViewProps } from 'react-native';
 
 import { FormPropsType } from './AuthPage';
 
@@ -13,6 +13,7 @@ import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
+import { Text } from '~/components/ui/text';
 import { TwoFactorChallengeError } from '~/errors/TwoFactorChallengeError';
 import { convertToHttpError } from '~/lib/http';
 import { LoginParams } from '~/providers/auth-provider/login';
@@ -59,7 +60,7 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
       <Card {...props.contentProps}>
         <CardHeader>
           <CardDescription>
-            <Text className="font-semibold leading-6">{__('auth.login.heading')}</Text>
+            <Text className="font-sans-semibold leading-6">{__('auth.login.heading')}</Text>
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -111,7 +112,7 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
                       {__('Password')} *
                     </Label>
                     <Link href="/" className="ml-auto inline-block">
-                      <Text className="font-semibold text-primary hover:underline">
+                      <Text className="font-sans-semibold text-primary hover:underline">
                         {__('Forgot your password?')}
                       </Text>
                     </Link>
@@ -143,12 +144,12 @@ export const LoginPage: React.FC<LoginProps> = (props) => {
             {!isLoading && (
               <>
                 <Link href="/">
-                  <Text className="font-semibold text-primary hover:underline">
+                  <Text className="font-sans-semibold text-primary hover:underline">
                     {__('Register')}
                   </Text>
                 </Link>
                 <Button onPress={handleSubmit(onSubmit)}>
-                  <Text className="font-semibold text-primary-foreground">{__('Login')}</Text>
+                  <Text className="font-sans-semibold text-primary-foreground">{__('Login')}</Text>
                 </Button>
               </>
             )}

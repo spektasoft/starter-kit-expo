@@ -1,7 +1,7 @@
 import { useTranslate } from '@refinedev/core';
 import { View } from '@rn-primitives/slot';
 import { Link } from 'expo-router';
-import { Text } from 'react-native';
+import React from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemeSwitcher } from '../ThemeSwitcher';
@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
+import { Text } from '~/components/ui/text';
 import { ArrowRightEndOnRectangle } from '~/lib/icons/ArrowRightEndOnRectangle';
 import { EllipsisVertical } from '~/lib/icons/EllipsesVertical';
 import { UserCircle } from '~/lib/icons/UserCircle';

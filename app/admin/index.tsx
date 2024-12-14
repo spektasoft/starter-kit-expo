@@ -1,11 +1,13 @@
 import { useGetIdentity, useLogout, useTranslate } from '@refinedev/core';
-import { Text, View } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 
 import { Container } from '~/components/Container';
 import { Loading } from '~/components/Loading';
 import { ProgressAlertDialog } from '~/components/ProgressAlertDialog';
 import { Button } from '~/components/ui/button';
 import { Card, CardDescription, CardTitle } from '~/components/ui/card';
+import { Text } from '~/components/ui/text';
 import { ArrowLeftEndOnRectangle } from '~/lib/icons/ArrowLeftEndOnRectangle';
 import { User } from '~/models/User';
 

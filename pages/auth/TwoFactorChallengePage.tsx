@@ -1,8 +1,8 @@
 import { useLogin, useTranslate } from '@refinedev/core';
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 
 import { AuthenticationCard } from '~/components/AuthenticationCard';
@@ -11,6 +11,7 @@ import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
+import { Text } from '~/components/ui/text';
 import { LoginIdUnavailableError } from '~/errors/LoginIdUnavailableError';
 import { TwoFactorChallengeParams } from '~/providers/auth-provider/two-factor-challenge';
 
@@ -62,7 +63,7 @@ export const TwoFactorChallengePage = (props: TwoFactorChallengeProps) => {
       <Card {...props.contentProps}>
         <CardHeader>
           <View>
-            <CardDescription className="font-semibold leading-6">
+            <CardDescription className="font-sans-semibold leading-6">
               Two Factor Authentication
             </CardDescription>
             <CardDescription className="leading-6">
@@ -113,12 +114,12 @@ export const TwoFactorChallengePage = (props: TwoFactorChallengeProps) => {
                     clearErrors();
                     setShowRecovery(() => !showRecovery);
                   }}>
-                  <Text className="font-semibold text-primary hover:underline">
+                  <Text className="font-sans-semibold text-primary hover:underline">
                     {showRecovery ? 'Use an authentication code' : 'Use a recovery code'}
                   </Text>
                 </Pressable>
                 <Button onPress={handleSubmit(onSubmit)}>
-                  <Text className="font-semibold text-primary-foreground">{__('Login')}</Text>
+                  <Text className="font-sans-semibold text-primary-foreground">{__('Login')}</Text>
                 </Button>
               </>
             )}

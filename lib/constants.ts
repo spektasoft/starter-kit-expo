@@ -1,8 +1,21 @@
-import { StyleProp, ViewStyle } from 'react-native';
+import { Animated, StyleProp, TextStyle, ViewStyle } from 'react-native';
+
+const FONT_FAMILY = {
+  sansMedium: 'Figtree_500Medium',
+  sansBold: 'Figtree_700Bold',
+};
 
 export const DRAWER_ITEM_STYLE: StyleProp<ViewStyle> = {
   borderRadius: 8,
   marginBottom: 4,
+};
+
+export const DRAWER_LABEL_STYLE: StyleProp<TextStyle> = {
+  fontFamily: FONT_FAMILY.sansMedium,
+};
+
+export const HEADER_TITLE_STYLE: Animated.WithAnimatedValue<StyleProp<TextStyle>> = {
+  fontFamily: FONT_FAMILY.sansBold,
 };
 
 export type Theme = {
