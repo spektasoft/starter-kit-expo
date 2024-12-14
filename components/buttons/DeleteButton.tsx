@@ -38,8 +38,6 @@ export const DeleteButton = (props: DeleteButtonProps & RefineDeleteButtonProps 
   });
   const __ = useTranslate();
 
-  console.log(deleteButton.label);
-
   return (
     <>
       <Button
