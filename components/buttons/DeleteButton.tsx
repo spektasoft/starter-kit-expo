@@ -48,8 +48,8 @@ export const DeleteButton = (props: DeleteButtonProps & RefineDeleteButtonProps 
         disabled={deleteButton.disabled && props.disabled}
         {...props}>
         <View className="flex-row items-center gap-1">
-          <Trash className="h-4 w-4 text-destructive" />
-          <Text className="font-sans-semibold text-destructive">
+          <Trash className="text-destructive" size={16} variant="mini" />
+          <Text className="font-sans-semibold text-sm text-destructive">
             {!props.hideText && (props.children ?? deleteButton.label)}
           </Text>
         </View>

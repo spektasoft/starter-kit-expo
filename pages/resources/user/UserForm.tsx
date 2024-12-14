@@ -196,7 +196,7 @@ export const UserForm = (props: UserFormProps) => {
             {formLoading && (
               <>
                 <Loading />
-                <Label className="font-bold">{__('progress.loading')}</Label>
+                <Label className="font-sans-bold">{__('progress.loading')}</Label>
               </>
             )}
           </View>
