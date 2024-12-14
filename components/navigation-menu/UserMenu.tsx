@@ -1,9 +1,11 @@
-import { useLogout, useTranslate } from '@refinedev/core';
+import { useGetIdentity, useLogout, useTranslate } from '@refinedev/core';
 import { View } from '@rn-primitives/slot';
 import { Link } from 'expo-router';
-import { Pressable, Text } from 'react-native';
+import React from 'react';
+import { Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { Loading } from '../Loading';
 import { ProgressAlertDialog } from '../ProgressAlertDialog';
 import { ThemeSwitcher } from '../ThemeSwitcher';
 
@@ -16,6 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
+import { Text } from '~/components/ui/text';
 import { ArrowLeftEndOnRectangle } from '~/lib/icons/ArrowLeftEndOnRectangle';
 import { BuildingLibrary } from '~/lib/icons/BuildingLibrary';
 import { EllipsisVertical } from '~/lib/icons/EllipsesVertical';
@@ -23,8 +26,10 @@ import { Home } from '~/lib/icons/Home';
 import { Key } from '~/lib/icons/Key';
 import { User } from '~/lib/icons/User';
 import { UserCircle } from '~/lib/icons/UserCircle';
+import { User as UserModel } from '~/models/User';
 
 export function UserMenu({ type }: { type: 'app' | 'admin' }) {
+  const { data: user, isFetching } = useGetIdentity<UserModel>();
   const insets = useSafeAreaInsets();
   const __ = useTranslate();
 
@@ -49,8 +54,8 @@ export function UserMenu({ type }: { type: 'app' | 'admin' }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent insets={contentInsets} className="mt-1">
           <DropdownMenuGroup className="flex flex-row items-center gap-2 p-2.5">
-            <UserCircle className="h-5 w-5 text-foreground" variant="solid" />
-            <Text className="text-foreground">Admin</Text>
+            <UserCircle className="h-5 w-5 text-muted-foreground" variant="solid" />
+            {isFetching ? <Loading /> : <Text className="text-foreground">{user?.name}</Text>}
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <View className="justify-center">
@@ -61,7 +66,7 @@ export function UserMenu({ type }: { type: 'app' | 'admin' }) {
             {type === 'admin' && (
               <Link href="/" asChild>
                 <DropdownMenuItem>
-                  <Home className="h-5 w-5 text-foreground" />
+                  <Home className="h-5 w-5 text-muted-foreground" />
                   <Text className="text-foreground">{__('Home')}</Text>
                 </DropdownMenuItem>
               </Link>
@@ -69,26 +74,26 @@ export function UserMenu({ type }: { type: 'app' | 'admin' }) {
             {type === 'app' && (
               <Link href="/admin" asChild>
                 <DropdownMenuItem>
-                  <BuildingLibrary className="h-5 w-5 text-foreground" />
+                  <BuildingLibrary className="h-5 w-5 text-muted-foreground" />
                   <Text className="text-foreground">{__('Dashboard')}</Text>
                 </DropdownMenuItem>
               </Link>
             )}
             <Link href="/wip" asChild>
               <DropdownMenuItem>
-                <User className="h-5 w-5 text-foreground" />
+                <User className="h-5 w-5 text-muted-foreground" />
                 <Text className="text-foreground">{__('Profile')}</Text>
               </DropdownMenuItem>
             </Link>
             <Link href="/wip" asChild>
               <DropdownMenuItem>
-                <Key className="h-5 w-5 text-foreground" />
+                <Key className="h-5 w-5 text-muted-foreground" />
                 <Text className="text-foreground">{__('API Tokens')}</Text>
               </DropdownMenuItem>
             </Link>
             <DropdownMenuItem asChild>
               <Pressable onPress={signOut} disabled={isLoading}>
-                <ArrowLeftEndOnRectangle className="h-5 w-5 text-foreground" />
+                <ArrowLeftEndOnRectangle className="h-5 w-5 text-muted-foreground" />
                 <Text className="text-foreground">{__('Logout')}</Text>
               </Pressable>
             </DropdownMenuItem>

@@ -50,6 +50,12 @@ module.exports = {
       borderWidth: {
         hairline: hairlineWidth(),
       },
+      fontFamily: {
+        sans: ['Figtree_400Regular'],
+        'sans-medium': ['Figtree_500Medium'],
+        'sans-semibold': ['Figtree_600SemiBold'],
+        'sans-bold': ['Figtree_700Bold'],
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },

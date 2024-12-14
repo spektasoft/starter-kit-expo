@@ -1,10 +1,11 @@
 import { View } from '@rn-primitives/slot';
 import { Link } from 'expo-router';
-import { Text } from 'react-native';
+import React from 'react';
 
 import { Container } from '~/components/Container';
 import { Button } from '~/components/ui/button';
 import { Card, CardHeader } from '~/components/ui/card';
+import { Text } from '~/components/ui/text';
 import { Home } from '~/lib/icons/Home';
 import { InformationCircle } from '~/lib/icons/InformationCircle';
 

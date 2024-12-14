@@ -1,9 +1,9 @@
 import { useTranslate } from '@refinedev/core';
 import { useForm } from '@refinedev/react-hook-form';
 import { Link, router, useLocalSearchParams } from 'expo-router';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Controller } from 'react-hook-form';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { InputPassword } from '~/components/InputPassword';
 import { Loading } from '~/components/Loading';
@@ -13,6 +13,7 @@ import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
+import { Text } from '~/components/ui/text';
 import { User } from '~/models/User';
 
 export type UserFormProps = {
@@ -67,7 +68,7 @@ export const UserForm = (props: UserFormProps) => {
       <Card>
         <CardHeader>
           <CardDescription>
-            <Text className="font-semibold leading-6">{__('Details')}</Text>
+            <Text className="font-sans-semibold leading-6">{__('Details')}</Text>
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -185,7 +186,7 @@ export const UserForm = (props: UserFormProps) => {
                 {props.action === 'edit' && <EditButton onPress={handleSubmit(onFinish)} />}
                 <Link href="/admin/users" asChild>
                   <Button variant="outline">
-                    <Text className="font-semibold text-foreground">
+                    <Text className="font-sans-semibold text-foreground">
                       {isReadOnly ? __('Back') : __('Cancel')}
                     </Text>
                   </Button>
@@ -195,7 +196,7 @@ export const UserForm = (props: UserFormProps) => {
             {formLoading && (
               <>
                 <Loading />
-                <Label className="font-bold">{__('progress.loading')}</Label>
+                <Label className="font-sans-bold">{__('progress.loading')}</Label>
               </>
             )}
           </View>

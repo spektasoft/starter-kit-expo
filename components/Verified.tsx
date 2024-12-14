@@ -1,4 +1,5 @@
 import { useGetIdentity } from '@refinedev/core';
+import { useMemo } from 'react';
 
 import { User } from '~/models/User';
 
@@ -10,13 +11,16 @@ export type VerifiedProps = {
 };
 
 export const Verified = (props: VerifiedProps) => {
-  const { data: user, isFetching } = useGetIdentity<User>();
+  const { data: user, isFetching } = useGetIdentity<User>({
+    queryOptions: { queryKey: ['verified'] },
+  });
+  const isVerified = useMemo(() => user?.email_verified_at, [user]);
 
   if (isFetching || !user) {
     return <>{props.loading ?? null}</>;
   }
 
-  if (!user.email_verified_at) {
+  if (!isVerified) {
     return <>{props.fallback ?? null}</>;
   }
 

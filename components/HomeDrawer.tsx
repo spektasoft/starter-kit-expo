@@ -7,6 +7,7 @@ import { GuestMenu } from './navigation-menu/GuestMenu';
 import { LanguageSwitcher } from './navigation-menu/LanguageSwitcher';
 
 import { UserMenu } from '~/components/navigation-menu/UserMenu';
+import { DRAWER_ITEM_STYLE, DRAWER_LABEL_STYLE, HEADER_TITLE_STYLE } from '~/lib/constants';
 import { Bars3 } from '~/lib/icons/Bars3';
 import { Home } from '~/lib/icons/Home';
 
@@ -29,13 +30,16 @@ export const HomeDrawer = () => {
             <Bars3 className="text-foreground" />
           </Pressable>
         ),
-        drawerType: 'back',
+        drawerItemStyle: DRAWER_ITEM_STYLE,
       })}>
       <Drawer.Screen
         name="index"
         options={{
           title: __('Home'),
+          headerTitleStyle: HEADER_TITLE_STYLE,
           drawerIcon: ({ color }) => <Home className="h-5 w-5" color={color} />,
+          drawerItemStyle: DRAWER_ITEM_STYLE,
+          drawerLabelStyle: DRAWER_LABEL_STYLE,
         }}
       />
       <Drawer.Screen

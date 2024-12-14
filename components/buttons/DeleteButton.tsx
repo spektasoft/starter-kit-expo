@@ -1,7 +1,7 @@
 import { useDeleteButton, useTranslate } from '@refinedev/core';
 import { RefineDeleteButtonProps } from '@refinedev/ui-types';
-import { useState } from 'react';
-import { Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 
 import { Loading } from '../Loading';
 import {
@@ -15,6 +15,7 @@ import {
 } from '../ui/alert-dialog';
 import { Button, ButtonProps } from '../ui/button';
 
+import { Text } from '~/components/ui/text';
 import { Trash } from '~/lib/icons/Trash';
 
 export type DeleteButtonProps = {
@@ -37,8 +38,6 @@ export const DeleteButton = (props: DeleteButtonProps & RefineDeleteButtonProps 
   });
   const __ = useTranslate();
 
-  console.log(deleteButton.label);
-
   return (
     <>
       <Button
@@ -47,8 +46,8 @@ export const DeleteButton = (props: DeleteButtonProps & RefineDeleteButtonProps 
         disabled={deleteButton.disabled && props.disabled}
         {...props}>
         <View className="flex-row items-center gap-1">
-          <Trash className="h-4 w-4 text-destructive" />
-          <Text className="font-semibold text-destructive">
+          <Trash className="text-destructive" size={16} variant="mini" />
+          <Text className="font-sans-semibold text-sm text-destructive">
             {!props.hideText && (props.children ?? deleteButton.label)}
           </Text>
         </View>

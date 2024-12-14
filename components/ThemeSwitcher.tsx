@@ -34,7 +34,7 @@ function DarkToggle() {
       }}
       variant={isDarkColorScheme ? 'secondary' : 'ghost'}
       className="aspect-[3/1]">
-      <Moon className={`h-5 w-5 ${isDarkColorScheme ? 'text-primary' : 'text-foreground'}`} />
+      <Moon className={`h-5 w-5 ${isDarkColorScheme ? 'text-primary' : 'text-muted-foreground'}`} />
     </Button>
   );
 }
@@ -50,7 +50,7 @@ function LightToggle() {
       }}
       variant={!isDarkColorScheme ? 'secondary' : 'ghost'}
       className="aspect-[3/1]">
-      <Sun className={`h-5 w-5 ${!isDarkColorScheme ? 'text-primary' : 'text-foreground'}`} />
+      <Sun className={`h-5 w-5 ${!isDarkColorScheme ? 'text-primary' : 'text-muted-foreground'}`} />
     </Button>
   );
 }

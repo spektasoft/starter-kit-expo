@@ -1,13 +1,15 @@
 import { useApiUrl, useCustomMutation, useTranslate } from '@refinedev/core';
 import { Link } from 'expo-router';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Pressable, Text, View, ViewProps } from 'react-native';
+import { Pressable, View, ViewProps } from 'react-native';
 
 import { AuthenticationCard } from '~/components/AuthenticationCard';
 import { Loading } from '~/components/Loading';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
 import { Label } from '~/components/ui/label';
+import { Text } from '~/components/ui/text';
 
 type EmailVerificationProps = {
   wrapperProps?: ViewProps;
@@ -59,7 +61,7 @@ export const EmailVerificationPage = (props: EmailVerificationProps) => {
       <Card {...props.contentProps}>
         <CardHeader>
           <View>
-            <CardDescription className="font-semibold leading-6">
+            <CardDescription className="font-sans-semibold leading-6">
               Verify your email address
             </CardDescription>
             <CardDescription className="leading-6">
@@ -76,19 +78,19 @@ export const EmailVerificationPage = (props: EmailVerificationProps) => {
               <>
                 <Link href="/wip" asChild>
                   <Pressable>
-                    <Text className="font-semibold text-primary hover:underline">
+                    <Text className="font-sans-semibold text-primary hover:underline">
                       {__('Edit Profile')}
                     </Text>
                   </Pressable>
                 </Link>
                 <Button onPress={handleSubmit(onSubmit)}>
-                  <Text className="font-semibold text-primary-foreground">
+                  <Text className="font-sans-semibold text-primary-foreground">
                     {__('Resend Verification Email')}
                   </Text>
                 </Button>
                 <Link href="/admin" asChild>
                   <Button variant="secondary">
-                    <Text className="font-semibold text-secondary-foreground">
+                    <Text className="font-sans-semibold text-secondary-foreground">
                       {__('Go to Dashboard')}
                     </Text>
                   </Button>

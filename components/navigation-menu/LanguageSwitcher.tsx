@@ -1,6 +1,6 @@
 import { useTranslation } from '@refinedev/core';
-import { useState } from 'react';
-import { Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ProgressAlertDialog } from '../ProgressAlertDialog';
@@ -12,6 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
+import { Text } from '~/components/ui/text';
 import { ChevronDown } from '~/lib/icons/ChevronDown';
 import { Language } from '~/lib/icons/Language';
 
@@ -38,11 +39,11 @@ export function LanguageSwitcher() {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost">
             <View className="flex flex-row items-center gap-2">
-              <Language className="h-5 w-5 text-foreground" />
-              <Text className="hidden text-foreground sm:flex">
+              <Language className="h-5 w-5 text-muted-foreground" />
+              <Text className="hidden text-muted-foreground sm:flex">
                 {__('navigationMenu.languageSwitcher.language')}
               </Text>
-              <ChevronDown className="h-3 w-3 text-foreground" />
+              <ChevronDown className="h-3 w-3 text-muted-foreground" />
             </View>
           </Button>
         </DropdownMenuTrigger>

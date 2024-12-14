@@ -1,6 +1,13 @@
 import '~/global.css';
 import '~/lib/i18n';
 
+import {
+  Figtree_400Regular,
+  Figtree_500Medium,
+  Figtree_600SemiBold,
+  Figtree_700Bold,
+  useFonts,
+} from '@expo-google-fonts/figtree';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DefaultTheme, Theme, ThemeProvider, DarkTheme } from '@react-navigation/native';
 import { Refine, useTranslation } from '@refinedev/core';
@@ -41,6 +48,12 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
+  const [loaded, error] = useFonts({
+    Figtree_400Regular,
+    Figtree_500Medium,
+    Figtree_600SemiBold,
+    Figtree_700Bold,
+  });
 
   React.useEffect(() => {
     (async () => {
@@ -72,7 +85,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     SystemUI.setBackgroundColorAsync(theme.background);
   }, [colorScheme]);
 
+  React.useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
   if (!isColorSchemeLoaded) {
+    return null;
+  }
+
+  if (!loaded && !error) {
     return null;
   }
 

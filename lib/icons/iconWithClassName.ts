@@ -6,7 +6,7 @@ export interface IconProps extends SvgProps {
   size?: string | number;
   absoluteStrokeWidth?: boolean;
   'data-testid'?: string;
-  variant?: 'default' | 'solid';
+  variant?: 'default' | 'solid' | 'mini';
 }
 type Icon = ForwardRefExoticComponent<IconProps>;
 

@@ -1,11 +1,13 @@
 import { useLogout, useGetIdentity } from '@refinedev/core';
 import React from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
+
+import { Text } from '~/components/ui/text';
+import { User } from '~/models/User';
 
 export const Header = () => {
   const { mutate, isLoading } = useLogout();
-  const { data: identity } = useGetIdentity();
-  console.log(identity);
+  const { data: identity } = useGetIdentity<User>();
 
   return (
     <View className="border-b border-gray-300 bg-gray-100 p-4">
@@ -13,11 +15,14 @@ export const Header = () => {
         Welcome, <Text className="text-blue-500">{identity?.name ?? 'User'}</Text>
       </Text>
 
-      <TouchableOpacity className="rounded-md bg-red-500 p-3" onPress={mutate} disabled={isLoading}>
+      <TouchableOpacity
+        className="rounded-md bg-red-500 p-3"
+        onPress={() => mutate()}
+        disabled={isLoading}>
         {isLoading ? (
           <ActivityIndicator color="#ffffff" />
         ) : (
-          <Text className="text-center font-semibold text-white">Logout</Text>
+          <Text className="font-sans-semibold text-center text-white">Logout</Text>
         )}
       </TouchableOpacity>
     </View>

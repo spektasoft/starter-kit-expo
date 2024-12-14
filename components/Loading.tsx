@@ -1,6 +1,8 @@
 import { useTheme } from '@react-navigation/native';
 import { useTranslate } from '@refinedev/core';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
+
+import { Text } from './ui/text';
 
 export const Loading = ({ withText }: { withText?: boolean }) => {
   const { colors } = useTheme();

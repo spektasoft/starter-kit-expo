@@ -8,7 +8,7 @@ import { UserCreate } from '~/pages/resources/user/UserCreate';
 export default function Create() {
   const { data: viewAnyUser, isLoading } = useCan({
     resource: 'users',
-    action: 'create_user',
+    action: 'create',
   });
 
   if (isLoading) {

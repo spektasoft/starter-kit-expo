@@ -3,7 +3,7 @@ import { useTable } from '@refinedev/react-table';
 import { ColumnDef, flexRender } from '@tanstack/react-table';
 import { Link } from 'expo-router';
 import { useMemo } from 'react';
-import { Pressable, ScrollView, Text, useWindowDimensions, View } from 'react-native';
+import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
 
 import { Container } from '~/components/Container';
 import { Loading } from '~/components/Loading';
@@ -17,10 +17,11 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui/table';
+import { Text } from '~/components/ui/text';
 import { ChevronDown } from '~/lib/icons/ChevronDown';
 import { ChevronUp } from '~/lib/icons/ChevronUp';
 import { Eye } from '~/lib/icons/Eye';
-import { Pencil } from '~/lib/icons/Pencil';
+import { PencilSquare } from '~/lib/icons/PencilSquare';
 import { cn } from '~/lib/utils';
 import { User } from '~/models/User';
 
@@ -74,15 +75,12 @@ export const UserList = () => {
   return (
     <ScrollView>
       <View className="gap-y-8 py-8">
-        <View className="flex flex-col gap-4 px-4 sm:flex-row sm:items-center sm:justify-between md:px-6 lg:px-8">
-          <Text className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            {__('user.resource.pluralModelLabel')}
-          </Text>
-          <View className="flex-row">
+        <View className="flex w-full flex-col gap-4 px-4 sm:flex-row sm:items-center sm:justify-end md:px-6 lg:px-8">
+          <View className="flex flex-col sm:flex-row">
             <CanAccess action="create" resource="users">
               <Link href="/admin/users/create" asChild>
                 <Button>
-                  <Text className="text-primary-foreground">
+                  <Text className="font-sans-bold text-primary-foreground">
                     {__('Create')} {__('user.resource.modelLabel')}
                   </Text>
                 </Button>
@@ -100,14 +98,14 @@ export const UserList = () => {
                       <TableHead key={header.id} style={{ width: columnWidths[index] }}>
                         <Pressable onPress={header.column.getToggleSortingHandler()}>
                           <View className="flex-row items-center gap-x-1">
-                            <Text className="text-sm font-semibold text-foreground">
+                            <Text className="font-sans-semibold text-sm text-foreground">
                               {flexRender(header.column.columnDef.header, header.getContext())}
                             </Text>
                             {{
-                              asc: <ChevronUp className="h-4 w-4 text-foreground" />,
-                              desc: <ChevronDown className="h-4 w-4 text-foreground" />,
+                              asc: <ChevronUp className="text-foreground" size={16} />,
+                              desc: <ChevronDown className="text-foreground" size={16} />,
                             }[header.column.getIsSorted() as string] ?? (
-                              <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                              <ChevronDown className="text-muted-foreground" size={16} />
                             )}
                           </View>
                         </Pressable>
@@ -130,7 +128,7 @@ export const UserList = () => {
                     {row.getVisibleCells().map((cell, index) => {
                       return (
                         <TableCell key={cell.id} style={{ width: columnWidths[index] }}>
-                          <Text className="text-foreground">
+                          <Text className="text-sm text-foreground">
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                           </Text>
                         </TableCell>
@@ -141,8 +139,10 @@ export const UserList = () => {
                         <Link href={`/admin/users/${row.original.id}`} asChild>
                           <Button variant="ghost">
                             <View className="flex-row items-center gap-1">
-                              <Eye className="h-4 w-4 text-foreground" />
-                              <Text className="font-semibold text-foreground">{__('View')}</Text>
+                              <Eye className="text-muted-foreground" size={16} variant="mini" />
+                              <Text className="font-sans-semibold text-sm text-foreground">
+                                {__('View')}
+                              </Text>
                             </View>
                           </Button>
                         </Link>
@@ -151,8 +151,8 @@ export const UserList = () => {
                         <Link href={`/admin/users/${row.original.id}/edit`} asChild>
                           <Button variant="ghost">
                             <View className="flex-row items-center gap-1">
-                              <Pencil className="h-4 w-4 text-muted-foreground" />
-                              <Text className="font-semibold text-muted-foreground">
+                              <PencilSquare className="text-primary" size={16} variant="mini" />
+                              <Text className="font-sans-semibold text-sm text-primary">
                                 {__('Edit')}
                               </Text>
                             </View>

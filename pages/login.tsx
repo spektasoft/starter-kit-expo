@@ -1,8 +1,11 @@
 import { useLogin } from '@refinedev/core';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { Text } from '~/components/ui/text';
+
 export const Login = () => {
   const { mutate, isLoading } = useLogin();
   const [username, setUsername] = useState('');

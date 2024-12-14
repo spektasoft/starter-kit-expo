@@ -6,6 +6,7 @@ import { LanguageSwitcher } from './navigation-menu/LanguageSwitcher';
 import { userDrawerScreens } from '../pages/resources/user/userDrawerScreens';
 
 import { UserMenu } from '~/components/navigation-menu/UserMenu';
+import { DRAWER_ITEM_STYLE, DRAWER_LABEL_STYLE, HEADER_TITLE_STYLE } from '~/lib/constants';
 import { Bars3 } from '~/lib/icons/Bars3';
 import { Home } from '~/lib/icons/Home';
 import { User } from '~/lib/icons/User';
@@ -42,7 +43,7 @@ export const AdminDrawer = () => {
               <Bars3 className="text-foreground" />
             </Pressable>
           ),
-          drawerType: 'back',
+          drawerItemStyle: DRAWER_ITEM_STYLE,
         };
       }}>
       <Drawer.Screen
@@ -50,7 +51,10 @@ export const AdminDrawer = () => {
         options={{
           drawerLabel: __('Dashboard'),
           title: __('Dashboard'),
+          headerTitleStyle: HEADER_TITLE_STYLE,
           drawerIcon: ({ color }) => <Home className="h-5 w-5" color={color} />,
+          drawerItemStyle: DRAWER_ITEM_STYLE,
+          drawerLabelStyle: DRAWER_LABEL_STYLE,
         }}
       />
       <Drawer.Screen
@@ -59,8 +63,10 @@ export const AdminDrawer = () => {
         options={{
           drawerLabel: __('user.resource.pluralModelLabel'),
           title: __('user.resource.pluralModelLabel'),
+          headerTitleStyle: HEADER_TITLE_STYLE,
           drawerIcon: ({ color }) => <User className="h-5 w-5" color={color} />,
-          drawerItemStyle: { display: isShown ? 'flex' : 'none' },
+          drawerItemStyle: Object.assign({ display: isShown ? 'flex' : 'none' }, DRAWER_ITEM_STYLE),
+          drawerLabelStyle: DRAWER_LABEL_STYLE,
         }}
       />
       {userDrawerScreens({
